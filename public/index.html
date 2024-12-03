@@ -1,43 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html lang="uk">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchoolHub</title>
+  <script src="../src/authenticate.js"></script>
+</head>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<body>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+<!-- Шапка сторінки -->
+<header>
+  <nav>
+    <a href="#">Про сайт</a>
+    <a href="#">Можливості</a>
+    <a href="#">Запитання відповідей</a>
+  </nav>
+  <button class="login-btn" onclick="openModal()">Увійти</button>
+</header>
+
+<!-- Вступна частина -->
+<section class="intro">
+  <h1>Подаруймо дітям знання та майбутнє</h1>
+  <p><strong>SchoolHub</strong> пропонує простий і доступний формат онлайн-навчання, який відповідає потребам
+    сучасної, української школи. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper
+    felis sed elit condimentum, quis suscipit mauris convallis. Cras scelerisque urna vel tortor porta
+    malesuada. Proin urna urna, aliquam nec purus quis, condimentum facilisis dolor. Mauris eget dignissim eros.
+    Aenean risus tortor, elementum sit amet faucibus nec, rutrum et dui. Quisque vulputate eros id nunc
+    consequat sagittis. Suspendisse id egestas libero. Nam ac augue quam. Aenean vitae libero at urna tincidunt
+    interdum. Nullam venenatis venenatis ex, eu consequat leo mattis ac.</p>
+</section>
+
+<!-- Login/Register Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="auth-modal">
+    <!-- Контейнер для логотипу і назви -->
+    <div class="logo-title-container">
+      <img src="weblogo.jpg" alt="SchoolHub Logo" class="modal-logo">
+      <h2>SchoolHub</h2>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="tab-btn active" onclick="switchTab('login')">Увійти</button>
+      <button class="tab-btn" onclick="switchTab('register')">Зареєструватися</button>
+    </div>
+
+    <form id="login-form" class="auth-form">
+      <input type="text" placeholder="Введіть логін" required>
+      <input type="password" placeholder="Введіть пароль" required>
+      <label>
+        <input type="checkbox"> Запам'ятати мене
+      </label>
+      <button type="submit">Увійти</button>
+    </form>
+
+    <form id="register-form" class="auth-form hidden" onsubmit="handleRegistration(event)">
+      <input type="text" placeholder="Введіть логін" required>
+      <input type="password" placeholder="Введіть пароль" required>
+      <input type="email" placeholder="Введіть адресу" required>
+      <button type="submit">Зареєструватися</button>
+    </form>
+
+    <!-- Кнопка після реєстрації -->
+    <div id="after-register" class="hidden">
+      <button id="continue-button" onclick="closeModal()"
+              style="background: linear-gradient(45deg, #4CAF50, #81C784); color: white; border: none; padding: 10px 20px; cursor: pointer;">Продовжити</button>
+    </div>
+
+    <button class="close-modal-btn" onclick="closeModal()">&times;</button>
+  </div>
+</div>
+
+<!-- Можливості платформи -->
+<section class="features">
+  <h2>Можливості платформи</h2>
+  <div class="for-teachers">
+    <h3>Для вчителів:</h3>
+    <a href="#">Журнал</a>
+    <a href="#">Дистанційне навчання</a>
+    <a href="#">Онлайн уроки</a>
+    <a href="#">Lorem ipsum</a>
+  </div>
+  <div class="for-students">
+    <h3>Для учнів:</h3>
+    <a href="#">Щоденник</a>
+    <a href="#">Друзі</a>
+    <a href="#">Розклад уроків</a>
+    <a href="#">Онлайн підручники</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="questions">
+    <h2>Відповіді на деякі питання:</h2>
+    <ul>
+      <li><a href="#">Як створити клас?</a></li>
+      <li><a href="#">Як додати вчителів/учнів у школу?</a></li>
+      <li><a href="#">Як користуватися щоденником?</a></li>
+    </ul>
+    <a href="#" class="ask-question-btn">Задати своє питання</a>
+  </div>
+  <div class="image">
+    <img src="https://via.placeholder.com/150" alt="Character image">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper felis sed elit condimentum,
+      quis suscipit mauris convallis.</p>
+  </div>
+</section>
+
+<!-- Підвал -->
+<footer>
+  <p>Команда BlessedBits</p>
+  <div class="social-links">
+    <a href="#">Facebook</a> |
+    <a href="#">Instagram</a> |
+    <a href="#">TikTok</a>
+  </div>
+  <p>Всі права захищені 2024</p>
+</footer>
+
+</body>
+
 </html>
