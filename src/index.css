@@ -1,0 +1,465 @@
+/* Глобальні стилі */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom right, #ffe29f, #ffa99f, #ff719a);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Шапка сторінки */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+header .login-btn {
+    padding: 10px 20px;
+    background-color: #6f6f6f;
+    color: #fff;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Вступна частина */
+.intro {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.intro h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.intro p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Секція можливостей платформи */
+.features {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.features h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.features .for-teachers,
+.features .for-students {
+    margin-top: 20px;
+}
+
+.features h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.features a {
+    margin-right: 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* FAQ секція */
+.faq {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq .questions {
+    max-width: 60%;
+}
+
+.faq .questions h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.faq .questions ul {
+    list-style-type: none;
+    font-size: 16px;
+}
+
+.faq .questions ul li {
+    margin-bottom: 10px;
+}
+
+.faq .questions ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.faq .image {
+    max-width: 30%;
+}
+
+.faq .image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Кнопка */
+.ask-question-btn {
+    display: inline-block;
+    padding: 10px 30px;
+    margin-top: 20px;
+    background-color: #6f6f6f;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* Підвал */
+footer {
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+}
+
+footer .social-links {
+    margin-top: 10px;
+}
+
+footer .social-links a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+/* Сторінка входу з градієнтом */
+.login-page {
+    background: linear-gradient(to bottom right, #ffe29f, #ffa99f, #ff719a);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Registration Form Section */
+.register-form {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    width: 320px;
+    margin: auto;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.register-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.register-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form input[type="text"],
+.register-form input[type="password"],
+.register-form input[type="email"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+}
+
+.register-form input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.register-form label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.register-form button {
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    /* Збільшена округленість */
+    background-color: #6f6f6f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.register-form button:hover {
+    background-color: #555;
+}
+
+.register-form .login-link {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+}
+
+.register-form .login-link:hover {
+    text-decoration: underline;
+}
+
+/* Background Gradient for Registration Page */
+.register-page {
+    background: linear-gradient(to bottom right, #ffe29f, #ffa99f, #ff719a);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    /* Збільшена прозорість */
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Registration Modal */
+.register-modal {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    width: 320px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.register-modal h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.register-modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-modal input[type="text"],
+.register-modal input[type="password"],
+.register-modal input[type="email"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+}
+
+.register-modal button {
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    /* Збільшена округленість */
+    background-color: #6f6f6f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Стиль кнопки закриття (хрестик) */
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #333;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.close-modal-btn:hover {
+    color: #ff7e5f;
+}
+
+/* Button to Open Modal */
+.register-btn {
+    padding: 10px 20px;
+    background-color: #6f6f6f;
+    color: #fff;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Show Modal */
+.modal-overlay.show {
+    display: flex;
+}
+
+/* Enlarged modal box */
+.auth-modal {
+    background-color: #fff;
+    padding: 40px;
+    width: 500px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Tab buttons */
+.auth-tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    background: none;
+    color: #6f6f6f;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.tab-btn.active {
+    color: #000;
+    border-bottom: 2px solid #6f6f6f;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    color: #fff;
+}
+
+/* Form styling */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-form input {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 16px;
+}
+
+.auth-form button {
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    /* Збільшена округленість */
+    background-color: #6f6f6f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Close button (X) */
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #333;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.close-modal-btn:hover {
+    color: #ff7e5f;
+}
+
+/* Hidden form */
+.hidden {
+    display: none;
+}
+
+/* Show modal */
+.modal-overlay.show {
+    display: flex;
+}
+/* Контейнер для логотипу і назви */
+.logo-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.modal-logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.auth-modal h2 {
+    font-size: 24px;
+    color: #6f6f6f;
+    margin: 0;
+}
+.hidden {
+    display: none;
+}
+
+#after-register {
+    text-align: center;
+    margin-top: 20px;
+}
