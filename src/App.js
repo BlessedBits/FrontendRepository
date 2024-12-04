@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Header from "./components/Header";
-import Intro from "./components/Intro";
-import Features from "./components/Features";
-import FAQ from "./components/FAQ";
-import Footer from "./components/Footer";
-import AuthModal from "./components/AuthModal";
+import Header from "./components/home/Header";
+import Intro from "./components/home/Intro";
+import Features from "./components/home/Features";
+import FAQ from "./components/home/FAQ";
+import Footer from "./components/home/Footer";
+import AuthModal from "./components/home/AuthModal";
 
 function App() {
     const [isAuthModalOpen, setAuthModalOpen] = useState(false);
