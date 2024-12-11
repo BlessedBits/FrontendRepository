@@ -16,28 +16,28 @@ function App() {
 
     return (
         <Router>
-            <Header onLoginClick={toggleAuthModal} />
-            {isAuthModalOpen && (
-                <AuthModal isOpen={isAuthModalOpen} onClose={toggleAuthModal} />
-            )}
             <Routes>
                 {/* Головна сторінка */}
                 <Route
                     path="/"
                     element={
                         <>
+                            <Header onLoginClick={toggleAuthModal} />
+                            {isAuthModalOpen && (
+                                <AuthModal isOpen={isAuthModalOpen} onClose={toggleAuthModal} />
+                            )}
                             <main>
                                 <Intro />
                                 <Features />
                                 <FAQ />
+                                <Footer/>
                             </main>
                         </>
                     }
                 />
                 {/* Сторінка "Школа" */}
-                <Route path="/school" element={<SchoolPage />} /> 
+                <Route path="/school" element={<SchoolPage/> } /> 
             </Routes>
-            <Footer />
         </Router>
     );
 }

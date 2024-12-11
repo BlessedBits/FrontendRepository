@@ -10,6 +10,7 @@ body {
     background: linear-gradient(to bottom right, #ffe29f, #ffa99f, #ff719a);
     color: #333;
     line-height: 1.6;
+    height: auto;
 }
 
 /* Шапка сторінки */
