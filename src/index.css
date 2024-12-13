@@ -7,14 +7,14 @@
 }
 
 body {
-    background: linear-gradient(to bottom right, #ffe29f, #ffa99f, #ff719a);
+    background: linear-gradient(to bottom right, #FFFFCC, #ffa99f, #FF86D7);
     color: #333;
     line-height: 1.6;
     height: auto;
 }
 
 /* Шапка сторінки */
-header {
+header {    
     display: flex;
     justify-content: space-between;
     align-items: center;

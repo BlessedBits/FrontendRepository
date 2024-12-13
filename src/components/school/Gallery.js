@@ -1,11 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-function GallerySchool() {
+function GallerySchool({ schoolId }) {
+    const [photos, setPhotos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function fetchPhotos() {
+            try {
+                const response = await fetch(`/api/schools/${schoolId}/gallery`);
+                const data = await response.json();
+                setPhotos(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchPhotos();
+    }, [schoolId]);
+
+    if (loading) {
+        return <p>Завантаження...</p>;
+    }
+    if(error){
+        //return <p>{error}</p>
+        return (
+            <section id="gallery" className="gallery-component">
+                <h2>Наша школа</h2>
+                <div className="gallery-slider">
+                    
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section id="gallery" className="gallery-component">
             <h2>Наша школа</h2>
             <div className="gallery-slider">
-                <p>Наші гуртки: футбол, волейбол, басейн, турнічки, художня асоціація “Адольф Алоїс був правий”.</p>
+                {photos.length > 0 ? (
+                    photos.map(photo => (
+                        <img key={photo.id} src={photo.url} alt={`Фото ${photo.id}`} className="gallery-photo" />
+                    ))
+                ) : (
+                    <p>Немає доступних фото.</p>
+                )}
             </div>
         </section>
     );

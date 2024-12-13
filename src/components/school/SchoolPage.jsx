@@ -7,17 +7,12 @@ import DirectorSchool from "./Director";
 import ContactSchool from "./Contact";
 import Sidebar from "../basic/Sidebar";
 import Footer from "../basic/Footer";
+import { useParams } from "react-router-dom";
 
 const sidebarData = {
-  logo: {
-      src: 'weblogo.jpg',
-      alt: 'SchoolHub Logo',
-      text: 'SchoolHub',
-      link: 'index.html',
-  },
   menu: [
       { label: 'Профіль', icon: '👤', link: '#' },
-      { label: 'Школа', icon: '🏫', link: '#' },
+      { label: 'Школа', icon: '🏫', link: '/school' },
       { label: 'Новини', icon: '📰', link: '#' },
       { label: 'Щоденник', icon: '📒', link: '#' },
       { label: 'Розклад', icon: '📅', link: '#' },
@@ -28,15 +23,19 @@ const sidebarData = {
 };
 
 const SchoolPage = () => {
+  const { schoolId } = useParams(); 
+
   return (
     <>
       <Sidebar {...sidebarData} />
       <main>
-        <InfoSchool />
-        <AchievementsSchool />
-        <GallerySchool />
-        <DirectorSchool />
-        <ContactSchool />
+        <content>
+          <InfoSchool schoolId={schoolId} />
+          <AchievementsSchool schoolId={schoolId} />
+          <GallerySchool schoolId={schoolId} />
+          <DirectorSchool schoolId={schoolId} />
+          <ContactSchool schoolId={schoolId} />
+        </content>
         <Footer />
       </main>
     </>
