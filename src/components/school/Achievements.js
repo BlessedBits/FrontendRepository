@@ -54,7 +54,7 @@ function AchievementsSchool({ schoolId }) {
                         <p>Ковалець Владислав, найкращий в своєму роді, домовився з міністром освіти, щоб нам виділили ракету на Марс</p>
                     </li>
                 </ul>
-                <button className="more-button">Більше досягнень</button>
+                <button className="more-achievements-button">Більше досягнень</button>
             </section>
         );
     }

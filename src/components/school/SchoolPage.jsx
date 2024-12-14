@@ -6,7 +6,6 @@ import GallerySchool from "./Gallery";
 import DirectorSchool from "./Director";
 import ContactSchool from "./Contact";
 import Sidebar from "../basic/Sidebar";
-import Footer from "../basic/Footer";
 import { useParams } from "react-router-dom";
 
 const sidebarData = {
@@ -36,7 +35,6 @@ const SchoolPage = () => {
           <DirectorSchool schoolId={schoolId} />
           <ContactSchool schoolId={schoolId} />
         </section>
-        <Footer />
       </main>
     </>
   );
