@@ -46,11 +46,11 @@ function AchievementsSchool({ schoolId }) {
                 <h2>Наші досягнення</h2>
                 <ul className="achievement-list">
                     <li>
-                        <img src="frame-341.png" alt="Achievement 1" />
+                        <img src="/school_test/achi1.jpg" alt="Achievement 1" />
                         <p>Олег Роман, переможець в алко-олімпіаді серед другокурсиків</p>
                     </li>
                     <li>
-                        <img src="frame-342.png" alt="Achievement 2" />
+                        <img src="/school_test/achi2.webp" alt="Achievement 2" />
                         <p>Ковалець Владислав, найкращий в своєму роді, домовився з міністром освіти, щоб нам виділили ракету на Марс</p>
                     </li>
                 </ul>

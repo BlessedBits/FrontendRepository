@@ -30,7 +30,10 @@ function GallerySchool({ schoolId }) {
             <section id="gallery" className="gallery-component">
                 <h2>Наша школа</h2>
                 <div className="gallery-slider">
-                    
+                    <img src="/school_test/foto1.webp" alt="school" className="gallery-photo" />
+                    <img src="/school_test/foto2.jpg" alt="school" className="gallery-photo" />
+                    <img src="/school_test/foto3.jpg" alt="school" className="gallery-photo" />
+                    <img src="/school_test/foto4.jpeg" alt="school" className="gallery-photo" />
                 </div>
             </section>
         );
