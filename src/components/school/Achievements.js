@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 function AchievementsSchool({ schoolId }) {
     const [achievements, setAchievements] = useState([]);
+    const [visibleAchievements, setVisibleAchievements] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showMore, setShowMore] = useState(false);
 
     useEffect(() => {
         async function fetchAchievements() {
@@ -14,6 +16,9 @@ function AchievementsSchool({ schoolId }) {
                 }
                 const data = await response.json();
                 setAchievements(data);
+
+                // Показуємо тільки 2 перших досягнення при завантаженні
+                setVisibleAchievements(data.slice(0, 2));
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -26,12 +31,16 @@ function AchievementsSchool({ schoolId }) {
         }
     }, [schoolId]);
 
+    const handleShowMore = () => {
+        setVisibleAchievements(achievements); // Відобразити всі досягнення
+        setShowMore(true);
+    };
+
     if (loading) {
         return <p>Завантаження досягнень...</p>;
     }
 
     if (error) {
-        //return <p>{error}</p>
         return (
             <section id="achievements" className="achievements-component">
                 <h2>Наші досягнення</h2>
@@ -51,21 +60,30 @@ function AchievementsSchool({ schoolId }) {
     }
 
     if (achievements.length === 0) {
-        return <p>Досягнень поки немає.</p>;
+        return (
+            <section id="achievements" className="achievements-component">
+                <h2>Наші досягнення</h2>
+                <p>Досягнень поки немає.</p>
+            </section>
+        );
     }
 
     return (
         <section id="achievements" className="achievements-component">
             <h2>Наші досягнення</h2>
             <ul className="achievement-list">
-                {achievements.map((achievement) => (
+                {visibleAchievements.map((achievement) => (
                     <li key={achievement.id}>
                         <img src={achievement.image_url} alt={achievement.title} />
                         <p>{achievement.description}</p>
                     </li>
                 ))}
             </ul>
-            <button className="more-button">Більше досягнень</button>
+            {!showMore && (
+                <button className="more-button" onClick={handleShowMore}>
+                    Більше досягнень
+                </button>
+            )}
         </section>
     );
 }

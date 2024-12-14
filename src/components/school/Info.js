@@ -34,24 +34,26 @@ function InfoSchool({ schoolId }) {
             <section id="school-info" className="info-component">
                 <h1>Наша районна гімназія</h1>
                 <p>Горить і не згасає</p>
-    
+
                 <table className="info-table">
-                    <tr>
-                        <th>Рік заснування:</th>
-                        <td>2023</td>
-                    </tr>
-                    <tr>
-                        <th>Розташування:</th>
-                        <td>м. Львів, вул. Романа Олега 42</td>
-                    </tr>
-                    <tr>
-                        <th>Кількість учнів:</th>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <th>Кількість вчителів:</th>
-                        <td>1</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <th>Рік заснування:</th>
+                            <td>2023</td>
+                        </tr>
+                        <tr>
+                            <th>Розташування:</th>
+                            <td>м. Львів, вул. Романа Олега 42</td>
+                        </tr>
+                        <tr>
+                            <th>Кількість учнів:</th>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <th>Кількість вчителів:</th>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
                 </table>
             </section>
         );
@@ -64,12 +66,18 @@ function InfoSchool({ schoolId }) {
     return (
         <section id="school-info" className="info-component">
             <h1>{schoolInfo.name}</h1>
-            <p>{schoolInfo.address}</p>
+            <p>{schoolInfo.slogan}</p>
 
             <table className="info-table">
                 <tbody>
+                    <tr>
                         <th>Рік заснування:</th>
                         <td>{schoolInfo.years}</td>
+                    </tr>
+                    <tr>
+                        <th>Розташування:</th>
+                        <td>{schoolInfo.address}</td>
+                    </tr>
                     <tr>
                         <th>Кількість учнів:</th>
                         <td>{schoolInfo.student_count}</td>

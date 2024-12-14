@@ -29,13 +29,13 @@ const SchoolPage = () => {
     <>
       <Sidebar {...sidebarData} />
       <main>
-        <content>
+        <section data-content="true" className="content">
           <InfoSchool schoolId={schoolId} />
           <AchievementsSchool schoolId={schoolId} />
           <GallerySchool schoolId={schoolId} />
           <DirectorSchool schoolId={schoolId} />
           <ContactSchool schoolId={schoolId} />
-        </content>
+        </section>
         <Footer />
       </main>
     </>

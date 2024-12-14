@@ -45,9 +45,39 @@ function ContactSchool({ schoolId }) {
             <div className="social-media">
                 <h3>Ми в соц мережах:</h3>
                 <ul className="social-icons">
-                    <li><img src="facebook0.png" alt="Facebook" className="icon" /> Facebook</li>
-                    <li><img src="youtube.png" alt="YouTube" className="icon" /> YouTube</li>
-                    <li><img src="instagram-circle0.png" alt="Instagram" className="icon" /> Instagram</li>
+                    <li>
+                        <img src="/facebook.png" alt="Facebook" className="icon" />
+                        <a 
+                            href="https://www.facebook.com" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-link"
+                        >
+                            Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <img src="/youtube.png" alt="YouTube" className="icon" />
+                        <a 
+                            href="https://www.youtube.com/watch?v=S6YDWy6wH7w" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-link"
+                        >
+                            YouTube
+                        </a>
+                    </li>
+                    <li>
+                        <img src="/instagram.png" alt="Instagram" className="icon" />
+                        <a 
+                            href="https://www.instagram.com" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-link"
+                        >
+                            Instagram
+                        </a>
+                    </li>
                 </ul>
             </div>
         </section>
@@ -74,26 +104,26 @@ function ContactSchool({ schoolId }) {
                 <ul className="social-icons">
                     {schoolData.youtube_link && (
                         <li>
-                            <img src="youtube.png" alt="YouTube" className="icon" />
-                            <a href={schoolData.youtube_link} target="_blank" rel="noopener noreferrer">YouTube</a>
+                            <img src="/youtube.png" alt="YouTube" className="icon" />
+                            <a href={schoolData.youtube_link} target="_blank" rel="noopener noreferrer" className="social-link">YouTube</a>
                         </li>
                     )}
                     {schoolData.facebook_link && (
                         <li>
-                            <img src="facebook.png" alt="Facebook" className="icon" />
-                            <a href={schoolData.facebook_link} target="_blank" rel="noopener noreferrer">Facebook</a>
+                            <img src="/facebook.png" alt="Facebook" className="icon" />
+                            <a href={schoolData.facebook_link} target="_blank" rel="noopener noreferrer" className="social-link">Facebook</a>
                         </li>
                     )}
                     {schoolData.intagram_link && (
                         <li>
-                            <img src="instagram.png" alt="Instagram" className="icon" />
-                            <a href={schoolData.intagram_link} target="_blank" rel="noopener noreferrer">Instagram</a>
+                            <img src="/instagram.png" alt="Instagram" className="icon" />
+                            <a href={schoolData.intagram_link} target="_blank" rel="noopener noreferrer" className="social-link">Instagram</a>
                         </li>
                     )}
                     {schoolData.tiktok_link && (
                         <li>
-                            <img src="tiktok.png" alt="TikTok" className="icon" />
-                            <a href={schoolData.tiktok_link} target="_blank" rel="noopener noreferrer">TikTok</a>
+                            <img src="/tiktok.png" alt="TikTok" className="icon" />
+                            <a href={schoolData.tiktok_link} target="_blank" rel="noopener noreferrer" className="social-link">TikTok</a>
                         </li>
                     )}
                 </ul>
