@@ -2,7 +2,7 @@ import React from 'react';
 import './Sidebar.css';
 
 
-const Sidebar = ({ logo, title, menu }) => {
+const Sidebar = ({ menu }) => {
     return (
             <nav className="sidebar">
                 {/* Логотип */}
@@ -26,5 +26,20 @@ const Sidebar = ({ logo, title, menu }) => {
         </nav>
     );
 };
+
+export const StudentSidebarData = () => {
+    return {
+      menu: [
+        { label: 'Профіль', icon: '👤', link: '#' },
+        { label: 'Школа', icon: '🏫', link: '/school' },
+        { label: 'Новини', icon: '📰', link: '#' },
+        { label: 'Щоденник', icon: '📒', link: '#' },
+        { label: 'Розклад', icon: '📅', link: '#' },
+        { label: 'Повідомлення', icon: '✉️', link: '#' },
+        { label: 'Курси', icon: '📚', link: '#' },
+        { label: 'Вихід', icon: '🚪', link: '#' },
+      ],
+    };
+  };
 
 export default Sidebar;
