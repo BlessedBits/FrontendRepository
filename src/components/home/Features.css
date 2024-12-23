@@ -1,0 +1,29 @@
+/* Секція можливостей платформи */
+.features {
+    padding-right: 25%;
+    padding-left: 25%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.features h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.features .for-teachers,
+.features .for-students {
+    margin-top: 20px;
+}
+
+.features h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.features a {
+    margin-right: 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}

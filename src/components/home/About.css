@@ -1,0 +1,19 @@
+/* Вступна частина */
+.about {
+    padding-right: 25%;
+    padding-left: 25%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.about h1 {
+    font-size: 63px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.about p {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: justify;
+}

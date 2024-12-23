@@ -7,6 +7,9 @@ import AuthModal from "./AuthModal";
 import Footer from "../basic/Footer";
 import './index.css';
 import './Header.css';
+import './About.css';
+import './Features.css';
+import './FAQ.css';
 
 const HomePage = () => {
   const [isAuthModalOpen, setAuthModalOpen] = useState(false); 

@@ -3,17 +3,18 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px; 
+    gap: 2vh; 
 }
 
 header .logo {
-    font-size: 36px; 
+    font-size: 40px; 
     font-weight: bold;
     color: #000;
 }
 
 header nav {
     display: flex; 
-    gap: 20px; 
+    gap: 16vh; 
 }
 
 .header-link {
@@ -21,16 +22,16 @@ header nav {
     position: relative; 
     text-decoration: none; 
     color: #555; 
-    font-size: 16px; 
+    font-size: 20px; 
     font-weight: 15%;
     padding: 5px 0;
-    transition: color 1.5s ease, font-size 1.5s ease, font-weight 2s ease; 
+    transition: color 1.5s ease, font-size 1.5s ease; 
 }
 
 .header-link:hover {
     font-weight: bold;
     color: #000; 
-    font-size: 18px; 
+    font-size: 24px; 
 }
 
 .header-link::after {
