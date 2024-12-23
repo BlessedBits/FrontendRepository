@@ -1,12 +1,12 @@
 import React from "react";
-import "./Gallery.css"
-import "./school.css"; 
-import InfoSchool from "./Info";
-import AchievementsSchool from "./Achievements";
-import GallerySchool from "./Gallery";
-import DirectorSchool from "./Director";
-import ContactSchool from "./Contact";
-import Sidebar, {  StudentSidebarData } from "../basic/Sidebar";
+import "../components/school/Gallery.css"
+import "../components/school/school.css"; 
+import InfoSchool from "../components/school/Info";
+import AchievementsSchool from "../components/school/Achievements";
+import GallerySchool from "../components/school/Gallery";
+import DirectorSchool from "../components/school/Director";
+import ContactSchool from "../components/school/Contact";
+import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
 import { useParams } from "react-router-dom";
 
 const SchoolPage = () => {

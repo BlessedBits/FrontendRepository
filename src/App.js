@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SchoolPage from "./components/school/SchoolPage";
-import HomePage from "./components/home/homepage";
+import SchoolPage from "./pages/SchoolPage";
+import HomePage from "./pages/homepage";
 
 
 function App() {

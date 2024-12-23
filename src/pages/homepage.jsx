@@ -1,15 +1,15 @@
 import React, { useState } from "react"; 
-import Header from "./Header";
-import About from "./About";
-import Features from "./Features";
-import FAQ from "./FAQ";
-import AuthModal from "./AuthModal";
-import Footer from "../basic/Footer";
-import './index.css';
-import './Header.css';
-import './About.css';
-import './Features.css';
-import './FAQ.css';
+import Header from "../components/home/Header";
+import About from "../components/home/About";
+import Features from "../components/home/Features";
+import FAQ from "../components/home/FAQ";
+import AuthModal from "../components/home/AuthModal";
+import Footer from "../components/basic/Footer";
+import '../components/home/index.css';
+import '../components/home/Header.css';
+import '../components/home/About.css';
+import '../components/home/Features.css';
+import '../components/home/FAQ.css';
 
 const HomePage = () => {
   const [isAuthModalOpen, setAuthModalOpen] = useState(false); 
