@@ -1,10 +1,12 @@
 import React, { useState } from "react"; 
 import Header from "./Header";
-import Intro from "./Intro";
+import About from "./About";
 import Features from "./Features";
 import FAQ from "./FAQ";
 import AuthModal from "./AuthModal";
 import Footer from "../basic/Footer";
+import './index.css';
+import './Header.css';
 
 const HomePage = () => {
   const [isAuthModalOpen, setAuthModalOpen] = useState(false); 
@@ -18,7 +20,7 @@ const HomePage = () => {
         <AuthModal isOpen={isAuthModalOpen} onClose={toggleAuthModal} />
       )}
       <main>
-        <Intro />
+        <About />
         <Features />
         <FAQ />
       </main>

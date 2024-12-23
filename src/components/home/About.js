@@ -1,8 +1,8 @@
 import React from "react";
 
-const Intro = () => {
+const About = () => {
     return (
-        <section className="intro" id="intro">
+        <section className="about" id="about">
             <h1>Подаруймо дітям знання та майбутнє</h1>
             <p>
                 <strong>SchoolHub</strong> пропонує простий і доступний формат онлайн-навчання,
@@ -19,4 +19,4 @@ const Intro = () => {
     );
 };
 
-export default Intro;
+export default About;

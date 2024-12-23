@@ -1,0 +1,67 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; 
+}
+
+header .logo {
+    font-size: 36px; 
+    font-weight: bold;
+    color: #000;
+}
+
+header nav {
+    display: flex; 
+    gap: 20px; 
+}
+
+.header-link {
+    margin: 0; 
+    position: relative; 
+    text-decoration: none; 
+    color: #555; 
+    font-size: 16px; 
+    font-weight: 15%;
+    padding: 5px 0;
+    transition: color 1.5s ease, font-size 1.5s ease, font-weight 2s ease; 
+}
+
+.header-link:hover {
+    font-weight: bold;
+    color: #000; 
+    font-size: 18px; 
+}
+
+.header-link::after {
+    content: ""; 
+    position: absolute;
+    left: 0;
+    bottom: -2px; 
+    width: 0;
+    height: 2px; 
+    background-color: #000;
+    transition: width 1s ease;
+}
+
+.header-link:hover::after {
+    width: 100%;
+}
+
+header .login-btn {
+    padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    height: 100%;
+    transition: transform 1s ease, background-color 1s ease;
+    font-size: 16px; 
+
+}
+
+header .login-btn:hover {
+    transform: scale(1.05);
+    background-color: black;
+}

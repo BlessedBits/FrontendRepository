@@ -2,7 +2,7 @@ import React from "react";
 
 const Features = () => {
     return (
-        <section className="faq">
+        <section id = "faq"className="faq">
             <div className="questions">
                 <h2>Відповіді на деякі питання:</h2>
                 <ul>

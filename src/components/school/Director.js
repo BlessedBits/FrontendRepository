@@ -8,7 +8,7 @@ function DirectorSchool({ schoolId }) {
     useEffect(() => {
         async function fetchDirector() {
             try {
-                const response = await fetch(`/api/director/${schoolId}`);
+                const response = await fetch(`/api/schools/${schoolId}/director`);
                 if (!response.ok) {
                     throw new Error('Директор не знайдений');
                 }

@@ -8,7 +8,7 @@ function ContactSchool({ schoolId }) {
     useEffect(() => {
         async function fetchSchoolData() {
             try {
-                const response = await fetch(`/api/schools/${schoolId}`);
+                const response = await fetch(`/api/schools/${schoolId}/contact`);
                 if (!response.ok) {
                     throw new Error('Не вдалося завантажити дані школи');
                 }

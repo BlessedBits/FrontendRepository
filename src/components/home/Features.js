@@ -2,7 +2,7 @@ import React from "react";
 
 const Features = () => {
     return (
-        <section className="features">
+        <section id = "features"className="features">
             <h2>Можливості платформи</h2>
             <div className="for-teachers">
                 <h3>Для вчителів:</h3>
