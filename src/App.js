@@ -18,7 +18,7 @@ function App() {
                     element={ <HomePage/>}
                 />
                 {/* Сторінка "Школа" */}
-                <Route path="/school/:schoolId" element={<SchoolPage/> } /> 
+                <Route path="school/:schoolId" element={<SchoolPage/> } /> 
             </Routes>
         </Router>
     );

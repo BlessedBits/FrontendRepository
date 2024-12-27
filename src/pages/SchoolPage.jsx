@@ -8,10 +8,13 @@ import DirectorSchool from "../components/school/Director";
 import ContactSchool from "../components/school/Contact";
 import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
 import { useParams } from "react-router-dom";
+import { useUser } from '../Context/Context.jsx';
 
 const SchoolPage = () => {
+
   const { schoolId } = useParams(); 
-  const sidebarData = StudentSidebarData();
+  const userInfo = useUser();
+  const sidebarData = StudentSidebarData({ userId: userInfo?.user_id, schoolId });
 
   return (
     <>
