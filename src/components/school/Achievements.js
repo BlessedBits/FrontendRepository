@@ -10,7 +10,7 @@ function AchievementsSchool({ schoolId }) {
     useEffect(() => {
         async function fetchAchievements() {
             try {
-                const response = await fetch(`/api/events/important/${schoolId}`);
+                const response = await fetch(`/api/schools/${schoolId}/events/important`);
                 if (!response.ok) {
                     throw new Error('Не вдалося завантажити досягнення.');
                 }

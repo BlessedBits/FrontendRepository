@@ -1,0 +1,66 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; 
+    gap: 2vh; 
+}
+
+.logo {
+    font-size: 40px; 
+    font-weight: bold;
+    color: #000;
+}
+
+nav {
+    display: flex; 
+    gap: 16vh; 
+}
+
+.headerLink {
+    margin: 0; 
+    position: relative; 
+    text-decoration: none; 
+    color: #555; 
+    font-size: 20px; 
+    font-weight: 15%;
+    padding: 5px 0;
+    transition: color 1.5s ease;
+}
+
+.headerLink:hover {
+    color: #000; 
+}
+
+.headerLink::after {
+    content: ""; 
+    position: absolute;
+    left: 0;
+    bottom: -2px; 
+    width: 0;
+    height: 2px; 
+    background-color: #000;
+    transition: width 1s ease;
+}
+
+.headerLink:hover::after {
+    width: 100%;
+}
+
+header .loginbtn {
+    padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    height: 100%;
+    transition: transform 1s ease, background-color 1s ease;
+    font-size: 16px; 
+
+}
+
+header .loginbtn:hover {
+    transform: scale(1.05);
+    background-color: black;
+}
