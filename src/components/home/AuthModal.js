@@ -38,7 +38,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                 <button className={styles.closeModalBtn} onClick={onClose}>
                     &times;
                 </button>
-                <div className="logo-title-container">
+                <div className={styles.LogoTitleContainer}>
                     <img src={`${process.env.PUBLIC_URL}/weblogo.png`} alt="SchoolHub Logo" className={styles.weblogo}/>
                     <h2>SchoolHub</h2>
                 </div>
