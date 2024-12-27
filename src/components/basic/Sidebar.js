@@ -11,7 +11,6 @@ const Sidebar = ({ menu }) => {
                     <span>SchoolHub</span>
                 </h2>
             </div>
-            {/* Меню */}
             <ul>
                 {menu.map((item, index) => (
                     <li key={index}>
@@ -25,7 +24,6 @@ const Sidebar = ({ menu }) => {
         </nav>
     );
 };
-
 export const StudentSidebarData = ({ userId, schoolId }) => {
     return {
         menu: [
@@ -40,5 +38,4 @@ export const StudentSidebarData = ({ userId, schoolId }) => {
         ],
     };
 };
-
 export default Sidebar;
