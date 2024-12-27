@@ -5,13 +5,13 @@
     text-align: left;
 }
 
-.about h1 {
+h1 {
     font-size: 63px;
     margin-bottom: 20px;
     font-weight: bold;
 }
 
-.about p {
+p {
     font-size: 24px;
     text-indent: 25px;
     margin-bottom: 20px;

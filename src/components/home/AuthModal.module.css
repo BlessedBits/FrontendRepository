@@ -1,4 +1,4 @@
-.modal-overlay {
+.modalOverlay {
     display: flex;
     position: fixed;
     top: 0;
@@ -12,7 +12,14 @@
     z-index: 10;
 }
 
-.auth-modal {
+.weblogo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.authModal {
     background-color: rgba(255, 255, 255, 0.95);
     padding: 40px;
     width: 500px;
@@ -22,13 +29,13 @@
     position: relative;
 }
 
-.auth-modal h2 {
+.authModal h2 {
     font-size: 24px;
     color: #6f6f6f;
     margin: 0;
 }
 
-.close-modal-btn {
+.closeModalBtn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -40,17 +47,17 @@
     font-weight: bold;
 }
 
-.close-modal-btn:hover {
+.closeModalBtn:hover {
     color: #ff7e5f;
 }
 
-.auth-tabs {
+.authTabs {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.auth-tab {
+.authTab {
     flex: 1;
     padding: 10px 15px;
     font-size: 16px;
@@ -64,20 +71,21 @@
     transition: color 0.3s, border-color 0.3s;
 }
 
-.auth-tab.active {
+.authTab.active {
     color: #fff;
     background: linear-gradient(90deg, #ff7e5f, #feb47b);
     border-radius: 15px;
 }
 
-.auth-form {
+.authForm {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
 }
 
-.auth-form input {
+.authForm input {
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 12px;
     width: 100%;
     border: 1px solid #ccc;
@@ -86,7 +94,7 @@
     font-size: 16px;
 }
 
-.auth-form button {
+.authForm button {
     padding: 12px;
     border: none;
     width: 100%;
@@ -99,6 +107,6 @@
     margin-top: 10px;
 }
 
-.auth-form button:hover {
+.authForm button:hover {
     background-color: #555;
 }

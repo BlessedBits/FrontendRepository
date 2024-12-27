@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Header.module.css";
 
 const Header = ({ onLoginClick }) => {
     const handleScroll = (id) => {
@@ -10,13 +11,13 @@ const Header = ({ onLoginClick }) => {
 
     return (
         <header>
-            <div className="logo">SchoolHub</div>
+            <div className={styles.logo}>SchoolHub</div>
             <nav>
-                <a className="header-link" onClick={() => handleScroll("about")}>Про сайт</a>
-                <a className="header-link" onClick={() => handleScroll("features")}>Можливості</a>
-                <a className="header-link" onClick={() => handleScroll("faq")}>FAQ</a>
+                <a className={styles.headerLink} onClick={() => handleScroll("about")}>Про сайт</a>
+                <a className={styles.headerLink} onClick={() => handleScroll("features")}>Можливості</a>
+                <a className={styles.headerLink} onClick={() => handleScroll("faq")}>FAQ</a>
             </nav>
-            <button className="login-btn" onClick={onLoginClick}>
+            <button className={styles.loginbtn} onClick={onLoginClick}>
                 Увійти
             </button>
         </header>

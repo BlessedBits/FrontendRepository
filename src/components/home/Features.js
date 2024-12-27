@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import styles from "./Features.module.css";
 
 const Features = () => {
-    const [activeFeature, setActiveFeature] = useState(null); // Відстеження вибраної функції
-    const [section, setSection] = useState(null); // Відстеження вибраного розділу
+    const [activeFeature, setActiveFeature] = useState(null);
+    const [section, setSection] = useState(null);
 
     const descriptions = {
         journal: "Управління класними журналами та оцінками.",
@@ -21,36 +22,36 @@ const Features = () => {
     };
 
     return (
-        <section id="features" className="features">
+        <section id="features" className={styles.features}>
             <h2>Можливості платформи</h2>
 
             {/* Для вчителів */}
-            <div className="for-teachers">
+            <div className={styles.forTeachers}>
                 <h3>Для вчителів:</h3>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "journal" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "journal" ? styles.active : ""}`}
                     onClick={() => handleClick("journal", "teachers")}
                 >
                     Журнал
                 </a>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "distanceLearning" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "distanceLearning" ? styles.active : ""}`}
                     onClick={() => handleClick("distanceLearning", "teachers")}
                 >
                     Дистанційне навчання
                 </a>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "onlineLessons" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "onlineLessons" ? styles.active : ""}`}
                     onClick={() => handleClick("onlineLessons", "teachers")}
                 >
                     Онлайн уроки
                 </a>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "loremIpsum" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "loremIpsum" ? styles.active : ""}`}
                     onClick={() => handleClick("loremIpsum", "teachers")}
                 >
                     Lorem ipsum
@@ -58,41 +59,41 @@ const Features = () => {
             </div>
 
             {/* Опис для вчителів */}
-            <div className="description teachers-description">
+            <div className={styles.teachersDescription}>
                 {section === "teachers" && activeFeature && (
-                    <p className="description-text visible">
+                    <p className={`${styles.description} ${styles.visible}`}>
                         {descriptions[activeFeature]}
                     </p>
                 )}
             </div>
 
             {/* Для учнів */}
-            <div className="for-students">
+            <div className={styles.forStudents}>
                 <h3>Для учнів:</h3>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "diary" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "diary" ? styles.active : ""}`}
                     onClick={() => handleClick("diary", "students")}
                 >
                     Щоденник
                 </a>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "friends" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "friends" ? styles.active : ""}`}
                     onClick={() => handleClick("friends", "students")}
                 >
                     Друзі
                 </a>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "schedule" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "schedule" ? styles.active : ""}`}
                     onClick={() => handleClick("schedule", "students")}
                 >
                     Розклад уроків
                 </a>
                 <a
                     href="javascript:void(0);"
-                    className={activeFeature === "textbooks" ? "active" : ""}
+                    className={`${styles.headerLink} ${activeFeature === "textbooks" ? styles.active : ""}`}
                     onClick={() => handleClick("textbooks", "students")}
                 >
                     Онлайн підручники
@@ -100,9 +101,9 @@ const Features = () => {
             </div>
 
             {/* Опис для учнів */}
-            <div className="description students-description">
+            <div className={styles.studentsDescription}>
                 {section === "students" && activeFeature && (
-                    <p className="description-text visible">
+                    <p className={`${styles.description} ${styles.visible}`}>
                         {descriptions[activeFeature]}
                     </p>
                 )}

@@ -1,9 +1,9 @@
 import React from 'react';
-import './Footer.css';
+import style from'./Footer.module.css';
 
 function Footer() {
     return (
-        <footer className="footer">
+        <footer className={style.footer}>
             <p>&copy; 2024 SchoolHub. All rights reserved.</p>
         </footer>
     );

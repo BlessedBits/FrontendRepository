@@ -1,8 +1,8 @@
 import React from "react";
-
+import styles from "./About.module.css";  
 const About = () => {
     return (
-        <section className="about" id="about">
+        <section className={styles.about} id="about"> 
             <h1>Подаруймо дітям знання та майбутнє</h1>
             <p>
                 <strong>SchoolHub</strong> пропонує простий і доступний формат онлайн-навчання,

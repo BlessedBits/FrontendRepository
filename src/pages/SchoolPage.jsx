@@ -14,7 +14,7 @@ const SchoolPage = () => {
 
   const { schoolId } = useParams(); 
   const userInfo = useUser();
-  const sidebarData = StudentSidebarData({ userId: userInfo?.user_id, schoolId });
+  const sidebarData = StudentSidebarData({ userId: userInfo?.user_id, schoolId: userInfo?.schoolId, });
 
   return (
     <>

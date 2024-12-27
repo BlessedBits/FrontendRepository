@@ -1,5 +1,10 @@
-footer {
+footer{
+    margin-top: 30px;
     padding: 20px;
+    background: gray;
+}
+
+footer p{
     background: gray;
     color: #fff;
     text-align: center;

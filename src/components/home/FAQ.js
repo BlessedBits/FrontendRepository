@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "./FAQ.module.css";
 
 const FAQ = () => {
     const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -59,15 +60,15 @@ const FAQ = () => {
     const selectedContent = content[selectedQuestion] || content.default;
 
     return (
-        <section id="faq" className="faq">
-            <div className="questions-and-answers">
-                <div className="questions">
+        <section id="faq" className={styles.faq}>
+            <div className={styles.questionsAndAnswers}>
+                <div className={styles.questions}>
                     <h2>Відповіді на деякі питання:</h2>
                     <ul>
                         <li>
                             <a 
                                 href="javascript:void(0);"
-                                className={selectedQuestion === "createClass" ? "active" : ""}
+                                className={selectedQuestion === "createClass" ? styles.active : ""}
                                 onClick={() => setSelectedQuestion("createClass")}>
                                 Як створити клас?
                             </a>
@@ -75,7 +76,7 @@ const FAQ = () => {
                         <li>
                             <a 
                                 href="javascript:void(0);"
-                                className={selectedQuestion === "addUsers" ? "active" : ""}
+                                className={selectedQuestion === "addUsers" ? styles.active : ""}
                                 onClick={() => setSelectedQuestion("addUsers")}>
                                 Як додати вчителів/учнів у школу?
                             </a>
@@ -83,70 +84,70 @@ const FAQ = () => {
                         <li>
                             <a 
                                 href="javascript:void(0);"
-                                className={selectedQuestion === "useDiary" ? "active" : ""}
+                                className={selectedQuestion === "useDiary" ? styles.active : ""}
                                 onClick={() => setSelectedQuestion("useDiary")}>
                                 Як користуватися щоденником?
                             </a>
                         </li>
                     </ul>
-                        <a
-                            href="javascript:void(0);"
-                            className="ask-question-btn"
-                            onClick={toggleForm}>
-                            Задати своє питання
-                        </a>
+                    <a
+                        href="javascript:void(0);"
+                        className={styles.askQuestionBtn}
+                        onClick={toggleForm}>
+                        Задати своє питання
+                    </a>
                 </div>
-                <div className="answers">
+                <div className={styles.answers}>
                     <img src={selectedContent.img} alt="Character image" />
                     <p>{selectedContent.text}</p>
                 </div>
             </div>
             {showForm && (
-                <div className={`contact-form ${showForm ? 'show' : ''}`}>
-                <form
-                    action="https://formspree.io/f/yourFormId"
-                    method="POST"
-                >
-                    <label htmlFor="email">Ваш Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="Введіть ваш email"
-                        required
-                    />
+                <div className={`${styles.contactForm} ${showForm ? styles.show : ''}`}>
+                    <form
+                        action="https://formspree.io/f/yourFormId"
+                        method="POST"
+                    >
+                        <label htmlFor="email">Ваш Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Введіть ваш email"
+                            required
+                        />
 
-                    <label htmlFor="subject">Тема:</label>
-                    <input
-                        type="text"
-                        id="subject"
-                        name="subject"
-                        placeholder="Введіть тему питання"
-                        required
-                    />
+                        <label htmlFor="subject">Тема:</label>
+                        <input
+                            type="text"
+                            id="subject"
+                            name="subject"
+                            placeholder="Введіть тему питання"
+                            required
+                        />
 
-                    <label htmlFor="message">Повідомлення:</label>
-                    <textarea
-                        id="message"
-                        name="message"
-                        placeholder="Введіть ваше повідомлення"
-                        required
-                    ></textarea>
+                        <label htmlFor="message">Повідомлення:</label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            placeholder="Введіть ваше повідомлення"
+                            required
+                        ></textarea>
 
-                    <label htmlFor="attachment">Вкладення:</label>
-                    <input
-                        type="file"
-                        id="attachment"
-                        name="attachment"
-                        accept="image/*"
-                        multiple
-                        onChange={handleFileChange}
-                    />
+                        <label htmlFor="attachment">Вкладення:</label>
+                        <input
+                            type="file"
+                            id="attachment"
+                            name="attachment"
+                            accept="image/*"
+                            multiple
+                            onChange={handleFileChange}
+                        />
 
-                    {fileError && <p style={{ color: "red" }}>{fileError}</p>} {/* Виведення помилки */}
+                        {fileError && <p style={{ color: "red" }}>{fileError}</p>} {/* Виведення помилки */}
 
-                    <button type="submit" disabled={fileError !== ""}>Відправити</button> {/* Заборона відправки, якщо є помилка */}
-                </form>
+                        <button type="submit" disabled={fileError !== ""}>Відправити</button> {/* Заборона відправки, якщо є помилка */}
+                    </form>
                 </div>
             )}      
         </section>
@@ -154,4 +155,3 @@ const FAQ = () => {
 };
 
 export default FAQ;
-

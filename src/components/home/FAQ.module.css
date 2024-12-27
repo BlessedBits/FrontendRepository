@@ -6,7 +6,7 @@
     width: 50%;
 }
 
-.faq .questions-and-answers {
+.faq .questionsAndAnswers {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -64,7 +64,7 @@
     font-size: 18px;
 }
 
-.ask-question-btn {
+.askQuestionBtn {
     display: inline-block;
     padding: 10px 30px;
     margin-top: 20px;
@@ -76,12 +76,12 @@
     transition: transform 1s ease, background-color 1s ease;
 }
 
-.ask-question-btn:hover {
+.askQuestionBtn:hover {
     transform: scale(1.05);
     background-color: black;
 }
 
-.contact-form {
+.contactForm {
     width: 90%;
     max-width: 800px;
     background-color: #f4f4f4;
@@ -94,25 +94,24 @@
     opacity: 0;
 }
 
-.contact-form.show {
+.contactForm.show {
     opacity: 1;
     transform: translateY(0); 
     visibility: visible;
 }
 
-
-.contact-form form {
+.contactForm form {
     display: flex;
     flex-direction: column;
 }
 
-.contact-form label {
+.contactForm label {
     margin-top: 10px;
     font-weight: bold;
 }
 
-.contact-form input,
-.contact-form textarea {
+.contactForm input,
+.contactForm textarea {
     padding: 10px;
     margin-top: 5px;
     font-size: 16px;
@@ -121,11 +120,10 @@
     width: 100%;
 }
 
-.contact-form button {
+.contactForm button {
     margin-top: 20px;
     padding: 10px 20px;
     width: 30%;
-    
     background-color: #6f6f6f;
     color: #fff;
     font-weight: bold;
@@ -135,7 +133,7 @@
     transition: background-color 0.5s ease;
 }
 
-.contact-form button:hover {
+.contactForm button:hover {
     background-color: #555;
 }
 
@@ -145,7 +143,7 @@
         align-items: flex-start;
     }
 
-    .faq .questions-and-answers {
+    .faq .questionsAndAnswers {
         flex-direction: row;
     }
 }

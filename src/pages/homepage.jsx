@@ -5,11 +5,6 @@ import Features from "../components/home/Features";
 import FAQ from "../components/home/FAQ";
 import AuthModal from "../components/home/AuthModal";
 import Footer from "../components/basic/Footer";
-import '../components/home/index.css';
-import '../components/home/Header.css';
-import '../components/home/About.css';
-import '../components/home/Features.css';
-import '../components/home/FAQ.css';
 
 const HomePage = () => {
   const [isAuthModalOpen, setAuthModalOpen] = useState(false); 

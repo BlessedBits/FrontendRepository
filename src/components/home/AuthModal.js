@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./AuthModal.css";
+import styles from "./AuthModal.module.css";
 import { login, register } from "../misc/AuthApi";
 
 const AuthModal = ({ isOpen, onClose }) => {
@@ -33,30 +33,30 @@ const AuthModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="auth-modal">
-                <button className="close-modal-btn" onClick={onClose}>
+        <div className={styles.modalOverlay}>
+            <div className={styles.authModal}>
+                <button className={styles.closeModalBtn} onClick={onClose}>
                     &times;
                 </button>
                 <div className="logo-title-container">
-                    <img src={`${process.env.PUBLIC_URL}/weblogo.png`} alt="SchoolHub Logo" className="modal-logo"/>
+                    <img src={`${process.env.PUBLIC_URL}/weblogo.png`} alt="SchoolHub Logo" className={styles.weblogo}/>
                     <h2>SchoolHub</h2>
                 </div>
-                <div className="auth-tabs">
+                <div className={styles.authTabs}>
                     <button
-                        className={`auth-tab ${activeTab === "login" ? "active" : ""}`}
+                        className={`${styles.authTab} ${activeTab === "login" ? styles.active : ""}`}
                         onClick={() => setActiveTab("login")}
                     >
                         Увійти
                     </button>
                     <button
-                        className={`auth-tab ${activeTab === "register" ? "active" : ""}`}
+                        className={`${styles.authTab} ${activeTab === "register" ? styles.active : ""}`}
                         onClick={() => setActiveTab("register")}
                     >
                         Зареєструватися
                     </button>
                 </div>
-                <div className="auth-form">
+                <div className={styles.authForm}>
                     {activeTab === "login" ? (
                         <form onSubmit={handleSubmit}>
                             <input
