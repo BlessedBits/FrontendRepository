@@ -1,28 +1,27 @@
-/* Загальний контейнер */
 .courses {
+  padding: 15px 30px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  margin: 0 auto;
 }
 
-/* Заголовок */
 .title {
-  font-size: 36px;
+  font-size: 48px;
   color: #000000;
   margin-bottom: 10px;
 }
 
-/* Список курсів */
 .list {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 15px;
 }
 
-/* Одиничний курс */
+.courseItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .item {
   display: flex;
   align-items: center;
@@ -30,17 +29,49 @@
   font-size: 20px;
   color: #69a5ff;
   font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-/* Стрілки перед курсом */
+.item:hover {
+  color: #0056b3;
+}
+
 .icon {
-  width: 18px;
-  height: 18px;
+  width: 19px;
+  height: 19px;
   transform: rotate(90deg);
   fill: #000000;
+  transition: transform 0.3s ease;
 }
 
-/* Кнопки */
+.iconDown {
+  transform: rotate(180deg);
+}
+
+.themes {
+  margin-left: 20px;
+  padding: 10px 0;
+}
+
+.themesTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.themesList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.themeItem {
+  font-size: 16px;
+  color: #4a4a4a;
+  margin-bottom: 5px;
+}
+
 .actions {
   display: flex;
   gap: 20px;
@@ -48,6 +79,7 @@
 }
 
 .button {
+  margin-top: 15px;  
   padding: 10px 20px;
   font-size: 18px;
   font-weight: 600;
