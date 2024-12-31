@@ -1,0 +1,65 @@
+/* Загальний контейнер */
+.courses {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+/* Заголовок */
+.title {
+  font-size: 36px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+/* Список курсів */
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Одиничний курс */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 20px;
+  color: #69a5ff;
+  font-weight: 500;
+}
+
+/* Стрілки перед курсом */
+.icon {
+  width: 18px;
+  height: 18px;
+  transform: rotate(90deg);
+  fill: #000000;
+}
+
+/* Кнопки */
+.actions {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffe0e0;
+  background-color: #524b46;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 1s ease, transform 1s ease;
+}
+
+.button:hover {
+  background-color: black;
+  transform: scale(1.05);
+}
