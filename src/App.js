@@ -16,10 +16,10 @@ function App() {
                     element={ <HomePage/>}
                 />
                 {/* Сторінка "Школа" */}
-                <Route path="school/:schoolId" element={<SchoolPage/> } /> 
+                <Route path="school/" element={<SchoolPage/> } /> 
                 
                 {/*Сторінка Курсів */}
-                <Route path="mycourse/" element={<CoursePage/> } /> 
+                <Route path="mycourses/" element={<CoursePage/> } /> 
 
 
             </Routes>

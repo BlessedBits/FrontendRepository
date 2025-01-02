@@ -27,13 +27,13 @@ const Sidebar = ({ menu }) => {
 export const StudentSidebarData = ({ userId, schoolId }) => {
     return {
         menu: [
-            { label: 'Профіль', icon: '👤', link: `/my-profile/${userId}` },
-            { label: 'Школа', icon: '🏫', link: `/school/${schoolId}` },
-            { label: 'Новини', icon: '📰', link: `/school-news/${schoolId}` },
-            { label: 'Щоденник', icon: '📒', link: `/my-diary/${userId}` },
-            { label: 'Розклад', icon: '📅', link: `/my-schedule/${userId}` },
-            { label: 'Повідомлення', icon: '✉️', link: `/messages/${userId}` },
-            { label: 'Курси', icon: '📚', link: `/courses/${userId}` },
+            { label: 'Профіль', icon: '👤', link: `/my-profile/` },
+            { label: 'Школа', icon: '🏫', link: `/school/` },
+            { label: 'Новини', icon: '📰', link: `/school-news/` },
+            { label: 'Щоденник', icon: '📒', link: `/my-diary/` },
+            { label: 'Розклад', icon: '📅', link: `/my-schedule/` },
+            { label: 'Повідомлення', icon: '✉️', link: `/messages/` },
+            { label: 'Курси', icon: '📚', link: `/mycourses/` },
             { label: 'Вихід', icon: '🚪', link: '/logout' },
         ],
     };

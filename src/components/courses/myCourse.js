@@ -1,126 +1,207 @@
-import React, { useState, useEffect } from 'react';
-import style from './myCourse.module.css';
+import React, { useState, useEffect } from "react";
+import style from "./myCourse.module.css";
 
 function CourseList({ user_id }) {
-    const [courseList, setCourseList] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [courseList, setCourseList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [selectedTheme, setSelectedTheme] = useState(null);
 
-    useEffect(() => {
-        async function fetchCourseList() {
-        try {
-            const response = await fetch(`/api/users/${user_id}/courses`);
-            if (!response.ok) {
-            throw new Error('Не вдалося отримати дані про курси');
-            }
-            const data = await response.json();
-            setCourseList(data);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+  useEffect(() => {
+    async function fetchCourseList() {
+      try {
+        const response = await fetch(`/api/users/${user_id}/courses`);
+        if (!response.ok) {
+          throw new Error("Не вдалося отримати дані про курси");
         }
-        }
-
-        fetchCourseList();
-    }, [user_id]);
-
-    const toggleCourse = (id) => {
-        setSelectedCourseId((prev) => (prev === id ? null : id));
-    };
-
-    if (loading) {
-        return <p>Завантаження даних...</p>;
+        const data = await response.json();
+        setCourseList(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    if (error) {
-        const courses = [
-            { id: 1, name: 'Біологія 4 клас', themes: ['Тема 1: Клітини', 'Тема 2: Органи', 'Тема 3: Екосистеми'] },
-            { id: 2, name: 'Біологія 4-А клас', themes: ['Тема 1: Мікроорганізми', 'Тема 2: Тварини', 'Тема 3: Рослини'] },
-            { id: 3, name: 'Біологія 4-B клас', themes: ['Тема 1: Анатомія людини', 'Тема 2: Біосфера', 'Тема 3: Генетика'] },
-            { id: 4, name: 'Біологія 4-C клас', themes: ['Тема 1: Клімат', 'Тема 2: Водні ресурси', 'Тема 3: Енергія'] },
-          ];
-            return (
-              <div className={style.courses}>
-                <h1 className={style.title}>Мої курси:</h1>
-                <div className={style.list}>
-                  {courses.map((course) => (
-                    <div key={course.id} className={style.courseItem}>
-                      <div className={style.item} onClick={() => toggleCourse(course.id)}>
-                        <svg
-                          className={`${style.icon} ${selectedCourseId === course.id ? style.iconDown : ''}`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M12 0l8 12h-16z" />
-                        </svg>
-                        {course.name}
-                      </div>
-                      {selectedCourseId === course.id && (
-                        <div className={style.themes}>
-                          <h3 className={style.themesTitle}>Теми:</h3>
-                          <ul className={style.themesList}>
-                            {course.themes.map((theme, index) => (
-                              <li key={index} className={style.themeItem}>
-                                {theme}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <div className={style.actions}>
-                  <button className={style.button}>Створити новий курс</button>
-                  <button className={style.button}>Видалити вже існуючий</button>
-                </div>
-              </div>
-            );
-    }
+    fetchCourseList();
+  }, [user_id]);
 
-    if (courseList.length === 0) {
-        return <p>Курси не знайдено.</p>;
-    }
+  const toggleCourse = (id) => {
+    setSelectedCourseId((prev) => (prev === id ? null : id));
+    setSelectedTheme(null); // Закриваємо тему при зміні курсу
+  };
+
+  const toggleTheme = (theme) => {
+    setSelectedTheme((prev) => (prev === theme ? null : theme));
+  };
+
+  if (loading) {
+    return <p>Завантаження даних...</p>;
+  }
+
+  if (error) {
+    const courses = [
+      {
+        id: 1,
+        name: "Біологія 4 клас",
+        themes: [
+          {
+            name: "Тема 1: Клітини",
+            description: "Опис теми про клітини.",
+            homework: "Прочитати параграф 3, зробити завдання №2.",
+            links: ["https://example.com/cells"],
+          },
+          {
+            name: "Тема 2: Органи",
+            description: "Опис теми про органи.",
+            homework: "Скласти таблицю органів людини.",
+            links: ["https://example.com/organs"],
+          },
+        ],
+      },
+      // Інші курси...
+    ];
 
     return (
-        <div className={style.courses}>
+      <div className={style.courses}>
         <h1 className={style.title}>Мої курси:</h1>
         <div className={style.list}>
-            {courseList.map((course) => (
+          {courses.map((course) => (
             <div key={course.id} className={style.courseItem}>
-                <div className={style.item} onClick={() => toggleCourse(course.id)}>
+              <div
+                className={style.item}
+                onClick={() => toggleCourse(course.id)}
+              >
                 <svg
-                    className={`${style.icon} ${selectedCourseId === course.id ? style.iconDown : ''}`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
+                  className={`${style.icon} ${
+                    selectedCourseId === course.id ? style.iconDown : ""
+                  }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
                 >
-                    <path d="M12 0l8 12h-16z" />
+                  <path d="M12 0l8 12h-16z" />
                 </svg>
                 {course.name}
-                </div>
-                {selectedCourseId === course.id && (
+              </div>
+              {selectedCourseId === course.id && (
                 <div className={style.themes}>
-                    <h3 className={style.themesTitle}>Теми:</h3>
-                    <ul className={style.themesList}>
+                  <h3 className={style.themesTitle}>Теми:</h3>
+                  <ul className={style.themesList}>
                     {course.themes.map((theme, index) => (
-                        <li key={index} className={style.themeItem}>
-                        {theme}
-                        </li>
+                      <li
+                        key={index}
+                        className={style.themeItem}
+                        onClick={() => toggleTheme(theme)}
+                      >
+                        {theme.name}
+                        {selectedTheme === theme && (
+                          <div className={style.themeDetails}>
+                            <p>
+                              <strong>Опис:</strong> {theme.description}
+                            </p>
+                            <p>
+                              <strong>Домашнє завдання:</strong> {theme.homework}
+                            </p>
+                            <p>
+                              <strong>Посилання:</strong>
+                              <ul>
+                                {theme.links.map((link, i) => (
+                                  <li key={i}>
+                                    <a href={link} target="_blank" rel="noopener noreferrer">
+                                      {link}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </p>
+                          </div>
+                        )}
+                      </li>
                     ))}
-                    </ul>
+                  </ul>
                 </div>
-                )}
+              )}
             </div>
-            ))}
+          ))}
         </div>
         <div className={style.actions}>
-            <button className={style.button}>Створити новий курс</button>
-            <button className={style.button}>Видалити вже існуючий</button>
+          <button className={style.button}>Створити новий курс</button>
+          <button className={style.button}>Видалити вже існуючий</button>
         </div>
-        </div>
+      </div>
     );
-    }
+  }
+
+  if (courseList.length === 0) {
+    return <p>Курси не знайдено.</p>;
+  }
+
+  return (
+    <div className={style.courses}>
+      <h1 className={style.title}>Мої курси:</h1>
+      <div className={style.list}>
+        {courseList.map((course) => (
+          <div key={course.id} className={style.courseItem}>
+            <div className={style.item} onClick={() => toggleCourse(course.id)}>
+              <svg
+                className={`${style.icon} ${
+                  selectedCourseId === course.id ? style.iconDown : ""
+                }`}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 0l8 12h-16z" />
+              </svg>
+              {course.name}
+            </div>
+            {selectedCourseId === course.id && (
+              <div className={style.themes}>
+                <h3 className={style.themesTitle}>Теми:</h3>
+                <ul className={style.themesList}>
+                  {course.themes.map((theme, index) => (
+                    <li
+                      key={index}
+                      className={style.themeItem}
+                      onClick={() => toggleTheme(theme)}
+                    >
+                      {theme.name}
+                      {selectedTheme === theme && (
+                        <div className={style.themeDetails}>
+                          <p>
+                            <strong>Опис:</strong> {theme.description}
+                          </p>
+                          <p>
+                            <strong>Домашнє завдання:</strong> {theme.homework}
+                          </p>
+                          <p>
+                            <strong>Посилання:</strong>
+                            <ul>
+                              {theme.links.map((link, i) => (
+                                <li key={i}>
+                                  <a href={link} target="_blank" rel="noopener noreferrer">
+                                    {link}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </p>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className={style.actions}>
+        <button className={style.button}>Створити новий курс</button>
+        <button className={style.button}>Видалити вже існуючий</button>
+      </div>
+    </div>
+  );
+}
 
 export default CourseList;

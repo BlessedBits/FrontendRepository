@@ -54,23 +54,72 @@
   padding: 10px 0;
 }
 
-.themesTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #000000;
-  margin-bottom: 5px;
-}
-
+/* Загальний стиль для списку тем */
 .themesList {
   list-style: none;
-  padding-left: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .themeItem {
-  font-size: 16px;
-  color: #4a4a4a;
-  margin-bottom: 5px;
+  padding: 10px 15px;
+  margin: 5px 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+  .themeItem:hover {
+    background-color: #eaeaea;
+  }
+
+/* Стиль для розгорнутого опису теми */
+.themeDetails {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-left: 4px solid #4caf50;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.themeDetails p {
+  margin: 5px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Стиль для списку посилань */
+.themeDetails ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.themeDetails ul li {
+  margin: 5px 0;
+}
+
+.themeDetails ul li a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.themeDetails ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Додатковий стиль для заголовків */
+.themesTitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
 
 .actions {
   display: flex;
