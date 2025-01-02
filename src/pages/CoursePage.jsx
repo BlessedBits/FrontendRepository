@@ -1,5 +1,5 @@
 import React from "react";
-import CourseList from "../components/courses/myCourse";
+import CourseList from "../components/courses/CourseList";
 import { useUser } from '../Context/Context.jsx';
 import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
 
@@ -11,7 +11,7 @@ const CoursePage = () => {
         <Sidebar menu={sidebarData.menu} />
         <main>
             <section data-content="true" className="content">
-                <CourseList userId={userInfo?.user_id} />
+                <CourseList userId={userInfo?.user_id} isTeacher={true} />
             </section>
         </main>
       </>
