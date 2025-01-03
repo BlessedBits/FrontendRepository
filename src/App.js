@@ -21,7 +21,6 @@ function App() {
                 {/*Сторінка Курсів */}
                 <Route path="mycourses/" element={<CoursePage/> } /> 
 
-
             </Routes>
         </Router>
     );
