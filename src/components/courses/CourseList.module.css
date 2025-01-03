@@ -1,0 +1,33 @@
+.courses {
+    padding: 15px 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .title {
+    font-size: 48px;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .addCourseButton {
+    margin: 20px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .addCourseButton:hover {
+    background-color: #0056b3;
+  }
+  

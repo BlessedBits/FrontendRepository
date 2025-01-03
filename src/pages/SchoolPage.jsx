@@ -7,12 +7,9 @@ import GallerySchool from "../components/school/Gallery";
 import DirectorSchool from "../components/school/Director";
 import ContactSchool from "../components/school/Contact";
 import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
-import { useParams } from "react-router-dom";
 import { useUser } from '../Context/Context.jsx';
 
 const SchoolPage = () => {
-
-  const { schoolId } = useParams(); 
   const userInfo = useUser();
   const sidebarData = StudentSidebarData({ userId: userInfo?.user_id, schoolId: userInfo?.schoolId, });
 
@@ -21,11 +18,11 @@ const SchoolPage = () => {
       <Sidebar menu={sidebarData.menu} />
       <main>
         <section data-content="true" className="content">
-          <InfoSchool schoolId={schoolId} />
-          <AchievementsSchool schoolId={schoolId} />
-          <GallerySchool schoolId={schoolId} />
-          <DirectorSchool schoolId={schoolId} />
-          <ContactSchool schoolId={schoolId} />
+          <InfoSchool schoolId={userInfo?.schoolId} />
+          <AchievementsSchool schoolId={userInfo?.schoolId} />
+          <GallerySchool schoolId={userInfo?.schoolId} />
+          <DirectorSchool schoolId={userInfo?.schoolId} />
+          <ContactSchool schoolId={userInfo?.schoolId} />
         </section>
       </main>
     </>

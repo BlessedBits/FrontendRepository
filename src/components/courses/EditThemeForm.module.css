@@ -1,0 +1,41 @@
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .saveButton,
+  .cancelButton {
+    margin: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .saveButton {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .saveButton:hover {
+    background-color: #45a049;
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e57373;
+  }
+  
