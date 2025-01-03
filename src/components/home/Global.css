@@ -23,3 +23,9 @@ main {
     flex: 0 1 auto;
     width: 100%;
 }
+
+.homepage-body {
+    display: flex; 
+    flex-direction: column; 
+}
+  
