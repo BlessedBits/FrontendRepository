@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SchoolPage from "./pages/SchoolPage";
-import HomePage from "./pages/homepage";
+import HomePage from "./pages/HomePage";
+import CoursePage from "./pages/CoursePage";
 
 
 function App() {
-    const [isAuthModalOpen, setAuthModalOpen] = useState(false);
-
-    const toggleAuthModal = () => setAuthModalOpen(!isAuthModalOpen);
 
     return (
         <Router>
@@ -18,7 +16,11 @@ function App() {
                     element={ <HomePage/>}
                 />
                 {/* Сторінка "Школа" */}
-                <Route path="school/:schoolId" element={<SchoolPage/> } /> 
+                <Route path="school/" element={<SchoolPage/> } /> 
+                
+                {/*Сторінка Курсів */}
+                <Route path="mycourses/" element={<CoursePage/> } /> 
+
             </Routes>
         </Router>
     );

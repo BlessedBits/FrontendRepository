@@ -21,8 +21,8 @@ const HomePage = () => {
         <About />
         <Features />
         <FAQ />
+        <Footer />
       </main>
-      <Footer />
     </>
   );
 };

@@ -1,0 +1,76 @@
+.themes {
+    margin-left: 20px;
+    padding: 10px 0;
+  }
+  
+  .themesList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .themeItem {
+    padding: 10px 15px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background-color 1s ease;
+  }
+  
+  .themeItem:hover {
+    background-color: #eaeaea;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .themeItem.selected {
+    background-color: #b3d9ff;
+    border: 2px solid #4a90e2;
+    border-radius: 10px;
+  }
+  
+  .themeItem.selected:hover {
+    background-color: #99cfff;
+  }
+  
+  .themesTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .themeDetails {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-left: 4px solid #4caf50;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .themeDetails p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .themeDetails ul {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+  }
+  
+  .themeDetails ul li {
+    margin: 5px 0;
+  }
+  
+  .themeDetails ul li a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .themeDetails ul li a:hover {
+    text-decoration: underline;
+  }
+  
