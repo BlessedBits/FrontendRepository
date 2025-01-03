@@ -3,7 +3,7 @@
 }
 
 .sidebar {
-  position: absolute; 
+  position: absolute;
   background: rgba(24, 24, 24, 0.95);
   padding: 10px 7px;
   display: flex;
@@ -16,7 +16,7 @@
   height: 100vh;
   left: 0;
   top: 0;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 
