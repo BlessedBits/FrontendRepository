@@ -1,5 +1,4 @@
 import React from "react";
-import "../components/school/school.css"; 
 import InfoSchool from "../components/school/Info";
 import AchievementsSchool from "../components/school/Achievements";
 import GallerySchool from "../components/school/Gallery";
