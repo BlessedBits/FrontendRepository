@@ -24,7 +24,7 @@ function GallerySchool({ schoolId }) {
 
     const scrollSlider = (direction) => {
         if (sliderRef.current) {
-            const scrollAmount = 300; // Відстань прокрутки
+            const scrollAmount = 320; // Відстань прокрутки
             sliderRef.current.scrollBy({
                 left: direction === 'left' ? -scrollAmount : scrollAmount,
                 behavior: 'smooth',
