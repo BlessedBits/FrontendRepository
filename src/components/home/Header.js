@@ -11,7 +11,9 @@ const Header = ({ onLoginClick }) => {
 
     return (
         <header>
-            <div className={styles.logo}>SchoolHub</div>
+            <div className={styles.logo}>SchoolHub
+                <img src="/weblogo.png" alt="logo" className={styles.logoImage} />
+            </div>
             <nav>
                 <a className={styles.headerLink} onClick={() => handleScroll("about")}>Про сайт</a>
                 <a className={styles.headerLink} onClick={() => handleScroll("features")}>Можливості</a>

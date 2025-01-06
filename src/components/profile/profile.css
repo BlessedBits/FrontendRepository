@@ -1,8 +1,9 @@
 .profile-page {
-    min-height: 100vh; /* Повна висота сторінки */
-    background: linear-gradient(to right, #ffe29f, #ffa99f, #ff719a);
+    min-height: 100vh; 
     display: flex;
     flex-direction: column;
+    width: auto;
+    width: 100%;
 }
 button {
     background-color: #0984e3;
@@ -18,17 +19,16 @@ button:hover {
     background-color: #74b9ff;
 }
 
-/* ===== Сторінка профілю ===== */
+
 .main-content {
-    margin-left: 250px; /* Відступ для бічної панелі */
+    flex: 0 1 auto;
+    margin-left: 5%; 
     padding: 30px;
 }
 
-/* ===== Заголовок ===== */
 header {
     display: flex;
-    justify-content: space-between; /* Розташування заголовка та кнопки редагування */
-    align-items: center;
+    justify-content: space-between; 
     margin-bottom: 20px;
 }
 
@@ -37,7 +37,6 @@ header h1 {
     color: #2d3436;
 }
 
-/* ===== Контейнер профілю ===== */
 .transparent-box {
     max-width: 1000px;
     margin: 50px auto;
@@ -335,9 +334,9 @@ header h1 {
 }
 
 .tick-circle {
-    width: 100px;
+    width: 100px; /* Розмір кружечка */
     height: 100px;
-    background-color: #4caf50;
+    background-color: #4caf50; /* Зелений фон */
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -347,25 +346,27 @@ header h1 {
 }
 
 .tick-line {
-    width: 60%;
-    height: 5px;
+    position: absolute;
+    width: 40px; /* Довжина основної діагональної частини */
+    height: 8px; /* Товщина галочки */
     background-color: white;
     border-radius: 2px;
-    position: absolute;
     transform: rotate(-45deg);
+    left: 35px; /* Основна лінія під кутом */
 }
 
 .tick-line::before {
     content: "";
     position: absolute;
-    width: 30px;
-    height: 5px;
+    width: 20px; /* Довжина вертикальної частини */
+    height: 8px; /* Товщина вертикальної частини */
     background-color: white;
     border-radius: 2px;
-    transform: rotate(90deg);
-    top: -15px;
-    left: -15px;
+    transform: rotate(90deg); /* Вертикальна частина галочки */
+    top: -13px; /* Вирівнювання вертикальної частини */
+    left: -6px; /* Позиція щодо основної лінії */
 }
+
 
 @keyframes fadeOut {
     0% {

@@ -11,7 +11,7 @@ body {
     min-height: 100vh;
     display: flex; 
     flex-direction: row; 
-    background: linear-gradient(to bottom, #FFFFCC, #FF86D7);
+    background: linear-gradient(to right, #ffe29f, #ffa99f, #ff719a);
     background-attachment: fixed;
     background-size: cover;
     color: #333;
