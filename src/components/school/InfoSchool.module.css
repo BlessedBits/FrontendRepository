@@ -1,0 +1,16 @@
+.schoolInfo {
+    padding: 20px;
+}
+
+.infoTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.infoTable th,
+.infoTable td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}

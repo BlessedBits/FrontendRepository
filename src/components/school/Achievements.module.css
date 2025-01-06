@@ -1,0 +1,43 @@
+.achievementList {
+    list-style: none;
+    padding: 0;
+}
+
+.achievementList li {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.achievementList img {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 10px; 
+    border-radius: 5px;
+}
+
+.achievementList p {
+    font-size: 18px; 
+    line-height: 1.5; 
+    color: #333;
+    margin: 0; 
+}
+
+.moreAchievementsButton {
+    display: block;
+    margin: 20px auto 0; 
+    padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 1s ease, background-color 1s ease;
+    font-size: 16px; 
+}
+
+.moreAchievementsButton:hover {
+    transform: scale(1.05);
+    background-color: black;
+}

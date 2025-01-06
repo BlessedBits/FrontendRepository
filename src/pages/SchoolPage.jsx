@@ -1,10 +1,9 @@
 import React from "react";
-import "../components/school/Gallery.css"
 import "../components/school/school.css"; 
 import InfoSchool from "../components/school/Info";
 import AchievementsSchool from "../components/school/Achievements";
 import GallerySchool from "../components/school/Gallery";
-import DirectorSchool from "../components/school/Director";
+import TeacherSchool from "../components/school/Teacher.js";
 import ContactSchool from "../components/school/Contact";
 import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
 import { useUser } from '../Context/Context.jsx';
@@ -21,7 +20,7 @@ const SchoolPage = () => {
           <InfoSchool schoolId={userInfo?.schoolId} />
           <AchievementsSchool schoolId={userInfo?.schoolId} />
           <GallerySchool schoolId={userInfo?.schoolId} />
-          <DirectorSchool schoolId={userInfo?.schoolId} />
+          <TeacherSchool schoolId={userInfo?.schoolId} />
           <ContactSchool schoolId={userInfo?.schoolId} />
         </section>
       </main>

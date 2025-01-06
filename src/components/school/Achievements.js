@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from './Achievements.module.css';
 
 function AchievementsSchool({ schoolId }) {
     const [achievements, setAchievements] = useState([]);
@@ -37,14 +38,11 @@ function AchievementsSchool({ schoolId }) {
     };
 
     if (loading) {
-        return <p>Завантаження досягнень...</p>;
-    }
-
-    if (error) {
+        //return <p>Завантаження даних...</p>;
         return (
             <section id="achievements" className="achievements-component">
                 <h2>Наші досягнення</h2>
-                <ul className="achievement-list">
+                <ul className={styles.achievementList}>
                     <li>
                         <img src="/school_test/achi1.jpg" alt="Achievement 1" />
                         <p>Олег Роман, переможець в алко-олімпіаді серед другокурсиків</p>
@@ -54,7 +52,26 @@ function AchievementsSchool({ schoolId }) {
                         <p>Ковалець Владислав, найкращий в своєму роді, домовився з міністром освіти, щоб нам виділили ракету на Марс</p>
                     </li>
                 </ul>
-                <button className="more-achievements-button">Більше досягнень</button>
+                <button className={styles.moreAchievementsButton}>Більше досягнень</button>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section id="achievements" className="achievements-component">
+                <h2>Наші досягнення</h2>
+                <ul className={styles.achievementList}>
+                    <li>
+                        <img src="/school_test/achi1.jpg" alt="Achievement 1" />
+                        <p>Олег Роман, переможець в алко-олімпіаді серед другокурсиків</p>
+                    </li>
+                    <li>
+                        <img src="/school_test/achi2.webp" alt="Achievement 2" />
+                        <p>Ковалець Владислав, найкращий в своєму роді, домовився з міністром освіти, щоб нам виділили ракету на Марс</p>
+                    </li>
+                </ul>
+                <button className={styles.moreAchievementsButton}>Більше досягнень</button>
             </section>
         );
     }
@@ -71,7 +88,7 @@ function AchievementsSchool({ schoolId }) {
     return (
         <section id="achievements" className="achievements-component">
             <h2>Наші досягнення</h2>
-            <ul className="achievement-list">
+            <ul className={styles.achievementList}>
                 {visibleAchievements.map((achievement) => (
                     <li key={achievement.id}>
                         <img src={achievement.image_url} alt={achievement.title} />
@@ -80,7 +97,7 @@ function AchievementsSchool({ schoolId }) {
                 ))}
             </ul>
             {!showMore && (
-                <button className="more-button" onClick={handleShowMore}>
+                <button className={styles.moreAchievementsButton} onClick={handleShowMore}>
                     Більше досягнень
                 </button>
             )}
@@ -88,4 +105,4 @@ function AchievementsSchool({ schoolId }) {
     );
 }
 
-export default AchievementsSchool;
+export default AchievementsSchool

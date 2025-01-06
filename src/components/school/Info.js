@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from './InfoSchool.module.css';
 
 function InfoSchool({ schoolId }) {
     const [schoolInfo, setSchoolInfo] = useState(null);
@@ -28,14 +29,13 @@ function InfoSchool({ schoolId }) {
         return <p>Завантаження даних...</p>;
     }
 
-    if (error) {
-        //return <p>{error}</p>;
+    if (error ) {
         return (
-            <section id="school-info" className="info-component">
+            <section id="school-info" className={styles.schoolInfo}>
                 <h1>Наша районна гімназія</h1>
                 <p>Горить і не згасає</p>
 
-                <table className="info-table">
+                <table className={styles.infoTable}>
                     <tbody>
                         <tr>
                             <th>Рік заснування:</th>
@@ -64,11 +64,11 @@ function InfoSchool({ schoolId }) {
     }
 
     return (
-        <section id="school-info" className="info-component">
+        <section id="school-info" className={styles.schoolInfo}>
             <h1>{schoolInfo.name}</h1>
             <p>{schoolInfo.slogan}</p>
 
-            <table className="info-table">
+            <table className={styles.infoTable}>
                 <tbody>
                     <tr>
                         <th>Рік заснування:</th>
