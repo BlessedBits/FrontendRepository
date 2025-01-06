@@ -1,6 +1,8 @@
 /* ContactSchool.module.css */
 
 .contacts {
+    background-color: #fff3f3;
+    border-radius: 25px;
     padding: 20px;
 }
 

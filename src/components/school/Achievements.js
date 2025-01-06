@@ -3,10 +3,42 @@ import styles from './Achievements.module.css';
 
 function AchievementsSchool({ schoolId }) {
     const [achievements, setAchievements] = useState([]);
-    const [visibleAchievements, setVisibleAchievements] = useState([]);
+    const [staticAchievements, setStaticAchievements] = useState([
+        {
+            id: 1,
+            image_url: '/school_test/achi1.jpg',
+            title: 'Переможець алко-олімпіади',
+            description: 'Олег Роман, переможець в алко-олімпіаді серед другокурсиків'
+        },
+        {
+            id: 2,
+            image_url: '/school_test/achi2.webp',
+            title: 'Переможець у переговорах з міністром',
+            description: 'Ковалець Владислав, домовився з міністром освіти, щоб нам виділили ракету на Марс'
+        },
+        {
+            id: 3,
+            image_url: '/school_test/achi3.jpg',
+            title: 'Переможець конкурсу',
+            description: 'Олександр Ільницький, переможець національного конкурсу качків'
+        },
+        {
+            id: 4,
+            image_url: '/school_test/achi4.jpg',
+            title: 'Молодий лідер',
+            description: 'Володька Рєвко, хватить позорити Таньку'    
+        },
+        {
+            id: 5,
+            image_url: '/school_test/achi5.jpg',
+            title: 'Молодий лідер',
+            description: 'Андріан Табак, призрачний гонщик'
+            
+        }
+    ]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showMore, setShowMore] = useState(false);
 
     useEffect(() => {
         async function fetchAchievements() {
@@ -17,9 +49,6 @@ function AchievementsSchool({ schoolId }) {
                 }
                 const data = await response.json();
                 setAchievements(data);
-
-                // Показуємо тільки 2 перших досягнення при завантаженні
-                setVisibleAchievements(data.slice(0, 2));
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -32,53 +61,27 @@ function AchievementsSchool({ schoolId }) {
         }
     }, [schoolId]);
 
-    const handleShowMore = () => {
-        setVisibleAchievements(achievements); // Відобразити всі досягнення
-        setShowMore(true);
+    const handlePrev = () => {
+        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
 
-    if (loading) {
-        //return <p>Завантаження даних...</p>;
-        return (
-            <section id="achievements" className="achievements-component">
-                <h2>Наші досягнення</h2>
-                <ul className={styles.achievementList}>
-                    <li>
-                        <img src="/school_test/achi1.jpg" alt="Achievement 1" />
-                        <p>Олег Роман, переможець в алко-олімпіаді серед другокурсиків</p>
-                    </li>
-                    <li>
-                        <img src="/school_test/achi2.webp" alt="Achievement 2" />
-                        <p>Ковалець Владислав, найкращий в своєму роді, домовився з міністром освіти, щоб нам виділили ракету на Марс</p>
-                    </li>
-                </ul>
-                <button className={styles.moreAchievementsButton}>Більше досягнень</button>
-            </section>
-        );
-    }
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, achievements.length + staticAchievements.length - 3));
+    };
+
+    // if (loading) {
+    //     return <p>Завантаження даних...</p>;
+    // }
 
     if (error) {
-        return (
-            <section id="achievements" className="achievements-component">
-                <h2>Наші досягнення</h2>
-                <ul className={styles.achievementList}>
-                    <li>
-                        <img src="/school_test/achi1.jpg" alt="Achievement 1" />
-                        <p>Олег Роман, переможець в алко-олімпіаді серед другокурсиків</p>
-                    </li>
-                    <li>
-                        <img src="/school_test/achi2.webp" alt="Achievement 2" />
-                        <p>Ковалець Владислав, найкращий в своєму роді, домовився з міністром освіти, щоб нам виділили ракету на Марс</p>
-                    </li>
-                </ul>
-                <button className={styles.moreAchievementsButton}>Більше досягнень</button>
-            </section>
-        );
+        return <p>{error}</p>;
     }
 
-    if (achievements.length === 0) {
+    const allAchievements = [...achievements, ...staticAchievements];
+
+    if (allAchievements.length === 0) {
         return (
-            <section id="achievements" className="achievements-component">
+            <section id="achievements" className={styles.achievementsComponent}>
                 <h2>Наші досягнення</h2>
                 <p>Досягнень поки немає.</p>
             </section>
@@ -86,23 +89,42 @@ function AchievementsSchool({ schoolId }) {
     }
 
     return (
-        <section id="achievements" className="achievements-component">
+        <section id="achievements" className={styles.achievementsComponent}>
             <h2>Наші досягнення</h2>
-            <ul className={styles.achievementList}>
-                {visibleAchievements.map((achievement) => (
-                    <li key={achievement.id}>
-                        <img src={achievement.image_url} alt={achievement.title} />
-                        <p>{achievement.description}</p>
-                    </li>
-                ))}
-            </ul>
-            {!showMore && (
-                <button className={styles.moreAchievementsButton} onClick={handleShowMore}>
-                    Більше досягнень
+            <div className={styles.galleryContainer}>
+                <button
+                    className={styles.navButton}
+                    onClick={handlePrev}
+                    disabled={currentIndex === 0}
+                >
+                    ←
                 </button>
-            )}
+                <div className={styles.gallery}>
+                    {allAchievements
+                        .slice(currentIndex, currentIndex + 3)
+                        .map((achievement) => (
+                            <div key={achievement.id} className={styles.achievementCard}>
+                                <img
+                                    src={achievement.image_url}
+                                    alt={achievement.title}
+                                    className={styles.achievementImage}
+                                />
+                                <p className={styles.achievementDescription}>
+                                    {achievement.description}
+                                </p>
+                            </div>
+                        ))}
+                </div>
+                <button
+                    className={styles.navButton}
+                    onClick={handleNext}
+                    disabled={currentIndex + 3 >= allAchievements.length}
+                >
+                    →
+                </button>
+            </div>
         </section>
     );
 }
 
-export default AchievementsSchool
+export default AchievementsSchool;

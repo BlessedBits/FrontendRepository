@@ -1,43 +1,65 @@
-.achievementList {
-    list-style: none;
-    padding: 0;
+.achievementsComponent {
+    padding: 20px;
+    background-color: #fff3f3;
+    border-radius: 25px;
 }
 
-.achievementList li {
+.galleryContainer {
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    overflow: hidden;
 }
 
-.achievementList img {
-    width: 350px;
-    height: 350px;
-    margin-bottom: 10px; 
+.gallery {
+    display: flex;
+    gap: 20px; /* Розмір між картками */
+    transition: transform 1.5s ease; /* Анімація при переміщенні */
+}
+
+.achievementCard {
+    width: 250px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+}
+
+.achievementImage {
+    width: 100%;
+    height: 200px;
     border-radius: 5px;
 }
 
-.achievementList p {
-    font-size: 18px; 
-    line-height: 1.5; 
+.achievementDescription {
+    margin-top: 10px;
+    font-size: 14px;
     color: #333;
-    margin: 0; 
 }
 
-.moreAchievementsButton {
-    display: block;
-    margin: 20px auto 0; 
-    padding: 10px 20px;
-    background-color: gray;
+.navButton {
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    border-radius: 15px;
+    padding: 10px;
+    border-radius: 50%;
     cursor: pointer;
-    transition: transform 1s ease, background-color 1s ease;
-    font-size: 16px; 
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.moreAchievementsButton:hover {
-    transform: scale(1.05);
-    background-color: black;
+.navButton:disabled {
+    background-color: #cccccc;
+}
+
+.navButton:hover {
+    background-color: rgba(0, 0, 0, 0.85    );
 }

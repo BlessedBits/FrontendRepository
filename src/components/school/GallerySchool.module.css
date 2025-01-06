@@ -2,19 +2,20 @@
 
 .gallery {
     padding: 30px 20px;
-    background: linear-gradient(135deg, #ffecd2, #fcb69f);
     text-align: center;
-    border-radius: 10px;
 }
 
 .galleryTitle {
-    font-size: 32px;
+    font-size: 48px;
     font-weight: bold;
     color: #444;
     margin-bottom: 20px;
 }
 
 .galleryComponent {
+    padding: 30px 20px;
+    background-color: #fff3f3;
+    border-radius: 25px;
     width: 100%;
 }
 
