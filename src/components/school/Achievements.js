@@ -12,7 +12,7 @@ function AchievementsSchool({ schoolId }) {
         },
         {
             id: 2,
-            image_url: '/school_test/achi2.webp',
+            image_url: '/school_test/achi2.jpg',
             title: 'Переможець у переговорах з міністром',
             description: 'Ковалець Владислав, домовився з міністром освіти, щоб нам виділили ракету на Марс'
         },

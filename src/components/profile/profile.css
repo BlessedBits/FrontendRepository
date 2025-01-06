@@ -330,7 +330,7 @@ header h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1500;
-    animation: fadeOut 2s ease-in-out forwards;
+    animation: fadeOut 20s ease-in-out forwards;
 }
 
 .tick-circle {
@@ -352,7 +352,7 @@ header h1 {
     background-color: white;
     border-radius: 2px;
     transform: rotate(-45deg);
-    left: 35px; /* Основна лінія під кутом */
+    left: 38px; /* Основна лінія під кутом */
 }
 
 .tick-line::before {
