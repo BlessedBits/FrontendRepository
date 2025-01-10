@@ -58,3 +58,36 @@
     border-top-right-radius: 10px;
   }
   
+
+.class-selector {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
+.class-selector select {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.class-selector select:focus {
+  outline: none;
+  border-color: #0078d7;
+  box-shadow: 0 0 5px rgba(0, 120, 215, 0.5);
+}
+
+.class-selector select:hover {
+  background-color: #e6f7ff;
+}
+
+.class-selector label {
+  font-weight: bold;
+}
