@@ -31,8 +31,8 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-page">
+            <Sidebar menu={sidebarData.menu} />
             <div className="main-content">
-                <Sidebar menu={sidebarData.menu} />
                 <div className="transparent-box">
                     <header className="profile-header">
                         <h1>Профіль користувача</h1>
@@ -63,7 +63,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="profile-item">
                                     <p className="label">
-                                        <strong>Роль:</strong>
+                                        <strong>Статус:</strong>
                                     </p>
                                     <p className="value">Учень/Вчитель</p>
                                 </div>

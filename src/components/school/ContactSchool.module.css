@@ -1,0 +1,68 @@
+/* ContactSchool.module.css */
+
+.contacts {
+    background-color: #fff3f3;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+.contactForm {
+    margin-bottom: 20px;
+}
+
+.contactForm label {
+    display: block;
+    font-weight: bold;
+}
+
+.contactForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.socialMedia {
+    margin-top: 20px;
+}
+
+.socialIcons {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.socialIcons li {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.socialLink {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+.socialLink::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 1s ease;
+}
+
+.socialLink:hover::after {
+    width: 100%;
+}
+
+.socialIcons img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}

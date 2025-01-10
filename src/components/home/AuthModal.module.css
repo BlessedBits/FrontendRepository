@@ -117,3 +117,20 @@
 .authForm button:hover {
     background-color: #555;
 }
+
+.rememberMeContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.rememberMeContainer input {
+    margin-right: 10px;
+    width: 15px;
+    cursor: pointer;
+}
+
+.rememberMeContainer label {
+    font-size: 14px;
+    color: #555;
+}

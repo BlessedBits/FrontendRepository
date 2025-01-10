@@ -1,0 +1,65 @@
+.achievementsComponent {
+    padding: 20px;
+    background-color: #fff3f3;
+    border-radius: 25px;
+}
+
+.galleryContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    overflow: hidden;
+}
+
+.gallery {
+    display: flex;
+    gap: 20px; /* Розмір між картками */
+    transition: transform 1.5s ease; /* Анімація при переміщенні */
+}
+
+.achievementCard {
+    width: 250px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+}
+
+.achievementImage {
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.achievementDescription {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.navButton {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navButton:disabled {
+    background-color: #cccccc;
+}
+
+.navButton:hover {
+    background-color: rgba(0, 0, 0, 0.85    );
+}

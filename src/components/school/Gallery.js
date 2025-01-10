@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import styles from './GallerySchool.module.css';
 
 function GallerySchool({ schoolId }) {
     const [photos, setPhotos] = useState([]);
@@ -24,7 +25,7 @@ function GallerySchool({ schoolId }) {
 
     const scrollSlider = (direction) => {
         if (sliderRef.current) {
-            const scrollAmount = 300; // Відстань прокрутки
+            const scrollAmount = 320; // Відстань прокрутки
             sliderRef.current.scrollBy({
                 left: direction === 'left' ? -scrollAmount : scrollAmount,
                 behavior: 'smooth',
@@ -37,37 +38,37 @@ function GallerySchool({ schoolId }) {
     }
     if (error) {
         return (
-            <section id="gallery" className="gallery-component">
-                <h2>Наша школа</h2>
-                <div className="gallery-container">
-                    <button className="scroll-button left" onClick={() => scrollSlider('left')}>❮</button>
-                    <div ref={sliderRef} className="gallery-slider">
-                        <img src="/school_test/foto1.webp" alt="school" className="gallery-photo" />
-                        <img src="/school_test/foto2.jpg" alt="school" className="gallery-photo" />
-                        <img src="/school_test/foto3.jpg" alt="school" className="gallery-photo" />
-                        <img src="/school_test/foto4.jpeg" alt="school" className="gallery-photo" />
+            <section id="gallery" className={styles.galleryComponent}>
+                <h2 className={styles.galleryTitle}>Наша школа</h2>
+                <div className={styles.galleryContainer}>
+                    <button className={`${styles.scrollButton} ${styles.scrollButtonLeft}`} onClick={() => scrollSlider('left')}>❮</button>
+                    <div ref={sliderRef} className={styles.gallerySlider}>
+                        <img src="/school_test/foto1.webp" alt="school" className={styles.galleryPhoto} />
+                        <img src="/school_test/foto2.jpg" alt="school" className={styles.galleryPhoto} />
+                        <img src="/school_test/foto3.jpg" alt="school" className={styles.galleryPhoto} />
+                        <img src="/school_test/foto4.jpeg" alt="school" className={styles.galleryPhoto} />
                     </div>
-                    <button className="scroll-button right" onClick={() => scrollSlider('right')}>❯</button>
+                    <button className={`${styles.scrollButton} ${styles.scrollButtonRight}`} onClick={() => scrollSlider('right')}>❯</button>
                 </div>            
             </section>
         );
     }
 
     return (
-        <section id="gallery" className="gallery-component">
-            <h2>Наша школа</h2>
-            <div className="gallery-container">
-                <button className="scroll-button left" onClick={() => scrollSlider('left')}>❮</button>
-                <div ref={sliderRef} className="gallery-slider">
+        <section id="gallery" className={styles.galleryComponent}>
+            <h2 className={styles.galleryTitle}>Наша школа</h2>
+            <div className={styles.galleryContainer}>
+                <button className={`${styles.scrollButton} ${styles.scrollButtonLeft}`} onClick={() => scrollSlider('left')}>❮</button>
+                <div ref={sliderRef} className={styles.gallerySlider}>
                     {photos.length > 0 ? (
                         photos.map(photo => (
-                            <img key={photo.id} src={photo.url} alt={`Фото ${photo.id}`} className="gallery-photo" />
+                            <img key={photo.id} src={photo.url} alt={`Фото ${photo.id}`} className={styles.galleryPhoto} />
                         ))
                     ) : (
                         <p>Немає доступних фото.</p>
                     )}
                 </div>
-                <button className="scroll-button right" onClick={() => scrollSlider('right')}>❯</button>
+                <button className={`${styles.scrollButton} ${styles.scrollButtonRight}`} onClick={() => scrollSlider('right')}>❯</button>
             </div>
         </section>
     );

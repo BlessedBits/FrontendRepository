@@ -2,6 +2,9 @@ import React from 'react';
 import './Sidebar.css';
 
 const Sidebar = ({ menu }) => {
+    // Отримання поточного шляху
+    const currentPath = window.location.pathname;
+
     return (
         <nav className="sidebar">
             {/* Логотип */}
@@ -14,7 +17,11 @@ const Sidebar = ({ menu }) => {
             <ul>
                 {menu.map((item, index) => (
                     <li key={index}>
-                        <a href={item.link || '#'} aria-label={item.label}>
+                        <a
+                            href={item.link || '#'}
+                            aria-label={item.label}
+                            className={currentPath === item.link ? 'active' : ''}
+                        >
                             <span aria-hidden="true">{item.icon || ''}</span>
                             {item.label}
                         </a>
@@ -24,6 +31,7 @@ const Sidebar = ({ menu }) => {
         </nav>
     );
 };
+
 export const StudentSidebarData = ({ userId, schoolId }) => {
     return {
         menu: [
