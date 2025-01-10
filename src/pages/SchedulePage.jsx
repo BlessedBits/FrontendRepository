@@ -11,7 +11,7 @@ const SchedulePage = () => {
         <Sidebar menu={sidebarData.menu} />
         <main>
             <section data-content="true" className="content">
-                <Schedule userId={userInfo?.user_id}/>
+                <Schedule userId={userInfo?.class_id}/>
             </section>
         </main>
       </>
