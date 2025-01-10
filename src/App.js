@@ -4,6 +4,8 @@ import SchoolPage from "./pages/SchoolPage";
 import HomePage from "./pages/HomePage";
 import CoursePage from "./pages/CoursePage";
 import ProfilePage from "./pages/ProfilePage";
+import SchedulePage from "./pages/SchedulePage";
+
 
 
 function App() {
@@ -12,9 +14,7 @@ function App() {
         <Router>
             <Routes>
                 {/* Головна сторінка */}
-                <Route
-                    path="/"
-                    element={ <HomePage/>}
+                <Route path="/" element={ <HomePage/>}
                 />
                 {/* Сторінка "Школа" */}
                 <Route path="school/" element={<SchoolPage/> } /> 
@@ -24,6 +24,9 @@ function App() {
 
                 {/* Сторінка профілю */}
                 <Route path="my-profile/" element={<ProfilePage />} />
+
+                {/* Сторінка розкладу */}
+                <Route path="my-schedule/" element={<SchedulePage />} />
 
             </Routes>
         </Router>

@@ -1,0 +1,59 @@
+/* Schedule.module.css */
+
+.app {
+    display: flex;
+    justify-content: center;
+    height: auto;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .timetable-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    height: auto  ;
+  }
+  
+  .timetable {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-family: "Arial", sans-serif;
+    font-size: 16px;
+  }
+  
+  .timetable thead th {
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .timetable tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: top;
+  }
+  
+  .timetable tbody td div {
+    margin-bottom: 5px;
+  }
+  
+  .timetable-container {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  .timetable thead th:first-child {
+    border-top-left-radius: 10px;
+  }
+  
+  .timetable thead th:last-child {
+    border-top-right-radius: 10px;
+  }
+  
