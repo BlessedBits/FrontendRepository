@@ -1,0 +1,48 @@
+import axios from "axios";
+
+const AUTH_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/schedules';
+// const AUTH_BASE_URL = 'http://localhost:8080/auth';
+
+const authInstance = axios.create({
+    baseURL: AUTH_BASE_URL,
+});
+
+authInstance.interceptors.request.use(config => {
+    const accessToken = localStorage.getItem("accessToken");
+    const tokenType = localStorage.getItem("tokenType") || 'Bearer ';
+
+    if (accessToken) {
+        config.headers.Authorization = `${tokenType}${accessToken}`;
+    }
+
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
+
+export const getScheduleById = async (id) => {
+    try {
+        const response = await authInstance.get(`/${id}`);
+        
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+        }
+    } catch (error) {
+        if (error.response) {
+            const { status } = error.response;
+            switch (status) {
+                case 404:
+                    throw new Error(`Schedule not found with ID: ${id}`);
+                case 401:
+                    throw new Error('Unauthorized: Invalid access token.');
+                case 500:
+                    throw new Error('Internal Server Error: Failed to fetch schedule.');
+                default:
+                    throw new Error(`Unhandled response status: ${status}`);
+            }
+        }
+        throw new Error(error.message || 'An unknown error occurred.');
+    }
+};
