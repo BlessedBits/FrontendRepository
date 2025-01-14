@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const baseUrl = 'http://ypgblessedbits.azurewebsites.net/api/auth/';
-const BASE_URL = 'http://localhost:8080/api/auth';
+const BASE_URL = 'https://ypgblessedbits.azurewebsites.net/auth';
+// const BASE_URL = 'http://localhost:8080/auth';
 
 const instance = axios.create({
     baseURL: BASE_URL,
@@ -13,7 +13,10 @@ export const login = async (username, password) => {
     if (response.status !== 200) {
         throw new Error(response.statusText);
     }
-    return response.data;
+    const {accessToken, tokenType} = response.data;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('tokenType', tokenType);
+    return {accessToken, tokenType};
 }
 
 export const register = async (username, password, email = null) => {
