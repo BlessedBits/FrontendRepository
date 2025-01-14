@@ -1,0 +1,13 @@
+footer{
+    margin-top: 30px;
+    padding: 20px;
+    background: gray;
+}
+
+footer p{
+    margin: 0 auto;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+}
+

@@ -1,29 +1,35 @@
 import React, { useState } from "react";
-import Header from "./components/home/Header";
-import Intro from "./components/home/Intro";
-import Features from "./components/home/Features";
-import FAQ from "./components/home/FAQ";
-import Footer from "./components/home/Footer";
-import AuthModal from "./components/home/AuthModal";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SchoolPage from "./pages/SchoolPage";
+import HomePage from "./pages/HomePage";
+import CoursePage from "./pages/CoursePage";
+import ProfilePage from "./pages/ProfilePage";
+import SchedulePage from "./pages/SchedulePage";
+
+
 
 function App() {
-    const [isAuthModalOpen, setAuthModalOpen] = useState(false);
-
-    const toggleAuthModal = () => setAuthModalOpen(!isAuthModalOpen);
 
     return (
-        <>
-            <Header onLoginClick={toggleAuthModal} />
-            {isAuthModalOpen && (
-                <AuthModal isOpen={isAuthModalOpen} onClose={toggleAuthModal} />
-            )}
-            <main>
-                <Intro />
-                <Features />
-                <FAQ />
-            </main>
-            <Footer />
-        </>
+        <Router>
+            <Routes>
+                {/* Головна сторінка */}
+                <Route path="/" element={ <HomePage/>}
+                />
+                {/* Сторінка "Школа" */}
+                <Route path="school/" element={<SchoolPage/> } /> 
+                
+                {/*Сторінка Курсів */}
+                <Route path="mycourses/" element={<CoursePage/> } /> 
+
+                {/* Сторінка профілю */}
+                <Route path="my-profile/" element={<ProfilePage />} />
+
+                {/* Сторінка розкладу */}
+                <Route path="my-schedule/" element={<SchedulePage />} />
+
+            </Routes>
+        </Router>
     );
 }
 

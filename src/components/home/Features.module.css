@@ -1,0 +1,60 @@
+.features {
+    width: 50%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.features h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.forTeachers,
+.forStudents {
+    margin-top: 20px;
+}
+
+.features h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.headerLink {
+    margin-right: 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 20px;
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.headerLink.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: background-color 0.25s ease;
+}
+
+.description {
+    text-align: left;
+    margin-top: 15px;
+    font-size: 18px;
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 1s ease, max-height 1s ease;
+}
+
+.description.visible {
+    opacity: 1;
+    visibility: visible;
+    max-height: 200px;
+    margin-top: 10px;
+}
+
+.teachersDescription,
+.studentsDescription {
+    margin-top: 10px;
+}

@@ -1,0 +1,86 @@
+/* GallerySchool.module.css */
+
+.gallery {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.galleryTitle {
+    font-size: 48px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.galleryComponent {
+    padding: 30px 20px;
+    background-color: #fff3f3;
+    border-radius: 25px;
+    width: auto;
+}
+
+.galleryContainer {
+    position: relative; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1000px;
+}
+
+.gallerySlider {
+    padding: 25px;
+    display: flex;
+    overflow-x: auto; 
+    gap: 20px; 
+    scroll-behavior: smooth;
+}
+
+.gallerySlider::-webkit-scrollbar {
+    display: none; 
+}
+
+.galleryPhoto {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 5px solid #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 1s ease, box-shadow 0.3s ease;
+}
+
+.galleryPhoto:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.scrollButton {
+    position: absolute;
+    top: 50%; 
+    transform: translateY(-50%); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px; 
+    height: 50px; 
+    font-size: 24px; 
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 1s;
+}
+
+.scrollButtonLeft {
+    left: -25px; 
+}
+
+.scrollButtonRight {
+    right: -25px; 
+}
+
+.scrollButton:hover {
+    background-color: rgba(0, 0, 0, 0.8); 
+}
