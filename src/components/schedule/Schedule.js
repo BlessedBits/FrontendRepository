@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./Schedule.css";
+import {getScheduleById} from '../misc/ScheduleApi'
+
+try {
+  const schedule = await getScheduleById(1); // ID розкладу
+  console.log('Schedule:', schedule);
+} catch (error) {
+  console.error(error.message);
+}
+
 
 const fallbackData = {
   "10-A": [

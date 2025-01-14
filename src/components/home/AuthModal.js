@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import styles from "./AuthModal.module.css";
 import { login, register } from "../misc/AuthApi";
+import { useNavigate } from "react-router-dom";
 
 const AuthModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState("login"); // "login" or "register"
   const [formData, setFormData] = useState({ username: "", password: "", email: "" });
   const [rememberMe, setRememberMe] = useState(false); // "Remember Me" state
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,6 +27,7 @@ const AuthModal = ({ isOpen, onClose }) => {
       if (activeTab === "login") {
         const result = await login(formData.username, formData.password, rememberMe);
         console.log("Login successful:", result);
+        navigate("/school", { replace: true });
       } else {
         const result = await register(formData.username, formData.password, formData.email);
         console.log("Registration successful:", result);

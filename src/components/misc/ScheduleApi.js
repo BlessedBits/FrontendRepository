@@ -1,18 +1,19 @@
 import axios from "axios";
 
-const AUTH_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/schedules';
-// const AUTH_BASE_URL = 'http://localhost:8080/auth';
+const Schedules_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/schedules';
+// const BASE_URL = 'http://localhost:8080/schedules';
 
-const authInstance = axios.create({
-    baseURL: AUTH_BASE_URL,
+const schedulesInstance = axios.create({
+    baseURL: Schedules_BASE_URL,
+    timeout: 5000,
 });
 
-authInstance.interceptors.request.use(config => {
+schedulesInstance.interceptors.request.use(config => {
     const accessToken = localStorage.getItem("accessToken");
     const tokenType = localStorage.getItem("tokenType") || 'Bearer ';
 
     if (accessToken) {
-        config.headers.Authorization = `${tokenType}${accessToken}`;
+        config.headers.Authorization = `${tokenType} ${accessToken}`;
     }
 
     return config;
@@ -22,7 +23,7 @@ authInstance.interceptors.request.use(config => {
 
 export const getScheduleById = async (id) => {
     try {
-        const response = await authInstance.get(`/${id}`);
+        const response = await schedulesInstance.get(`/${id}`);
         
         if (response.status === 200) {
             return response.data;
