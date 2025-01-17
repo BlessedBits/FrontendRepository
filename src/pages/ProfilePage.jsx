@@ -12,7 +12,6 @@ const ProfilePage = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false); // Відкриття меню налаштувань
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // Відкриття мод. вікна паролю
 
-    const { schoolId } = useParams();
     const userInfo = useUser();
     const sidebarData = StudentSidebarData({
         userId: userInfo?.user_id,

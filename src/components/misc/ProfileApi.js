@@ -1,15 +1,12 @@
 import axios from "axios";
 
-// Base URL for the users service
 const USERS_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/users';
 // const USERS_BASE_URL = 'http://localhost:8080/users';
 
-// Axios instance for the users service
 const usersInstance = axios.create({
     baseURL: USERS_BASE_URL,
 });
 
-// Interceptor to attach the Authorization header
 usersInstance.interceptors.request.use(config => {
     const accessToken = localStorage.getItem("accessToken");
     const tokenType = localStorage.getItem("tokenType") || 'Bearer ';
@@ -23,7 +20,6 @@ usersInstance.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-// Update profile info
 export const updateProfileInfo = async (data) => {
     try {
         if (!data.email && !data.username) {
@@ -62,7 +58,7 @@ export const updateProfileImage = async (file) => {
     }
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('profileImage', file);
 
     try {
         const response = await usersInstance.post('/update-profile-image', formData, {

@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import CoursePage from "./pages/CoursePage";
 import ProfilePage from "./pages/ProfilePage";
 import SchedulePage from "./pages/SchedulePage";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./Context/PrivateRoute";
 
 function App() {
     return (

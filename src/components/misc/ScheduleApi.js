@@ -11,15 +11,23 @@ const schedulesInstance = axios.create({
 schedulesInstance.interceptors.request.use(config => {
     const accessToken = localStorage.getItem("accessToken");
     const tokenType = localStorage.getItem("tokenType") || 'Bearer ';
+    console.log("Request config:", config);
 
     if (accessToken) {
-        config.headers.Authorization = `${tokenType} ${accessToken}`;
+        config.headers.Authorization = `${tokenType}${accessToken}`;
     }
 
     return config;
 }, error => {
     return Promise.reject(error);
 });
+
+export const getAllSchedule = async () => {
+    const response = await instance.get('/');
+    if (response && response.status === 200) {
+        return response.data;
+    }
+}
 
 export const getScheduleById = async (id) => {
     try {
