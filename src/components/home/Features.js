@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./Features.module.css";
-import {getAllSchools} from "../misc/SchoolApi";
 
 const Features = () => {
     const [activeFeature, setActiveFeature] = useState(null);
@@ -20,8 +19,6 @@ const Features = () => {
     const handleClick = (key, sectionName) => {
         setActiveFeature(key);
         setSection(sectionName);
-        let schools = getAllSchools();
-        console.log(schools);
     };
 
     return (

@@ -9,7 +9,7 @@ import { useUser } from '../Context/Context.jsx';
 
 const SchoolPage = () => {
   const userInfo = useUser();
-  const sidebarData = StudentSidebarData({ userId: userInfo?.user_id, schoolId: userInfo?.schoolId, });
+  const sidebarData = StudentSidebarData();
 
   return (
     <>
