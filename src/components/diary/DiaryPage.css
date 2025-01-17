@@ -1,0 +1,61 @@
+.diary-page {
+    font-family: Arial, sans-serif;
+    border-radius: 8px;
+    width: 100%;
+  }
+  
+  .selectors {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.60);
+    padding: 16px 0px;
+    border-radius: 8px;
+  }
+  
+  .week-selector,
+  .subgroup-selector {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+  
+  .schedule {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .day-schedule {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .schedule-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 0px 10px 0px 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .schedule-item:last-child {
+    border-bottom: none;
+  }
+  
+  .time {
+    border-right: 1px solid #ccc;
+    height: 100%;
+  }
+
+  .colunum2{
+    font-weight: bold;
+  }
+  
+  .subject {
+    font-size: 16px;
+  }
+  
+  .location {
+    color: #888;
+  }
+  

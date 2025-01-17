@@ -6,6 +6,7 @@ import CoursePage from "./pages/CoursePage";
 import ProfilePage from "./pages/ProfilePage";
 import SchedulePage from "./pages/SchedulePage";
 import PrivateRoute from "./Context/PrivateRoute";
+import DiaryPage from "./pages/DiaryPage";
 
 function App() {
     return (
@@ -25,6 +26,9 @@ function App() {
 
                 {/* Сторінка розкладу */}
                 <Route path="my-schedule/" element={<PrivateRoute element={<SchedulePage />} />} />
+
+                {/* Сторінка щоденника */}
+                <Route path="my-diary/" element={<PrivateRoute element={<DiaryPage />} />} />               
             </Routes>
         </Router>
     );
