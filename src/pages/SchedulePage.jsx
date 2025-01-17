@@ -5,7 +5,7 @@ import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
 
 const SchedulePage = () => {
     const userInfo = useUser();
-    const sidebarData = StudentSidebarData({ userId: userInfo?.user_id, schoolId: userInfo?.schoolId, });
+    const sidebarData = StudentSidebarData();
     return (
       <>
         <Sidebar menu={sidebarData.menu} />

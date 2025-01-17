@@ -1,9 +1,8 @@
 .profile-page {
-    min-height: 100vh; 
+    gap: 10%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: auto;
-    width: 100%;
 }
 button {
     background-color: #0984e3;
@@ -107,6 +106,7 @@ header h1 {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: auto;
 }
 
 .profile-details h2 {

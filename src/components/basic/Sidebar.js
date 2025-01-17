@@ -32,7 +32,7 @@ const Sidebar = ({ menu }) => {
     );
 };
 
-export const StudentSidebarData = ({ userId, schoolId }) => {
+export const StudentSidebarData = () => {
     return {
         menu: [
             { label: 'Профіль', icon: '👤', link: `/my-profile/` },
