@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Info_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/schedules';
+const Info_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/auth';
 // const BASE_URL = 'http://localhost:8080/schedules';
 
 const infoInstance = axios.create({

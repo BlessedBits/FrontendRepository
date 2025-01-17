@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const USERS_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/users';
+const USERS_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/';
 // const USERS_BASE_URL = 'http://localhost:8080/users';
 
 const usersInstance = axios.create({
@@ -26,7 +26,7 @@ export const updateProfileInfo = async (data) => {
             throw new Error('Either email or username, or both must be provided.');
         }
 
-        const response = await usersInstance.post('/update-info', data);
+        const response = await usersInstance.post('users/update-info', data);
 
         if (response.status === 201) {
             return "User info was updated successfully!";
@@ -51,6 +51,49 @@ export const updateProfileInfo = async (data) => {
     }
 };
 
+export const changePassword = async (oldPassword, newPassword, confirmPassword) => {
+    try {
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            throw new Error('All fields (oldPassword, newPassword, confirmPassword) are required.');
+        }
+
+        if (newPassword !== confirmPassword) {
+            throw new Error('New passwords do not match.');
+        }
+
+        const data = { oldPassword, newPassword, confirmPassword };
+
+        const response = await usersInstance.post('auth/change-password', data);
+
+        if (response.status === 200) {
+            return response.data || "Password changed successfully.";
+        } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+        }
+    } catch (error) {
+        if (error.response) {
+            const { status, data } = error.response;
+
+            switch (status) {
+                case 400:
+                    throw new Error(data?.message || 'Invalid request: Old password is incorrect or new passwords do not match.');
+                case 404:
+                    throw new Error('User not found!');
+                case 401:
+                    throw new Error('Unauthorized: Invalid access token.');
+                case 500:
+                    throw new Error('Internal Server Error.');
+                default:
+                    throw new Error(`Unhandled error: ${status} - ${data?.message || error.message}`);
+            }
+        }
+
+        // Generic fallback for unknown errors
+        throw new Error(error.message || 'An unknown error occurred.');
+    }
+};
+
+
 // Update profile image
 export const updateProfileImage = async (file) => {
     if (!file) {
@@ -61,7 +104,7 @@ export const updateProfileImage = async (file) => {
     formData.append('profileImage', file);
 
     try {
-        const response = await usersInstance.post('/update-profile-image', formData, {
+        const response = await usersInstance.post('users/update-profile-image', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
