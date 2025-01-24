@@ -32,9 +32,9 @@
   
   .schedule-item {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 3fr 1fr;
     align-items: center;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 10px;
     border-bottom: 1px solid #ccc;
   }
   
@@ -47,8 +47,15 @@
     height: 100%;
   }
 
-  .colunum2{
-    font-weight: bold;
+  .colunum2,
+  .colunum3,.colunum4{
+    height: 100%;
+    padding: 0px 20px;
+    border-right: 1px solid #ccc;
+  }
+
+  .colunum4{
+    text-align: center;
   }
   
   .subject {
@@ -58,4 +65,11 @@
   .location {
     color: #888;
   }
+  .add-info-button {
+    background-color: red;
+    border-radius: 7px;  
+    margin: 0 auto;
+    margin-top: 5%;
+  }
+  
   

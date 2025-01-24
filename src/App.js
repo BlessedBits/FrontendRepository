@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate  } from "react-router-dom";
 import SchoolPage from "./pages/SchoolPage";
 import HomePage from "./pages/HomePage";
 import CoursePage from "./pages/CoursePage";
@@ -7,6 +7,7 @@ import ProfilePage from "./pages/ProfilePage";
 import SchedulePage from "./pages/SchedulePage";
 import PrivateRoute from "./Context/PrivateRoute";
 import DiaryPage from "./pages/DiaryPage";
+import LogoutPage from "./pages/LogoutPage";
 
 function App() {
     return (
@@ -28,7 +29,10 @@ function App() {
                 <Route path="my-schedule/" element={<PrivateRoute element={<SchedulePage />} />} />
 
                 {/* Сторінка щоденника */}
-                <Route path="my-diary/" element={<PrivateRoute element={<DiaryPage />} />} />               
+                <Route path="my-diary/" element={<PrivateRoute element={<DiaryPage />} />} />    
+
+                {/* Вихід */}
+                <Route path="logout/" element={<LogoutPage />} />
             </Routes>
         </Router>
     );

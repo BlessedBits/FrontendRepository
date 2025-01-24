@@ -28,7 +28,7 @@ function NewCourseModal({ onClose, onAddCourse }) {
       <div className={style.modalContent}>
         <h3>Додати новий курс</h3>
         <form onSubmit={handleSubmit} className={style.form}>
-          <input
+          <input className={style.input}
             type="text"
             placeholder="Назва курсу"
             value={courseData.name}
