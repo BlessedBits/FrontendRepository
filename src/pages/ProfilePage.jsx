@@ -6,7 +6,7 @@ import "../components/profile/profile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
-import { useUser } from "../Context/Context";
+import { useUser } from "../context/Context";
 
 const ProfilePage = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false); // Відкриття меню налаштувань

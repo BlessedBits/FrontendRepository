@@ -5,7 +5,7 @@ import GallerySchool from "../components/school/Gallery";
 import TeacherSchool from "../components/school/Teacher.js";
 import ContactSchool from "../components/school/Contact";
 import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
-import { useUser } from '../Context/Context.jsx';
+import { useUser } from '../context/Context.jsx';
 
 const SchoolPage = () => {
   const userInfo = useUser();
