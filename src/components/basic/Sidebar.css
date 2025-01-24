@@ -11,9 +11,8 @@
   align-items: center;
   justify-content: flex-start;
   width: 18%; 
-  max-width: 300px; 
-  min-width: 200px; 
-  height: 100vh;
+  min-width: 230px; 
+  max-width: 350px;
   overflow-y: auto;
 }
 

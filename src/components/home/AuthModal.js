@@ -27,7 +27,7 @@ const AuthModal = ({ isOpen, onClose }) => {
       if (activeTab === "login") {
         const result = await login(formData.username, formData.password, rememberMe);
         console.log("Login successful:", result);
-        navigate("/school", { replace: true });
+        navigate("/school/", { replace: true });
       } else {
         const result = await register(formData.username, formData.password, formData.email);
         console.log("Registration successful:", result);
