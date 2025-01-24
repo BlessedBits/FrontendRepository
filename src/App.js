@@ -33,6 +33,7 @@ function App() {
 
                 {/* Вихід */}
                 <Route path="logout/" element={<LogoutPage />} />
+                
             </Routes>
         </Router>
     );

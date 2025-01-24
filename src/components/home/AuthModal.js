@@ -4,9 +4,9 @@ import { login, register } from "../misc/AuthApi";
 import { useNavigate } from "react-router-dom";
 
 const AuthModal = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState("login"); // "login" or "register"
+  const [activeTab, setActiveTab] = useState("login"); 
   const [formData, setFormData] = useState({ username: "", password: "", email: "" });
-  const [rememberMe, setRememberMe] = useState(false); // "Remember Me" state
+  const [rememberMe, setRememberMe] = useState(false); 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -67,62 +67,67 @@ const AuthModal = ({ isOpen, onClose }) => {
         <div className={styles.authForm}>
           {error && <div className={styles.error}>{error}</div>}
           {activeTab === "login" ? (
-            <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Введіть логін"
+              value={formData.username}
+              onChange={handleChange}
+              autoComplete="username"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Введіть пароль"
+              value={formData.password}
+              onChange={handleChange}
+              autoComplete="current-password"
+              required
+            />
+            <div className={styles.rememberMeContainer}>
               <input
-                type="text"
-                name="username"
-                placeholder="Введіть логін"
-                value={formData.username}
-                onChange={handleChange}
-                required
+                type="checkbox"
+                name="rememberMe"
+                checked={rememberMe}
+                onChange={handleRememberMeChange}
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="Введіть пароль"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <div className={styles.rememberMeContainer}>
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={rememberMe}
-                  onChange={handleRememberMeChange}
-                />
-                <label htmlFor="rememberMe">Запам'ятати мене</label>
-              </div>
-              <button type="submit">Увійти</button>
-            </form>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="username"
-                placeholder="Введіть логін"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Введіть email (необов'язково)"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Введіть пароль"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <button type="submit">Зареєструватись</button>
-            </form>
-          )}
+              <label htmlFor="rememberMe">Запам'ятати мене</label>
+            </div>
+            <button type="submit">Увійти</button>
+          </form>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Введіть логін"
+              value={formData.username}
+              onChange={handleChange}
+              autoComplete="username"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Введіть email (необов'язково)"
+              value={formData.email}
+              onChange={handleChange}
+              autoComplete="email"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Введіть пароль"
+              value={formData.password}
+              onChange={handleChange}
+              autoComplete="new-password"
+              required
+            />
+            <button type="submit">Зареєструватись</button>
+          </form>
+        )}
         </div>
       </div>
     </div>
