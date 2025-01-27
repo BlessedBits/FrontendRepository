@@ -9,6 +9,7 @@ import PrivateRoute from "./context/PrivateRoute";
 import DiaryPage from "./pages/DiaryPage";
 import LogoutPage from "./pages/LogoutPage";
 
+
 function App() {
     return (
         <Router>
@@ -17,19 +18,19 @@ function App() {
                 <Route path="/" element={<HomePage />} />
 
                 {/* Сторінка "Школа" */}
-                <Route path="school/" element={<PrivateRoute element={<SchoolPage />} />} />
+                <Route path="school/" element={<SchoolPage />} />
 
                 {/* Сторінка курсів */}
-                <Route path="mycourses/" element={<PrivateRoute element={<CoursePage />} />} />
+                <Route path="mycourses/" element={<CoursePage />} />
 
                 {/* Сторінка профілю */}
-                <Route path="my-profile/" element={<PrivateRoute element={<ProfilePage />} />} />
+                <Route path="my-profile/" element={<ProfilePage />} />
 
                 {/* Сторінка розкладу */}
-                <Route path="my-schedule/" element={<PrivateRoute element={<SchedulePage />} />} />
+                <Route path="my-schedule/" element={<SchedulePage />} />
 
                 {/* Сторінка щоденника */}
-                <Route path="my-diary/" element={<PrivateRoute element={<DiaryPage />} />} />    
+                <Route path="my-diary/" element={<DiaryPage />} />    
 
                 {/* Вихід */}
                 <Route path="logout/" element={<LogoutPage />} />

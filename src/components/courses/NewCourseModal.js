@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import style from "./NewCourseModal.module.css";
-import { createCourse } from "../misc/CourseApi"; 
+import { createCourse } from "../../api/course"; 
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 function NewCourseModal({ onClose, onAddCourse }) {
   const [courseData, setCourseData] = useState({
     name: "",
   });
+  const axiosPrivate = useAxiosPrivate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ function NewCourseModal({ onClose, onAddCourse }) {
     };
 
     try {
-      const response = await createCourse(newCourse.name); 
+      const response = await createCourse(newCourse.name, axiosPrivate); 
       onAddCourse(response); 
       onClose(); 
     } catch (err) {

@@ -3,7 +3,9 @@ import style from "./CourseList.module.css";
 import CourseItem from "./CourseItem";
 import NewCourseModal from "./NewCourseModal";
 import buttonStyles from "./Buttons.module.css";
-import { getUserCourses, createCourse } from "../misc/CourseApi";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { getUserCourses, createCourse } from "../../api/course";
+
 
 function CourseList({ user_id, isTeacher }) {
   const [courseList, setCourseList] = useState([]);
@@ -20,11 +22,12 @@ function CourseList({ user_id, isTeacher }) {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const axiosPrivate = useAxiosPrivate();
   // Fetch user courses
   useEffect(() => {
     async function fetchCourseList() {
       try {
-        const courses = await getUserCourses();
+        const courses = await getUserCourses(axiosPrivate);
         setCourseList(courses);
       } catch (err) {
         console.error(err.message);
@@ -39,7 +42,7 @@ function CourseList({ user_id, isTeacher }) {
 
   const handleAddCourse = async (courseName) => {
     try {
-      const result = await createCourse(courseName);
+      const result = await createCourse(courseName, axiosPrivate);
       console.log(result); // Log success message
       const updatedCourses = await getUserCourses(); // Refresh the course list
       setCourseList(updatedCourses);

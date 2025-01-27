@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import SuccessTick from "./SuccessTick";
-import { updateProfileInfo, updateProfileImage } from "../misc/ProfileApi"; 
-import { changePassword } from "../misc/ProfileApi";
+import { updateProfileInfo, updateProfileImage, changePassword } from "../../api/profile"; 
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+
 
 const Modal = ({ isOpen, onClose }) => {
     const inputRef = useRef(null);
@@ -17,6 +18,7 @@ const Modal = ({ isOpen, onClose }) => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [changePasswordError, setChangePasswordError] = useState("");
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         if (!isOpen) return;
@@ -47,7 +49,7 @@ const Modal = ({ isOpen, onClose }) => {
                 reader.onload = (e) => setSelectedPhoto(e.target.result);
                 reader.readAsDataURL(file);
 
-                await updateProfileImage(file);
+                await updateProfileImage(file, axiosPrivate);
                 setSuccessVisible(true);
                 setTimeout(() => setSuccessVisible(false), 2000);
             } catch (error) {
@@ -66,7 +68,7 @@ const Modal = ({ isOpen, onClose }) => {
         e.preventDefault();
         setErrorMessage(""); 
         try {
-            await updateProfileInfo({ email: gmail });
+            await updateProfileInfo({ email: gmail }, axiosPrivate);
             setSuccessVisible(true);
             setTimeout(() => {
                 setSuccessVisible(false);
@@ -82,7 +84,7 @@ const Modal = ({ isOpen, onClose }) => {
         e.preventDefault();
         setChangePasswordError("");
         try {
-            await changePassword(oldPassword, newPassword, confirmPassword);
+            await changePassword(oldPassword, newPassword, confirmPassword, axiosPrivate);
             setSuccessVisible(true);
             setTimeout(() => {
                 setSuccessVisible(false);
@@ -196,7 +198,7 @@ const Modal = ({ isOpen, onClose }) => {
                                             width: "100%",
                                             maxWidth: "300px",
                                             border: "1px solid #ddd",
-                                            borderRadius: "5px",
+                                            borderRadius: "12px",
                                             marginTop: "10px",
                                         }}
                                     />
