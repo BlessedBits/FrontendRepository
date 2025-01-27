@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styles from "./Features.module.css";
-import {getAllSchools} from "../misc/SchoolApi";
+import {getAllSchools} from "../../api/school";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Features = () => {
     const [activeFeature, setActiveFeature] = useState(null);
     const [section, setSection] = useState(null);
+    const axiosPrivate = useAxiosPrivate();
 
     const descriptions = {
         journal: "Управління класними журналами та оцінками.",
@@ -17,11 +19,15 @@ const Features = () => {
         textbooks: "Доступ до онлайн-підручників.",
     };
 
-    const handleClick = (key, sectionName) => {
+    const handleClick = async (key, sectionName) => {
         setActiveFeature(key);
         setSection(sectionName);
-        let schools = getAllSchools();
-        console.log(schools);
+        try {
+            let schools = await getAllSchools(axiosPrivate);
+            console.log(schools);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
