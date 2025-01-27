@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import styles from "./AuthModal.module.css";
 import { login, register } from "../../api/auth";
 import AuthContext from "../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const AuthModal = ({ isOpen, onClose }) => {
     const [activeTab, setActiveTab] = useState("login"); // "login" or "register"
@@ -9,6 +10,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [rememberMe, setRememberMe] = useState(false); // Додано для "Remember me"
     const [error, setError] = useState(null);
     const { setAuth } = useContext(AuthContext);
+    const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +27,7 @@ const AuthModal = ({ isOpen, onClose }) => {
 
         try {
             if (activeTab === "login") {
-                const result = await login(formData.username, formData.password, rememberMe, setAuth);
+                const result = await login(formData.username, formData.password, rememberMe, setAuth, navigate);
                 console.log("Login successful:", result);
             } else {
                 const result = await register(formData.username, formData.password, formData.email);
