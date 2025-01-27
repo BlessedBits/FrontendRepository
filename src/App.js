@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate  } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route  } from "react-router-dom";
 import SchoolPage from "./pages/SchoolPage";
 import HomePage from "./pages/HomePage";
 import CoursePage from "./pages/CoursePage";
@@ -33,7 +33,7 @@ function App() {
 
                 {/* Вихід */}
                 <Route path="logout/" element={<LogoutPage />} />
-                
+
             </Routes>
         </Router>
     );

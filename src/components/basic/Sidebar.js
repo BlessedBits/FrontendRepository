@@ -40,6 +40,8 @@ export const StudentSidebarData = () => {
             { label: 'Новини', icon: '📰', link: `/school-news/` },
             { label: 'Щоденник', icon: '📒', link: `/my-diary/` },
             { label: 'Розклад', icon: '📅', link: `/my-schedule/` },
+            { label: 'Оцінки {Прикол}', icon: '💯', link: `/marks/` },
+            { label: 'Звіти', icon: '📋', link: `/reports/` },
             { label: 'Повідомлення', icon: '✉️', link: `/messages/` },
             { label: 'Курси', icon: '📚', link: `/mycourses/` },
             { label: 'Вихід', icon: '🚪', link: '/logout' },

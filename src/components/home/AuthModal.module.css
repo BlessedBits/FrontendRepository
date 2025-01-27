@@ -131,6 +131,8 @@
 }
 
 .rememberMeContainer label {
+    transform: translateY(10%);
     font-size: 14px;
     color: #555;
 }
+

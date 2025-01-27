@@ -20,7 +20,7 @@
   }
 
   .modalContent h3 {
-    font-size: 20px;
+    font-size: 26px;
     margin-bottom: 15px;
     color: #333;
   }
@@ -47,7 +47,7 @@
 
   .saveButton, .cancelButton {
     margin-top: 20px;
-    font-size: 16px;
+    font-size: 14px;
     color: white;
     border: none;
     border-radius: 10px;
