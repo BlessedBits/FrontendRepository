@@ -1,6 +1,6 @@
 import React from "react";
 import CourseList from "../components/courses/CourseList";
-import { useUser } from '../Context/Context.jsx';
+import { useUser } from '../context/Context.jsx';
 import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
 
 const CoursePage = () => {
