@@ -6,7 +6,7 @@ export const updateProfileInfo = async (data, axiosPrivateInstance) => {
     }
 
     return executeRequest(
-        () => axiosPrivateInstance.post('/auth/change-info/'),
+        () => axiosPrivateInstance.post('users/update-info', data),
         201,
         "User info was updated successfully!"
     );

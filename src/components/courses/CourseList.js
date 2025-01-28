@@ -44,7 +44,7 @@ function CourseList({ user_id, isTeacher }) {
     try {
       const result = await createCourse(courseName, axiosPrivate);
       console.log(result); // Log success message
-      const updatedCourses = await getUserCourses(); // Refresh the course list
+      const updatedCourses = await getUserCourses();
       setCourseList(updatedCourses);
     } catch (err) {
       console.error("Failed to create course:", err.message);
