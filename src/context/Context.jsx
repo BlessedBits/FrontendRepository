@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+const Info_BASE_URL = 'https://ypgblessedbits.azurewebsites.net/auth';
+// const BASE_URL = 'http://localhost:8080/schedules';
+
+const infoInstance = axios.create({
+    baseURL: Info_BASE_URL,
+    timeout: 5000,
+});
+
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
@@ -12,7 +20,7 @@ export const UserProvider = ({ children }) => {
             if (!token) return;
 
             try {
-                const response = await axios.get('/api/user', {
+                const response = await axios.get('/users', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUserInfo(response.data);

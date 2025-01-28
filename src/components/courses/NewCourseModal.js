@@ -1,57 +1,41 @@
 import React, { useState } from "react";
 import style from "./NewCourseModal.module.css";
+import { createCourse } from "../../api/course"; 
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 function NewCourseModal({ onClose, onAddCourse }) {
   const [courseData, setCourseData] = useState({
     name: "",
-    description: "",
   });
+  const axiosPrivate = useAxiosPrivate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newCourse = {
       name: courseData.name,
-      description: courseData.description,
-      themes: [],
     };
 
     try {
-      const response = await fetch(`/api/courses`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newCourse),
-      });
-
-      if (!response.ok) throw new Error("Не вдалося створити курс");
-
-      const savedCourse = await response.json();
-      onAddCourse(savedCourse); // Додаємо новий курс до списку
-      onClose(); // Закриваємо модальне вікно
+      const response = await createCourse(newCourse.name, axiosPrivate); 
+      onAddCourse(response); 
+      onClose(); 
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message); 
     }
   };
 
   return (
     <div className={style.modal}>
       <div className={style.modalContent}>
-        <h2>Додати новий курс</h2>
+        <h3>Додати новий курс</h3>
         <form onSubmit={handleSubmit} className={style.form}>
-          <input
+          <input className={style.input}
             type="text"
             placeholder="Назва курсу"
             value={courseData.name}
             onChange={(e) =>
               setCourseData((prev) => ({ ...prev, name: e.target.value }))
-            }
-            required
-          />
-          <textarea
-            placeholder="Опис курсу"
-            value={courseData.description}
-            onChange={(e) =>
-              setCourseData((prev) => ({ ...prev, description: e.target.value }))
             }
             required
           />

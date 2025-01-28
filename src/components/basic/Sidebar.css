@@ -11,9 +11,8 @@
   align-items: center;
   justify-content: flex-start;
   width: 18%; 
-  max-width: 300px; 
-  min-width: 200px; 
-  height: 100vh;
+  min-width: 230px; 
+  max-width: 350px;
   overflow-y: auto;
 }
 
@@ -81,6 +80,7 @@
 }
 
 .sidebar ul li a {
+  padding: 5px;
   color: #ffffff;
   text-align: left;
   font-family: "InriaSans-Regular", sans-serif;
@@ -90,6 +90,13 @@
   flex-grow: 1;
   transition: background-color 0.3s ease, color 0.3s ease;
   text-decoration: none;
+  border-radius: 7px;
+}
+
+.sidebar ul li a.active, .sidebar ul li a.active:hover {
+  background-color: #2ecc71; 
+  color: #ffffff;
+  font-weight: bold; 
 }
 
 .sidebar ul li a.active {
