@@ -40,6 +40,8 @@
     font-size: 18px;
     color: #333;
     text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 10px;
 }
 
 .faq .questions ul li a.active {

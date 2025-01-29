@@ -20,6 +20,7 @@
 }
 
 .LogoTitleContainer{
+    user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,18 +28,32 @@
 }
 
 .authModal {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0.80);
     padding: 40px;
     width: 500px;
     text-align: center;
-    border-radius: 15px;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+    animation: fadeIn 0.5s ease-in-out; 
 }
 
+.authModal::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff7e5f, #feb47b, #6f6f6f);
+    border-radius: 20px;
+    z-index: -1;
+}
+
+
 .authModal h2 {
-    font-size: 24px;
-    color: #6f6f6f;
+    font-size: 36px;
+    color: #272626;
     margin: 0;
 }
 
@@ -55,8 +70,15 @@
 }
 
 .closeModalBtn:hover {
-    color: #ff7e5f;
+    color: #ff0202;
+    background: none; 
 }
+
+.closeModalBtn:focus {
+    color: #ff0202;
+    background: none; 
+}
+
 
 .authTabs {
     display: flex;
@@ -101,7 +123,7 @@
     font-size: 16px;
 }
 
-.authForm button {
+.submitButton {
     padding: 12px;
     border: none;
     width: 100%;
@@ -112,9 +134,9 @@
     font-weight: bold;
     cursor: pointer;
     margin-top: 10px;
-}
-
-.authForm button:hover {
+  }
+  
+.submitButton:hover {
     background-color: #555;
 }
 
@@ -136,3 +158,70 @@
     color: #555;
 }
 
+.passwordContainer {
+    position: relative;
+    width: 100%;
+  }
+  
+  .passwordContainer input {
+    width: 100%;
+    padding-right: 40px; 
+  }
+  
+  .showPasswordButton {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #6f6f6f; 
+    padding: 0; 
+    appearance: none; 
+    outline: none; 
+  }
+  
+  .showPasswordButton:hover {
+    background: none; 
+  }
+  
+  .showPasswordButton:focus {
+    outline: none; 
+  }
+
+
+  .bn632-hover {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin:20px 0px;
+    height: 50px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .bn632-hover:hover {
+    background-position: 100% 0;
+  }
+  
+  .bn632-hover:focus {
+    outline: none;
+  }
+  
+  .bn25 {
+    background-image: linear-gradient(
+      to right,
+      #29323c,
+      #485563,
+      #2b5876,
+      #4e4376
+    );
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+  }
