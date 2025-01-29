@@ -14,12 +14,12 @@ const Header = ({ onLoginClick }) => {
             <div className={styles.logo}>SchoolHub
                 <img src="/weblogo.png" alt="logo" className={styles.logoImage} />
             </div>
-            <nav>
+            <nav className={styles.navHome}>
                 <a className={styles.headerLink} onClick={() => handleScroll("about")}>Про сайт</a>
                 <a className={styles.headerLink} onClick={() => handleScroll("features")}>Можливості</a>
                 <a className={styles.headerLink} onClick={() => handleScroll("faq")}>FAQ</a>
             </nav>
-            <button className={styles.loginbtn} onClick={onLoginClick}>
+            <button className={`${styles["bn632-hover"]} ${styles.bn25}`} onClick={onLoginClick}>
                 Увійти
             </button>
         </header>
