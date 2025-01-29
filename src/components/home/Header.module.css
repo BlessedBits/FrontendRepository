@@ -2,6 +2,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    user-select: none;
     padding: 20px 40px;
 }
 
@@ -34,10 +35,10 @@ header {
     position: relative;
     text-decoration: none;
     color: #555;
-    font-size: 25px;
-    font-weight: 15%;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
     padding: 5px 0;
-    transition: color 1.5s ease;
+    transition: color 1.5s ease, opacity 1.5s ease;
 }
 
 .headerLink:hover {
@@ -57,6 +58,10 @@ header {
 
 .headerLink:hover::after {
     width: 100%;
+}
+
+.navHome:hover > :not(:hover){
+    opacity: 0.3;
 }
 
 .bn632-hover {
