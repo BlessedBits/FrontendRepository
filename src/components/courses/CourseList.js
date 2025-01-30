@@ -5,6 +5,7 @@ import NewCourseModal from "./NewCourseModal";
 import buttonStyles from "./Buttons.module.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { getUserCourses, createCourse } from "../../api/course";
+import loadingStyle from "../basic/Loading.module.css"
 
 
 function CourseList({ user_id, isTeacher }) {
@@ -52,7 +53,12 @@ function CourseList({ user_id, isTeacher }) {
     }
   };
 
-  if (loading) return <p>Завантаження даних...</p>;
+  if (loading) return (
+    <div className={loadingStyle.loading}>
+      Loading<span>.</span><span>.</span><span>.</span>
+    </div>
+  )
+
   if (error) return <p>Помилка завантаження: {error}</p>;
 
   return (
