@@ -39,7 +39,7 @@
 .faq .questions ul li {
     margin-bottom: 10px;
 }
-.faq .questions ul li a {
+.faq .questions ul li button{
     display: inline-block;
     margin-left: 3%;
     font-size: 18px;
@@ -47,16 +47,17 @@
     text-decoration: none;
     padding: 8px 15px;
     border-radius: 10px;
+    background-color: transparent;
     border: 2px solid transparent;
     transition: all 0.3s ease;
 }
 
-.faq .questions ul li a:hover {
+.faq .questions ul li button:hover {
     background-color: rgba(0, 150, 255, 0.2); 
     border-color: #0096ff; 
 }
 
-.faq .questions ul li a.active {
+.faq .questions ul li button.active {
     background-color: rgba(0, 255, 0, 0.35);
     border: 2px solid #008000;
     transition: all 0.25s ease;
@@ -169,6 +170,37 @@
 .contactForm button:hover {
     background-color: #555;
 }
+
+.notification {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: #4caf50;
+    color: white;
+    padding: 20px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.success {
+    background-color: #4caf50;
+}
+
+.error {
+    background-color: #f44336;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
 
 @media (min-width: 768px) {
     .faq {
