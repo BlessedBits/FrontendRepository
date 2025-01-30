@@ -1,19 +1,39 @@
 /* Вступна частина */
 .about {
-    width: 50%;
     margin: 0 auto;
-    text-align: left;
-}
-
-h1 {
-    font-size: 63px;
-    margin-bottom: 20px;
+    padding: 2% 25%;
+    background-color: rgba(255, 255, 255, 0.5);
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  h1 {
+    font-size: 48px;
     font-weight: bold;
-}
-
-p {
+    color: #222;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  p {
     font-size: 24px;
-    text-indent: 25px;
-    margin-bottom: 20px;
-    text-align: justify;
-}
+    color: #333;
+    line-height: 1.6;
+    text-align: left;
+  }
+  
+  p strong {
+    color: #000;
+    font-weight: bold;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

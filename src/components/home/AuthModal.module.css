@@ -27,6 +27,7 @@
     margin-bottom: 20px;
 }
 
+
 .authModal {
     background-color: rgba(255, 255, 255, 0.80);
     padding: 40px;
@@ -50,11 +51,16 @@
     z-index: -1;
 }
 
-
-.authModal h2 {
+.schoolText {
     font-size: 36px;
-    color: #272626;
-    margin: 0;
+    font-weight: bold;
+    color: black; 
+  }
+  
+.hubText {
+    font-size: 36px;
+    font-weight: bold;
+    color: rgb(255, 149, 0); 
 }
 
 .closeModalBtn {

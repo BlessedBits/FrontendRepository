@@ -1,7 +1,7 @@
 footer{
-    margin-top: 30px;
     padding: 20px;
     background: gray;
+    user-select: none;
 }
 
 footer p{
