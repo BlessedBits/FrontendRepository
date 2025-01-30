@@ -4,6 +4,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ChangePasswordForm from "./ChangePasswordForm";
 import GmailForm from "./GmailForm";
 import PhotoUpload from "./PhotoUpload";
+import styles from "./ProfileModal.module.css"; 
 
 const Modal = ({ isOpen, onClose }) => {
     const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
@@ -36,9 +37,9 @@ const Modal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <span className="close-btn" onClick={onClose}>&times;</span>
+        <div className={styles.modal} onClick={onClose}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                <span className={styles.closeBtn} onClick={onClose}>&times;</span>
 
                 {isChangePasswordOpen ? (
                     <ChangePasswordForm 
@@ -55,15 +56,15 @@ const Modal = ({ isOpen, onClose }) => {
                 ) : (
                     <>
                         <h1>Налаштування</h1>
-                        <div className="form-buttons">
-                            <button onClick={() => setChangePasswordOpen(true)} className="action-button">
+                        <div className={styles.formButtons}>
+                            <button onClick={() => setChangePasswordOpen(true)} className={styles.actionButton}>
                                 Змінити пароль
                             </button>
-                            <button onClick={() => setGmailModalOpen(true)} className="action-button">
+                            <button onClick={() => setGmailModalOpen(true)} className={styles.actionButton}>
                                 Прив'язати Gmail
                             </button>
                             <PhotoUpload axiosPrivate={axiosPrivate} onSuccess={showSuccessMessage} />
-                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                            {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
                         </div>
                     </>
                 )}

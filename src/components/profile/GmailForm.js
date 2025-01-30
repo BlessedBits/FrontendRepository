@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { updateProfileInfo } from "../../api/profile";
+import styles from "./GmailForm.module.css"; 
 
 const GmailForm = ({ axiosPrivate, onSuccess, onClose }) => {
     const [gmail, setGmail] = useState("");
@@ -21,13 +22,20 @@ const GmailForm = ({ axiosPrivate, onSuccess, onClose }) => {
         <>
             <h1>Прив'язати Gmail</h1>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
+                <div className={styles.formGroup}>
                     <label>Ваш Gmail</label>
-                    <input type="email" value={gmail} onChange={(e) => setGmail(e.target.value)} required />
+                    <input
+                        type="email"
+                        value={gmail}
+                        onChange={(e) => setGmail(e.target.value)}
+                        required
+                    />
                 </div>
-                <button type="submit" className="submit-button">Відправити</button>
+                <button type="submit" className={styles.submitButton}>
+                    Відправити
+                </button>
             </form>
-            {error && <p className="error-message">{error}</p>}
+            {error && <p className={styles.errorMessage}>{error}</p>}
         </>
     );
 };

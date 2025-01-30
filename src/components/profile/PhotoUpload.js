@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { updateProfileImage } from "../../api/profile";
+import styles from "./PhotoUpload.module.css"; 
 
 const PhotoUpload = ({ axiosPrivate, onSuccess }) => {
     const inputRef = useRef(null);
@@ -25,12 +26,20 @@ const PhotoUpload = ({ axiosPrivate, onSuccess }) => {
 
     return (
         <>
-            <button onClick={() => inputRef.current?.click()} className="action-button">
+            <button onClick={() => inputRef.current?.click()} className={styles.actionButton}>
                 Завантажити фото
             </button>
-            <input ref={inputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handlePhotoUpload} />
-            {selectedPhoto && <img src={selectedPhoto} alt="Попередній перегляд" className="photo-preview" />}
-            {error && <p className="error-message">{error}</p>}
+            <input
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handlePhotoUpload}
+            />
+            {selectedPhoto && (
+                <img src={selectedPhoto} alt="Попередній перегляд" className={styles.photoPreview} />
+            )}
+            {error && <p className={styles.errorMessage}>{error}</p>}
         </>
     );
 };

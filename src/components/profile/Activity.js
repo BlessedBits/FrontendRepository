@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "./ProfileModal";
+import styles from "./Activity.module.css"; 
 
 const ActivityProfile = ({ userId }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -13,38 +14,38 @@ const ActivityProfile = ({ userId }) => {
     };
 
     return (
-        <div className="profile-container">
-            <div className="profile-sidebar">
+        <div className={styles.profileContainer}>
+            <div className={styles.profileSidebar}>
                 <img src={"/ava.png"} alt="Аватар користувача" />
-                <p className="profile-name">
+                <p className={styles.profileName}>
                     <strong>Ім'я Користувача</strong>
                 </p>
-                <button className="edit-button" onClick={handleEditClick}>
+                <button className={styles.editButton} onClick={handleEditClick}>
                     Редагувати
                 </button>
-            </div>           
-            {isEditing &&
+            </div>
+            {isEditing && (
                 <SettingsProfile
                     userId={userId}
                     onClose={handleClose}
                     onChangePassword={() => alert("Зміна паролю")}
                 />
-            }
+            )}
         </div>
     );
 };
 
-const SettingsProfile = ({ userId, onClose, onChangePassword }) => {
+const SettingsProfile = ({onClose, onChangePassword }) => {
     return (
         <Modal isOpen={true} onClose={onClose} title="Налаштування профілю">
-            <div className="settings-menu">
-                <button className="action-button" onClick={onChangePassword}>
+            <div className={styles.settingsMenu}>
+                <button className={styles.actionButton} onClick={onChangePassword}>
                     Змінити пароль
                 </button>
-                <button className="action-button" onClick={() => alert("Змінити Gmail")}>
+                <button className={styles.actionButton} onClick={() => alert("Змінити Gmail")}>
                     Змінити Gmail
                 </button>
-                <button className="close-button" onClick={onClose}>
+                <button className={styles.closeButton} onClick={onClose}>
                     Закрити
                 </button>
             </div>

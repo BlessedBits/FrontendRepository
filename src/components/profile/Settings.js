@@ -1,14 +1,15 @@
 import React from "react";
 import Modal from "./ProfileModal";
+import styles from "./Settings.module.css"; 
 
 const SettingsProfile = ({ isOpen, onClose, onChangePassword }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Налаштування профілю">
-            <div className="settings-menu">
-                <button className="action-button" onClick={onChangePassword}>
+            <div className={styles.settingsMenu}>
+                <button className={styles.actionButton} onClick={onChangePassword}>
                     Змінити пароль
                 </button>
-                <button className="action-button" onClick={() => alert("Змінити Gmail")}>
+                <button className={styles.actionButton} onClick={() => alert("Змінити Gmail")}>
                     Змінити Gmail
                 </button>
             </div>

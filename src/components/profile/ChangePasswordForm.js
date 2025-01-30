@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { changePassword } from "../../api/profile";
+import styles from "./ChangePasswordForm.module.css"; // Імпорт модульних стилів
 
 const ChangePasswordForm = ({ axiosPrivate, onSuccess, onClose }) => {
     const [oldPassword, setOldPassword] = useState("");
@@ -23,21 +24,38 @@ const ChangePasswordForm = ({ axiosPrivate, onSuccess, onClose }) => {
         <>
             <h1>Змінити пароль</h1>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
+                <div className={styles.formGroup}>
                     <label>Старий пароль</label>
-                    <input type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} required />
+                    <input
+                        type="password"
+                        value={oldPassword}
+                        onChange={(e) => setOldPassword(e.target.value)}
+                        required
+                    />
                 </div>
-                <div className="form-group">
+                <div className={styles.formGroup}>
                     <label>Новий пароль</label>
-                    <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+                    <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                    />
                 </div>
-                <div className="form-group">
+                <div className={styles.formGroup}>
                     <label>Підтвердьте новий пароль</label>
-                    <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                    />
                 </div>
-                <button type="submit" className="submit-button">Відправити</button>
+                <button type="submit" className={styles.submitButton}>
+                    Відправити
+                </button>
             </form>
-            {error && <p className="error-message">{error}</p>}
+            {error && <p className={styles.errorMessage}>{error}</p>}
         </>
     );
 };
