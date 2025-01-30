@@ -6,6 +6,7 @@
     margin: 0 auto;
     text-align: left;
     background-color: rgb(255, 255, 255, 0.5);
+    animation: fadeIn 1s ease-in-out;
 }
 
 .faq .questionsAndAnswers {
@@ -53,7 +54,6 @@
 .faq .questions ul li a:hover {
     background-color: rgba(0, 150, 255, 0.2); 
     border-color: #0096ff; 
-    transform: scale(1.05); 
 }
 
 .faq .questions ul li a.active {
@@ -91,7 +91,7 @@
     text-align: center;
     border: none;
     background-size: 300% 100%;
-    border-radius: 25px;
+    border-radius: 20px;
     transition: all 0.4s ease-in-out;
   }
   
@@ -180,3 +180,15 @@
         flex-direction: row;
     }
 }
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

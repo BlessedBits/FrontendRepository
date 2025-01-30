@@ -5,6 +5,7 @@
     background-color: rgba(255, 255, 255, 0.75);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
 }
 
 .features h2 {
@@ -28,7 +29,7 @@
 
 .headerLink {
     background: transparent;
-    border: 2px solid #333;
+    border: 2px solid transparent;
     border-radius: 10px;
     padding: 8px 15px;
     font-size: 18px;
@@ -38,7 +39,8 @@
 }
 
 .headerLink:hover {
-    background: rgba(0, 255, 0, 0.1);
+    background-color: rgba(0, 150, 255, 0.2); 
+    border-color: #0096ff; 
 }
 
 .headerLink.active {
@@ -67,3 +69,15 @@
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
