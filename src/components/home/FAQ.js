@@ -37,7 +37,7 @@ const FAQ = () => {
         const formData = new FormData(event.target);
 
         try {
-            const response = await fetch("https://formspree.io/f/xbldylpr", {
+            const response = await fetch(/*"https://formspree.io/f/xbldylpr"*/"https://formspree.io/f/test", {
                 method: "POST",
                 body: formData,
                 headers: { "Accept": "application/json" }
@@ -62,15 +62,15 @@ const FAQ = () => {
             text: "Щоб створити клас, перейдіть у розділ 'Адміністрування' та виберіть 'Створити новий клас'."
         },
         addUsers: {
-            img: "https://via.placeholder.com/150",
+            img: "https://media.myshows.me/shows/760/7/ef/7ef9ef4211b0dc87e84fe981a8db4393.jpg",
             text: "Додати вчителів або учнів можна у розділі 'Користувачі' в меню адміністратора."
         },
         useDiary: {
-            img: "https://via.placeholder.com/150",
+            img: "https://nyaa.shikimori.one/uploads/poster/animes/37450/main_2x-d4a19151df875f14bce53b4f144ab3fb.webp",
             text: "Для користування щоденником натисніть на вкладку 'Щоденник' у головному меню."
         },
         default: {
-            img: "https://via.placeholder.com/150",
+            img: "https://pm1.aminoapps.com/6755/3f4d7de298360918964fca61b6048510d288ec77v2_hq.jpg",
             text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper felis sed elit condimentum, quis suscipit mauris convallis."
         }
     };
