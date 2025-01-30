@@ -2,8 +2,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 2% 25%;
     margin: 0 auto;
-    width: 50%;
+    text-align: left;
+    background-color: rgb(255, 255, 255, 0.5);
+    animation: fadeIn 1s ease-in-out;
 }
 
 .faq .questionsAndAnswers {
@@ -22,6 +25,8 @@
 }
 
 .faq .questions h2 {
+    font-weight: bold;
+    color: #222;
     font-size: 28px;
     margin-bottom: 15px;
 }
@@ -34,20 +39,29 @@
 .faq .questions ul li {
     margin-bottom: 10px;
 }
-
 .faq .questions ul li a {
+    display: inline-block;
     margin-left: 3%;
     font-size: 18px;
-    color: #333;
+    color: #223;
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 8px 15px;
     border-radius: 10px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.faq .questions ul li a:hover {
+    background-color: rgba(0, 150, 255, 0.2); 
+    border-color: #0096ff; 
 }
 
 .faq .questions ul li a.active {
-    background-color: rgba(255, 255, 255, 0.35);
-    transition: background-color 0.25s ease;
+    background-color: rgba(0, 255, 0, 0.35);
+    border: 2px solid #008000;
+    transition: all 0.25s ease;
 }
+
 
 .faq .answers {
     flex: 1;
@@ -66,22 +80,39 @@
     font-size: 18px;
 }
 
-.askQuestionBtn {
-    display: inline-block;
-    padding: 10px 30px;
-    margin-top: 20px;
-    background-color: #6f6f6f;
+.askQuestionBtn-hover {
+    width: 180px;
+    font-size: 16px;
+    font-weight: 600;
     color: #fff;
-    text-decoration: none;
+    cursor: pointer;
+    margin-top: 20px;
+    height: 50px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
     border-radius: 20px;
-    font-weight: bold;
-    transition: transform 1s ease, background-color 1s ease;
-}
-
-.askQuestionBtn:hover {
-    transform: scale(1.05);
-    background-color: black;
-}
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .askQuestionBtn-hover:hover {
+    background-position: 100% 0;
+  }
+  
+  .askQuestionBtn-hover:focus {
+    outline: none;
+  }
+  
+  .askQuestionBtn25 {
+    background-image: linear-gradient(
+      to right,
+      #29323c,
+      #485563,
+      #2b5876,
+      #4e4376
+    );
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+  }
 
 .contactForm {
     width: 90%;
@@ -149,3 +180,15 @@
         flex-direction: row;
     }
 }
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

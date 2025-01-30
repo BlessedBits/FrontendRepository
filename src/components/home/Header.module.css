@@ -9,17 +9,24 @@ header {
 .logo {
     font-size: 40px;
     font-weight: bold;
-    color: #000;
     display: flex;
     align-items: center;
-    gap: 10px; 
-}
-
-.logoImage {
+  }
+  
+  .schoolText {
+    color: black; 
+  }
+  
+  .hubText {
+    color: rgb(255, 149, 0); 
+  }
+  
+  .logoImage {
+    margin-left: 10px; 
     position: relative;
-    width: 70px;
-    height: 45px;   
-}
+    width: 60px;
+    height: 45px;
+  }
 
 .navHome {
     display: flex;
@@ -27,7 +34,7 @@ header {
     flex-grow: 1; 
     gap: 15vh;
     justify-content: left; 
-    margin: 0 50px;
+    margin: 0 62px;
 }
 
 .headerLink {

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const AuthModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Стан для відображення пароля
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -22,19 +22,19 @@ const AuthModal = ({ isOpen, onClose }) => {
   };
 
   const toggleShowPassword = () => {
-    setShowPassword((prev) => !prev); // Перемикаємо видимість пароля
+    setShowPassword((prev) => !prev); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Скидання помилок
+    setError(null);
 
     try {
       const result = await login(formData.username, formData.password, rememberMe, setAuth, navigate);
       console.log("Login successful:", result);
-      onClose(); // Закриття модального вікна при успішному вході
+      onClose();
     } catch (err) {
-      setError(err.message); // Відображення помилки користувачу
+      setError(err.message); 
     }
   };
 
@@ -48,7 +48,8 @@ const AuthModal = ({ isOpen, onClose }) => {
         </button>
         <div className={styles.LogoTitleContainer}>
           {/* <img src={`${process.env.PUBLIC_URL}/weblogo.png`} alt="SchoolHub Logo" className={styles.weblogo} /> */}
-          <h2>SchoolHub</h2>
+          <span className={styles.schoolText}>School</span>
+          <span className={styles.hubText}>Hub</span>
         </div>
         <div className={styles.authForm}>
           {error && <div className={styles.error}>{error}</div>}
@@ -73,6 +74,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                 required
               />
               <button
+                type="button"
                 className={styles.showPasswordButton}
                 onClick={toggleShowPassword}
               >

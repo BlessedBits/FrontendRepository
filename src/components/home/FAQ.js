@@ -90,12 +90,9 @@ const FAQ = () => {
                             </a>
                         </li>
                     </ul>
-                    <a
-                        href="javascript:void(0);"
-                        className={styles.askQuestionBtn}
-                        onClick={toggleForm}>
+                    <button className={`${styles["askQuestionBtn-hover"]} ${styles.askQuestionBtn25}`} onClick={toggleForm}>
                         Задати своє питання
-                    </a>
+                    </button>
                 </div>
                 <div className={styles.answers}>
                     <img src={selectedContent.img} alt="Character image" />

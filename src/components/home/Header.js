@@ -11,7 +11,9 @@ const Header = ({ onLoginClick }) => {
 
     return (
         <header>
-            <div className={styles.logo}>SchoolHub
+            <div className={styles.logo}>
+                <span className={styles.schoolText}>School</span>
+                <span className={styles.hubText}>Hub</span>
                 <img src="/weblogo.png" alt="logo" className={styles.logoImage} />
             </div>
             <nav className={styles.navHome}>
