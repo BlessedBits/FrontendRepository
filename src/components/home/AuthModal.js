@@ -3,6 +3,7 @@ import styles from "./AuthModal.module.css";
 import { login } from "../../api/auth";
 import AuthContext from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import Notification from "../basic/Notification";
 
 const AuthModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -30,11 +31,11 @@ const AuthModal = ({ isOpen, onClose }) => {
     setError(null);
 
     try {
-      const result = await login(formData.username, formData.password, rememberMe, setAuth, navigate);
-      console.log("Login successful:", result);
-      onClose();
+      await login(formData.username, formData.password, rememberMe, setAuth, navigate);
+      onClose(); 
     } catch (err) {
       setError(err.message); 
+      setTimeout(() => setError(null), 3000);
     }
   };
 
@@ -47,12 +48,13 @@ const AuthModal = ({ isOpen, onClose }) => {
           &times;
         </button>
         <div className={styles.LogoTitleContainer}>
-          {/* <img src={`${process.env.PUBLIC_URL}/weblogo.png`} alt="SchoolHub Logo" className={styles.weblogo} /> */}
           <span className={styles.schoolText}>School</span>
           <span className={styles.hubText}>Hub</span>
         </div>
         <div className={styles.authForm}>
-          {error && <div className={styles.error}>{error}</div>}
+          {/* Використовуємо компонент Notification для відображення помилок */}
+          <Notification message={error} type="error" />
+
           <form onSubmit={handleSubmit}>
             <input
               type="text"
