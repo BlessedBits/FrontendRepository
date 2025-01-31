@@ -3,7 +3,7 @@ import styles from "./Info.module.css";
 
 const InfoProfile = () => {
     return (
-        <div className={styles.profileDetails}>
+        <section className={styles.profileDetails}>
             <h2>Інформація</h2>
             <hr />
             <div className={styles.profileRow}>
@@ -27,14 +27,8 @@ const InfoProfile = () => {
                     </p>
                     <p className={styles.value}>Назва школи</p>
                 </div>
-                <div className={styles.profileItem}>
-                    <p className={styles.label}>
-                        <strong>Останній вхід:</strong>
-                    </p>
-                    <p className={styles.value}>2024-12-01</p>
-                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

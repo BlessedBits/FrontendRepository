@@ -2,7 +2,6 @@ import React from "react";
 import InfoProfile from "../components/profile/Info";
 import ActivityProfile from "../components/profile/Activity";
 import Sidebar, { StudentSidebarData } from "../components/basic/Sidebar";
-import "../components/profile/profile.css";
 import { useUser } from "../context/Context";
 
 const ProfilePage = () => {

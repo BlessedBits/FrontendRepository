@@ -14,7 +14,7 @@ const ActivityProfile = ({ userId }) => {
     };
 
     return (
-        <div className={styles.profileContainer}>
+        <section className={styles.profileContainer}>
             <div className={styles.profileSidebar}>
                 <img src={"/ava.png"} alt="Аватар користувача" />
                 <p className={styles.profileName}>
@@ -31,7 +31,7 @@ const ActivityProfile = ({ userId }) => {
                     onChangePassword={() => alert("Зміна паролю")}
                 />
             )}
-        </div>
+        </section>
     );
 };
 

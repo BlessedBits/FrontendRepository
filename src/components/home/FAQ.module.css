@@ -72,6 +72,7 @@
 }
 
 .faq .answers img {
+    user-select: none;
     max-width: 350px;
     max-height: 350px;
     border-radius: 10px;
@@ -106,6 +107,7 @@
   }
   
   .askQuestionBtn25 {
+    user-select: none;
     background-image: linear-gradient(
       to right,
       #29323c,
