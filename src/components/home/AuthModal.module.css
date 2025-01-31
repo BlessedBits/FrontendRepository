@@ -29,9 +29,11 @@
 
 
 .authModal {
-    background-color: rgba(255, 255, 255, 0.80);
+    background-color: rgba(255, 250, 236, 0.8);
     padding: 40px;
-    width: 500px;
+    margin: auto;
+    width: 100vh;
+    max-width: 450px;
     text-align: center;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -39,28 +41,19 @@
     animation: fadeIn 0.5s ease-in-out; 
 }
 
-.authModal::before {
-    content: "";
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #ff7e5f, #feb47b, #6f6f6f);
-    border-radius: 20px;
-    z-index: -1;
-}
 
 .schoolText {
     font-size: 36px;
     font-weight: bold;
     color: black; 
+    text-shadow:0 3px 6px rgb(0, 0, 0, 0.75);
   }
   
 .hubText {
     font-size: 36px;
     font-weight: bold;
     color: rgb(255, 149, 0); 
+    text-shadow:0 3px 6px rgb(255, 149, 0, 0.75);
 }
 
 .closeModalBtn {

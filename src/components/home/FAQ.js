@@ -3,39 +3,57 @@ import styles from "./FAQ.module.css";
 
 const FAQ = () => {
     const [selectedQuestion, setSelectedQuestion] = useState(null);
-
     const [showForm, setShowForm] = useState(false);
-
     const [fileError, setFileError] = useState("");
+    const [message, setMessage] = useState(null); 
 
     const toggleForm = () => setShowForm(!showForm);
 
-    const handleFileChange = (event) => {
-        const files = event.target.files;
-        let error = "";
+    // const handleFileChange = (event) => {
+    //     const files = event.target.files;
+    //     let error = "";
 
-        if (files.length > 2) {
-            error = "Ви можете завантажити не більше 2 файлів.";
-        }
+    //     if (files.length > 2) {
+    //         error = "Ви можете завантажити не більше 2 файлів.";
+    //     }
 
-        for (let i = 0; i < files.length; i++) {
-            if (!files[i].type.startsWith("image/")) {
-                error = "Будь ласка, завантажте тільки зображення.";
-                break;
+    //     for (let i = 0; i < files.length; i++) {
+    //         if (!files[i].type.startsWith("image/")) {
+    //             error = "Будь ласка, завантажте тільки зображення.";
+    //             break;
+    //         }
+    //         if (files[i].size > 2 * 1024 * 1024) { 
+    //             error = "Максимальний розмір файлу - 2 МБ.";
+    //             break;
+    //         }
+    //     }
+
+    //     setFileError(error); 
+    //     if (!error) console.log("Файли прийняті");
+    // };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+
+        try {
+            const response = await fetch(/*"https://formspree.io/f/xbldylpr"*/"https://formspree.io/f/test", {
+                method: "POST",
+                body: formData,
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok) {
+                setMessage({ type: "success", text: "Ваше повідомлення успішно надіслано!" });
+                event.target.reset();
+            } else {
+                setMessage({ type: "error", text: "Помилка! Спробуйте пізніше." });
             }
+        } catch (error) {
+            setMessage({ type: "error", text: "Щось пішло не так, спробуйте ще раз." });
         }
 
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].size > 2 * 1024 * 1024) { 
-                error = "Максимальний розмір файлу - 2 МБ.";
-                break;
-            }
-        }
-
-        setFileError(error); 
-        if (error === "") {
-            console.log("Файли прийняті");
-        }
+        setTimeout(() => setMessage(null), 5000);
     };
 
     const content = {
@@ -44,15 +62,15 @@ const FAQ = () => {
             text: "Щоб створити клас, перейдіть у розділ 'Адміністрування' та виберіть 'Створити новий клас'."
         },
         addUsers: {
-            img: "https://via.placeholder.com/150",
+            img: "https://media.myshows.me/shows/760/7/ef/7ef9ef4211b0dc87e84fe981a8db4393.jpg",
             text: "Додати вчителів або учнів можна у розділі 'Користувачі' в меню адміністратора."
         },
         useDiary: {
-            img: "https://via.placeholder.com/150",
+            img: "https://nyaa.shikimori.one/uploads/poster/animes/37450/main_2x-d4a19151df875f14bce53b4f144ab3fb.webp",
             text: "Для користування щоденником натисніть на вкладку 'Щоденник' у головному меню."
         },
         default: {
-            img: "https://via.placeholder.com/150",
+            img: "https://pm1.aminoapps.com/6755/3f4d7de298360918964fca61b6048510d288ec77v2_hq.jpg",
             text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper felis sed elit condimentum, quis suscipit mauris convallis."
         }
     };
@@ -61,33 +79,37 @@ const FAQ = () => {
 
     return (
         <section id="faq" className={styles.faq}>
+            {/* ✅ Повідомлення */}
+            {message && (
+                <div className={`${styles.notification} ${message.type === "success" ? styles.success : styles.error}`}>
+                    {message.text}
+                </div>
+            )}
+
             <div className={styles.questionsAndAnswers}>
                 <div className={styles.questions}>
                     <h2>Відповіді на деякі питання:</h2>
                     <ul>
                         <li>
-                            <a 
-                                href="javascript:void(0);"
+                            <button 
                                 className={selectedQuestion === "createClass" ? styles.active : ""}
                                 onClick={() => setSelectedQuestion("createClass")}>
                                 Як створити клас?
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a 
-                                href="javascript:void(0);"
+                            <button 
                                 className={selectedQuestion === "addUsers" ? styles.active : ""}
                                 onClick={() => setSelectedQuestion("addUsers")}>
                                 Як додати вчителів/учнів у школу?
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a 
-                                href="javascript:void(0);"
+                            <button 
                                 className={selectedQuestion === "useDiary" ? styles.active : ""}
                                 onClick={() => setSelectedQuestion("useDiary")}>
                                 Як користуватися щоденником?
-                            </a>
+                            </button>
                         </li>
                     </ul>
                     <button className={`${styles["askQuestionBtn-hover"]} ${styles.askQuestionBtn25}`} onClick={toggleForm}>
@@ -99,54 +121,28 @@ const FAQ = () => {
                     <p>{selectedContent.text}</p>
                 </div>
             </div>
+
             {showForm && (
                 <div className={`${styles.contactForm} ${showForm ? styles.show : ''}`}>
-                    <form
-                        action="https://formspree.io/f/yourFormId"
-                        method="POST"
-                    >
+                    <form onSubmit={handleSubmit}>
                         <label htmlFor="email">Ваш Email:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Введіть ваш email"
-                            required
-                        />
+                        <input type="email" id="email" name="email" required />
 
                         <label htmlFor="subject">Тема:</label>
-                        <input
-                            type="text"
-                            id="subject"
-                            name="subject"
-                            placeholder="Введіть тему питання"
-                            required
-                        />
+                        <input type="text" id="subject" name="subject" required />
 
                         <label htmlFor="message">Повідомлення:</label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            placeholder="Введіть ваше повідомлення"
-                            required
-                        ></textarea>
+                        <textarea id="message" name="message" required></textarea>
 
-                        <label htmlFor="attachment">Вкладення:</label>
-                        <input
-                            type="file"
-                            id="attachment"
-                            name="attachment"
-                            accept="image/*"
-                            multiple
-                            onChange={handleFileChange}
-                        />
+                        {/* <label htmlFor="attachment">Вкладення:</label>
+                        <input type="file" id="attachment" name="attachment" accept="image/*" multiple onChange={handleFileChange} />
 
-                        {fileError && <p style={{ color: "red" }}>{fileError}</p>} {/* Виведення помилки */}
+                        {fileError && <p className={styles.fileError}>{fileError}</p>} */}
 
-                        <button type="submit" disabled={fileError !== ""}>Відправити</button> {/* Заборона відправки, якщо є помилка */}
+                        <button type="submit" disabled={fileError !== ""}>Відправити</button>
                     </form>
                 </div>
-            )}      
+            )}
         </section>
     );
 };

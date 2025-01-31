@@ -15,10 +15,12 @@ header {
   
   .schoolText {
     color: black; 
+    text-shadow:0 3px 6px rgb(0, 0, 0, 0.75);
   }
   
   .hubText {
     color: rgb(255, 149, 0); 
+    text-shadow:0 3px 6px rgb(255, 149, 0, 0.75);
   }
   
   .logoImage {
