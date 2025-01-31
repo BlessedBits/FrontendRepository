@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import SuccessTick from "./SuccessTick";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ChangePasswordForm from "./ChangePasswordForm";
 import GmailForm from "./GmailForm";
@@ -9,7 +8,6 @@ import styles from "./ProfileModal.module.css";
 const Modal = ({ isOpen, onClose }) => {
     const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
     const [isGmailModalOpen, setGmailModalOpen] = useState(false);
-    const [isSuccessVisible, setSuccessVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const axiosPrivate = useAxiosPrivate();
@@ -29,28 +27,21 @@ const Modal = ({ isOpen, onClose }) => {
         return () => document.removeEventListener("keydown", handleKeyDown);
     }, [isOpen, onClose]);
 
-    const showSuccessMessage = useCallback(() => {
-        setSuccessVisible(true);
-        setTimeout(() => setSuccessVisible(false), 2000);
-    }, []);
-
     if (!isOpen) return null;
 
     return (
-        <div className={styles.modal} onClick={onClose}>
+        <dialog className={styles.modal} onClick={onClose}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <span className={styles.closeBtn} onClick={onClose}>&times;</span>
 
                 {isChangePasswordOpen ? (
                     <ChangePasswordForm 
                         axiosPrivate={axiosPrivate}
-                        onSuccess={showSuccessMessage}
                         onClose={() => setChangePasswordOpen(false)}
                     />
                 ) : isGmailModalOpen ? (
                     <GmailForm
                         axiosPrivate={axiosPrivate}
-                        onSuccess={showSuccessMessage}
                         onClose={() => setGmailModalOpen(false)}
                     />
                 ) : (
@@ -63,14 +54,13 @@ const Modal = ({ isOpen, onClose }) => {
                             <button onClick={() => setGmailModalOpen(true)} className={styles.actionButton}>
                                 Прив'язати Gmail
                             </button>
-                            <PhotoUpload axiosPrivate={axiosPrivate} onSuccess={showSuccessMessage} />
+                            <PhotoUpload axiosPrivate={axiosPrivate}/>
                             {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
                         </div>
                     </>
                 )}
             </div>
-            <SuccessTick isVisible={isSuccessVisible} />
-        </div>
+        </dialog>
     );
 };
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { updateProfileInfo } from "../../api/profile";
 import styles from "./GmailForm.module.css"; 
 
-const GmailForm = ({ axiosPrivate, onSuccess, onClose }) => {
+const GmailForm = ({ axiosPrivate, onClose }) => {
     const [gmail, setGmail] = useState("");
     const [error, setError] = useState("");
 
@@ -11,7 +11,6 @@ const GmailForm = ({ axiosPrivate, onSuccess, onClose }) => {
         setError("");
         try {
             await updateProfileInfo({ email: gmail }, axiosPrivate);
-            onSuccess();
             onClose();
         } catch (error) {
             setError(error.message);

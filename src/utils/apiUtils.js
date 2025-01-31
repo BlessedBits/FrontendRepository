@@ -3,6 +3,7 @@ export const handleError = (error) => {
     if (error.response) {
         const { status, data } = error.response;
         const errorMessages = {
+            400: 'Incorrect data',
             401: 'Unauthorized: Invalid access token.',
             403: 'Forbidden: You are not allowed to perform this action.',
             500: 'Internal Server Error: Something went wrong on the server.',

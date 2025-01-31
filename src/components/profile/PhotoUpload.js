@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { updateProfileImage } from "../../api/profile";
 import styles from "./PhotoUpload.module.css"; 
 
-const PhotoUpload = ({ axiosPrivate, onSuccess }) => {
+const PhotoUpload = ({ axiosPrivate }) => {
     const inputRef = useRef(null);
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [error, setError] = useState("");
@@ -17,7 +17,6 @@ const PhotoUpload = ({ axiosPrivate, onSuccess }) => {
                 reader.readAsDataURL(file);
 
                 await updateProfileImage(file, axiosPrivate);
-                onSuccess();
             } catch (error) {
                 setError(error.message || "Помилка завантаження фото.");
             }

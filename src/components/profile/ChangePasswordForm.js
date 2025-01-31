@@ -1,27 +1,49 @@
 import React, { useState } from "react";
 import { changePassword } from "../../api/profile";
-import styles from "./ChangePasswordForm.module.css"; // Імпорт модульних стилів
+import styles from "./ChangePasswordForm.module.css";
+import Notification from "../basic/Notification"; 
 
-const ChangePasswordForm = ({ axiosPrivate, onSuccess, onClose }) => {
+const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [message, setMessage] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+
+        if (newPassword !== confirmPassword) {
+            setError("Нові паролі не співпадають");
+            setMessage({ type: "error", text: "Нові паролі не співпадають" });
+            setTimeout(() => setMessage(null), 5000);
+            return;
+        }
+
         try {
             await changePassword(oldPassword, newPassword, confirmPassword, axiosPrivate);
-            onSuccess();
-            onClose();
+            setMessage({ type: "success", text: "Пароль успішно змінено!" });
+            setTimeout(() => {
+                setMessage(null);
+                onClose();
+            }, 3000);
         } catch (error) {
-            setError(error.message);
+            if (error.message === "Incorrect data") {
+                setError("Неправильний пароль.");
+                setMessage({ type: "error", text: "Неправильний пароль." });
+            } else {
+                setError("Щось пішло не так, спробуйте ще раз");
+                setMessage({ type: "error", text: "Щось пішло не так, спробуйте ще раз" });
+            }
+            setTimeout(() => setMessage(null), 5000);
         }
     };
 
     return (
         <>
+            <Notification message={message?.text} type={message?.type} />
+
             <h1>Змінити пароль</h1>
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
@@ -55,7 +77,6 @@ const ChangePasswordForm = ({ axiosPrivate, onSuccess, onClose }) => {
                     Відправити
                 </button>
             </form>
-            {error && <p className={styles.errorMessage}>{error}</p>}
         </>
     );
 };
