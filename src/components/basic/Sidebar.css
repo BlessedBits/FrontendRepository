@@ -54,6 +54,10 @@
   display: none;
 }
 
+.menu-button {
+  display: none;
+}
+
 .sidebar ul li a i {
   width: 40px;
   height: 40px;
