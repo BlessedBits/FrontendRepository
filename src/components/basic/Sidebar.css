@@ -49,6 +49,10 @@
   overflow: visible;
 }
 
+.menu-button {
+  display: none;
+}
+
 .sidebar ul li a i {
   width: 40px;
   height: 40px;
@@ -168,7 +172,9 @@
     min-width: 0;
     max-width: 0;
     overflow: hidden;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, padding 0.3s ease;
+    gap: 0;
+    padding: 0;
   }
 
   .sidebar.open {
@@ -179,23 +185,32 @@
   }
 
   .menu-button {
-    display: block;
+    display: flex;
     position: fixed;
+    align-items: center;
+    justify-content: center; 
     top: 15px;
-    left: 15px;
+    left: 5px;
     width: 40px;
     height: 40px;
-    background: #2ecc71;
+    background: rgba(24, 24, 24, 0.95);
     border: none;
     color: white;
     font-size: 24px;
     cursor: pointer;
     border-radius: 50%;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .menu-button.open {
+    left: 250px; 
   }
 
   .menu-button:hover {
     background: #27ae60;
   }
 }
+
+
 

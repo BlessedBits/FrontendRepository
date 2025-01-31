@@ -1,34 +1,44 @@
-import React from 'react';
+import { useState, React } from 'react';
 import './Sidebar.css';
 
 const Sidebar = ({ menu }) => {
-    // Отримання поточного шляху
+    const [isOpen, setIsOpen] = useState(false);
     const currentPath = window.location.pathname;
 
     return (
-        <nav className="sidebar">
-            {/* Логотип */}
-            <div className="sidebar-logo">
-                <h2>
-                    <img src={`/weblogo.png`} alt="weblogo" className="icon" />
-                    <span>SchoolHub</span>
-                </h2>
-            </div>
-            <ul>
-                {menu.map((item, index) => (
-                    <li key={index}>
-                        <a
-                            href={item.link || '#'}
-                            aria-label={item.label}
-                            className={currentPath === item.link ? 'active' : ''}
-                        >
-                            <span aria-hidden="true">{item.icon || ''}</span>
-                            {item.label}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </nav>
+        <>
+            {/* Кнопка відкриття/закриття */}
+            <button 
+                className={`menu-button ${isOpen ? "open" : ""}`} 
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                ☰
+            </button>
+
+            {/* Сайдбар */}
+            <nav className={`sidebar ${isOpen ? "open" : ""}`}>
+                <div className="sidebar-logo">
+                    <h2>
+                        <img src={`/weblogo.png`} alt="weblogo" className="icon" />
+                        <span>SchoolHub</span>
+                    </h2>
+                </div>
+                <ul>
+                    {menu.map((item, index) => (
+                        <li key={index}>
+                            <a
+                                href={item.link || '#'}
+                                aria-label={item.label}
+                                className={currentPath === item.link ? 'active' : ''}
+                            >
+                                <span aria-hidden="true">{item.icon || ''}</span>
+                                {item.label}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        </>
     );
 };
 
