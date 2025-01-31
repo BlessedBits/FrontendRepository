@@ -14,6 +14,7 @@
   min-width: 230px; 
   max-width: 350px;
   overflow-y: auto;
+  user-select: none;
 }
 
 
@@ -143,12 +144,13 @@
   .sidebar ul {
     align-items: center;
     padding: 0;
+    gap: 5px;
   }
 
   .sidebar ul li {
     justify-content: center;
-    padding: 10px;
     width: 100%;
+    padding: 0 20px;
   }
 
   .sidebar ul li a {
@@ -201,6 +203,7 @@
     border-radius: 50%;
     transition: background 0.3s ease, left 0.3s ease;
     z-index: 1000;
+    user-select: none;
   }
 
   .menu-button.open {
@@ -208,7 +211,7 @@
   }
 
   .menu-button:hover {
-    background: #27ae60;
+    background: #696969;
   }
 }
 
