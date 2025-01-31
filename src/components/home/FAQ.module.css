@@ -73,10 +73,11 @@
 
 .faq .answers img {
     user-select: none;
-    max-width: 350px;
-    max-height: 350px;
-    border-radius: 10px;
+    width: 350px;
+    height: 250px;
+    border-radius: 15px;
     margin-bottom: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
 }
 
 .faq .answers p {
