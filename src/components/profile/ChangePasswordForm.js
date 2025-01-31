@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { changePassword } from "../../api/profile";
 import styles from "./ChangePasswordForm.module.css";
-import Notification from "../basic/Notification"; 
+import Notification from "../basic/Notification";
 
 const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
     const [oldPassword, setOldPassword] = useState("");
@@ -9,6 +9,9 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [message, setMessage] = useState(null);
+    const [showOldPassword, setShowOldPassword] = useState(false); 
+    const [showNewPassword, setShowNewPassword] = useState(false); 
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,13 +20,13 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
         if (newPassword !== confirmPassword) {
             setError("Нові паролі не співпадають");
             setMessage({ type: "error", text: "Нові паролі не співпадають" });
-            setTimeout(() => setMessage(null), 5000);
+            setTimeout(() => setMessage(null), 3000);
             return;
         }
 
         try {
             await changePassword(oldPassword, newPassword, confirmPassword, axiosPrivate);
-            setMessage({ type: "success", text: "Пароль успішно змінено!" });
+            setMessage({ type: "success", text: "Пароль успішно змінено! Не забудьте зберегти новий пароль!" });
             setTimeout(() => {
                 setMessage(null);
                 onClose();
@@ -36,7 +39,7 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
                 setError("Щось пішло не так, спробуйте ще раз");
                 setMessage({ type: "error", text: "Щось пішло не так, спробуйте ще раз" });
             }
-            setTimeout(() => setMessage(null), 5000);
+            setTimeout(() => setMessage(null), 3000);
         }
     };
 
@@ -48,30 +51,57 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label>Старий пароль</label>
-                    <input
-                        type="password"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        required
-                    />
+                    <div className={styles.passwordContainer}>
+                        <input
+                            type={showOldPassword ? "text" : "password"}
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            required
+                        />
+                        <button
+                            type="button"
+                            className={styles.showPasswordButton}
+                            onClick={() => setShowOldPassword((prev) => !prev)}
+                        >
+                            {showOldPassword ? "🙈" : "👁️"} 
+                        </button>                        
+                    </div>
                 </div>
                 <div className={styles.formGroup}>
                     <label>Новий пароль</label>
-                    <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
+                    <div className={styles.passwordContainer}>
+                        <input
+                            type={showNewPassword ? "text" : "password"} 
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
+                        <button
+                            type="button"
+                            className={styles.showPasswordButton}
+                            onClick={() => setShowNewPassword((prev) => !prev)} 
+                        >
+                            {showNewPassword ? "🙈" : "👁️"} 
+                        </button>
+                    </div>
                 </div>
                 <div className={styles.formGroup}>
                     <label>Підтвердьте новий пароль</label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
+                    <div className={styles.passwordContainer}>
+                        <input
+                            type={showConfirmPassword ? "text" : "password"} 
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                        <button
+                            type="button"
+                            className={styles.showPasswordButton}
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        >
+                            {showConfirmPassword ? "🙈" : "👁️"} 
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" className={styles.submitButton}>
                     Відправити

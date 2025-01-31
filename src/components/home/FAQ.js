@@ -54,7 +54,7 @@ const FAQ = () => {
             setMessage({ type: "error", text: "Щось пішло не так, спробуйте ще раз." });
         }
 
-        setTimeout(() => setMessage(null), 5000);
+        setTimeout(() => setMessage(null), 3000);
     };
 
     const content = {

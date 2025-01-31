@@ -35,3 +35,35 @@
     text-align: center;
     margin-top: 10px;
 }
+
+.uploadButton {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 118, 136, 0.4);
+    text-transform: uppercase;
+}
+
+.uploadButton:hover {
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    box-shadow: 0 6px 15px rgba(255, 118, 136, 0.6);
+}
+
+.uploadButton:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(255, 118, 136, 0.3);
+}
+
+.uploadButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
