@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./FAQ.module.css";
+import Notification from "../basic/Notification";
 
 const FAQ = () => {
     const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -37,7 +38,7 @@ const FAQ = () => {
         const formData = new FormData(event.target);
 
         try {
-            const response = await fetch(/*"https://formspree.io/f/xbldylpr"*/"https://formspree.io/f/test", {
+            const response = await fetch("https://formspree.io/f/test", { //xbldylpr - робочий адрес
                 method: "POST",
                 body: formData,
                 headers: { "Accept": "application/json" }
@@ -53,7 +54,7 @@ const FAQ = () => {
             setMessage({ type: "error", text: "Щось пішло не так, спробуйте ще раз." });
         }
 
-        setTimeout(() => setMessage(null), 5000);
+        setTimeout(() => setMessage(null), 3000);
     };
 
     const content = {
@@ -80,11 +81,7 @@ const FAQ = () => {
     return (
         <section id="faq" className={styles.faq}>
             {/* ✅ Повідомлення */}
-            {message && (
-                <div className={`${styles.notification} ${message.type === "success" ? styles.success : styles.error}`}>
-                    {message.text}
-                </div>
-            )}
+            <Notification message={message?.text} type={message?.type} />
 
             <div className={styles.questionsAndAnswers}>
                 <div className={styles.questions}>

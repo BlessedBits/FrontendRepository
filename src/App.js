@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import CoursePage from "./pages/CoursePage";
 import ProfilePage from "./pages/ProfilePage";
 import SchedulePage from "./pages/SchedulePage";
-import PrivateRoute from "./context/PrivateRoute";
+//import PrivateRoute from "./context/PrivateRoute";
 import DiaryPage from "./pages/DiaryPage";
 import LogoutPage from "./pages/LogoutPage";
 

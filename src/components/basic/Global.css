@@ -1,7 +1,6 @@
 /* Глобальні стилі */
 * {
     margin: 0;
-    padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
@@ -14,8 +13,6 @@ body {
     background: linear-gradient(to right, #ffe29f, #ffa99f, #ff719a);
     background-attachment: fixed;
     background-size: cover;
-    color: #333;
-    line-height: 1.6;
 }
 
 main {
