@@ -5,7 +5,7 @@ import NewCourseModal from "./NewCourseModal";
 import buttonStyles from "./Buttons.module.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { getUserCourses, createCourse } from "../../api/course";
-import loadingStyle from "../basic/Loading.module.css"
+import { Loading } from "../basic/LoadingAnimation";
 
 
 function CourseList({ user_id, isTeacher }) {
@@ -54,9 +54,7 @@ function CourseList({ user_id, isTeacher }) {
   };
 
   if (loading) return (
-    <div className={loadingStyle.loading}>
-      Loading<span>.</span><span>.</span><span>.</span>
-    </div>
+    <Loading/>
   )
 
   if (error) return <p>Помилка завантаження: {error}</p>;

@@ -1,15 +1,16 @@
 .loading {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
     color: #223;
     display: flex;
     align-items: center;
+    user-select: none;
 }
 
 .loading span {
     display: inline-block;
     animation: bounce 1.2s infinite;
-    margin-left: 3px;
+    margin-left: 4px; 
 }
 
 .loading span:nth-child(1) {
@@ -24,13 +25,48 @@
     animation-delay: 0.4s;
 }
 
+.LoadingPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    color: #223;
+    font-size: 32px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.LoadingPage span {
+    display: inline-block;
+    animation: bounce 1.2s infinite;
+    margin-left: 4px; 
+}
+
+.LoadingPage span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.LoadingPage span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.LoadingPage span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
 @keyframes bounce {
     0%, 80%, 100% {
         transform: translateY(0);
         text-shadow: 0 0 0 transparent;
     }
     40% {
-        transform: translateY(-8px);
-        text-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
+        transform: translateY(-10px);
+        text-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
     }
 }
+

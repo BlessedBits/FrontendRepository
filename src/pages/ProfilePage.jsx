@@ -20,14 +20,11 @@ const ProfilePage = () => {
       } catch (err) {
         console.error(err);
         setError("Не вдалося завантажити інформацію профілю.");
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchProfileData();
   }, [axiosPrivate]);
-
   if (error) {
     return <p>{error}</p>;
   }

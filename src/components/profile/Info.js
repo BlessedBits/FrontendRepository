@@ -1,12 +1,10 @@
 import React from "react";
 import styles from "./Info.module.css";
-import loadingStyle from "../basic/Loading.module.css"
+import { Loading } from "../basic/LoadingAnimation";
 
 const InfoProfile = ({ profileData }) => {
     if (!profileData) return (
-      <div className={loadingStyle.loading}>
-        Loading<span>.</span><span>.</span><span>.</span>
-      </div>
+      <Loading/>
     )
 
   return (
