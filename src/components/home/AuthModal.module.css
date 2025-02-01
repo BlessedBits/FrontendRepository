@@ -136,3 +136,38 @@
     color: #555;
 }
 
+
+
+select {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease-in-out;
+}
+
+select:focus {
+    outline: none;
+}
+
+option {
+    font-size: 16px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+
+
