@@ -3,8 +3,12 @@ import style from "./CourseList.module.css";
 import CourseItem from "./CourseItem";
 import NewCourseModal from "./NewCourseModal";
 import buttonStyles from "./Buttons.module.css";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { getUserCourses, createCourse } from "../../api/course";
+import { Loading } from "../basic/LoadingAnimation";
 
-function CourseList({ user_id, isTeacher }) {
+
+function CourseList({ isTeacher }) {
   const [courseList, setCourseList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,68 +23,41 @@ function CourseList({ user_id, isTeacher }) {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const testCourses = [
-    {
-      id: 1,
-      name: "Біологія 4 клас",
-      themes: [
-        {
-          id: 101,
-          name: "Тема 1: Клітини",
-          description: "Опис теми про клітини.",
-          homework: "Прочитати параграф 3, зробити завдання №2.",
-          links: ["https://example.com/cells"],
-        },
-        {
-          id: 102,
-          name: "Тема 2: Органи",
-          description: "Опис теми про органи.",
-          homework: "Скласти таблицю органів людини.",
-          links: ["https://example.com/organs"],
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Біологія 5 клас",
-      themes: [
-        {
-          id: 201,
-          name: "Тема 1: Клітини",
-          description: "Опис теми про клітини.",
-          homework: "Прочитати параграф 3, зробити завдання №2.",
-          links: ["https://example.com/cells"],
-        },
-        {
-          id: 202,
-          name: "Тема 2: Органи",
-          description: "Опис теми про органи.",
-          homework: "Скласти таблицю органів людини.",
-          links: ["https://example.com/organs"],
-        },
-      ],
-    },
-  ];
-
+  const axiosPrivate = useAxiosPrivate();
+  // Fetch user courses
   useEffect(() => {
     async function fetchCourseList() {
       try {
-        const response = await fetch(`/api/users/${user_id}/courses`);
-        if (!response.ok) throw new Error("Не вдалося отримати дані про курси");
-        const data = await response.json();
-        setCourseList(data);
+        const courses = await getUserCourses(axiosPrivate);
+        setCourseList(courses);
       } catch (err) {
+        console.error(err.message);
         setError(err.message);
-        setCourseList(testCourses);
       } finally {
         setLoading(false);
       }
     }
 
     fetchCourseList();
-  }, [user_id]);
+  }, [axiosPrivate]);
 
-  if (loading) return <p>Завантаження даних...</p>;
+  const handleAddCourse = async (courseName) => {
+    try {
+      const result = await createCourse(courseName, axiosPrivate);
+      console.log(result); // Log success message
+      const updatedCourses = await getUserCourses();
+      setCourseList(updatedCourses);
+    } catch (err) {
+      console.error("Failed to create course:", err.message);
+      alert(`Error: ${err.message}`);
+    }
+  };
+
+  if (loading) return (
+    <Loading/>
+  )
+
+  if (error) return <p>Помилка завантаження: {error}</p>;
 
   return (
     <div className={style.courses}>
@@ -108,13 +85,10 @@ function CourseList({ user_id, isTeacher }) {
           Додати курс
         </button>
       )}
-
       {isModalOpen && (
         <NewCourseModal
           onClose={() => setIsModalOpen(false)}
-          onAddCourse={(newCourse) =>
-            setCourseList((prev) => [...prev, newCourse])
-          }
+          onAddCourse={handleAddCourse}
         />
       )}
     </div>

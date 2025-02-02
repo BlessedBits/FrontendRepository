@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./About.module.css";  
-const About = () => {
+const About = ({onRegisterClick}) => {
     return (
         <section className={styles.about} id="about"> 
             <h1>Подаруймо дітям знання та майбутнє</h1>
@@ -15,6 +15,9 @@ const About = () => {
                 Suspendisse id egestas libero. Nam ac augue quam. Aenean vitae libero at urna tincidunt interdum.
                 Nullam venenatis venenatis ex, eu consequat leo mattis ac.
             </p>
+            <button className={`${styles["Registerbtn"]} ${styles.Registerbtn25}`} onClick={onRegisterClick} >
+                Зареєструвати школу
+            </button>
         </section>
     );
 };

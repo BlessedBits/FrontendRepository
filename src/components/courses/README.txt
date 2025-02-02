@@ -5,44 +5,30 @@ json
     {
       id: 1,
       name: "Біологія 4 клас",
-      themes: [
-        {
-          id: 101,
-          name: "Тема 1: Клітини",
-          description: "Опис теми про клітини.",
-          homework: "Прочитати параграф 3, зробити завдання №2.",
-          links: ["https://example.com/cells"],
-        },
-        {
-          id: 102,
-          name: "Тема 2: Органи",
-          description: "Опис теми про органи.",
-          homework: "Скласти таблицю органів людини.",
-          links: ["https://example.com/organs"],
-        },
-      ],
+
+      id: 2,
+      name: "Біологія 5 клас",
     },
-  ]
+]
 
 
-const response = await fetch(`/api/courses`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newCourse),
-      });
+ТОБТО ВСІ КУРСИ КОРИСТУВАЧА
+
+ДАЛЬШЕ ТРЕБА ТЕМИ ДЛЯ КОЖНОГО КУРСУ
+
+{
+  "title": "string",
+  "description": "string",
+  "url": "string",
+}
 
 
+Завдання
 
+{
+  "title": "string",
+  "description": "string",
+  "url": "string",
+  "dueDate": "localDateTime"
+}
 
-      const response = await fetch(`/api/courses/${courseId}/themes/${theme.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedTheme),
-      });
-
-
-
-
-
-
-      const response = await fetch(`/api/courses/${courseId}`, { method: "DELETE" });

@@ -1,113 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import InfoProfile from "../components/profile/Info";
+import ActivityProfile from "../components/profile/Activity";
 import Sidebar, { StudentSidebarData } from "../components/basic/Sidebar";
-import ChangePasswordModal from "../components/profile/ProfileModal";
-import Modal from "../components/profile/ProfileModal";
-import "../components/profile/profile.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
-import { useUser } from "../context/Context";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { ProfileInfo } from "../api/profile";
 
 const ProfilePage = () => {
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false); // Відкриття меню налаштувань
-    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // Відкриття мод. вікна паролю
+  const sidebarData = StudentSidebarData();
+  const axiosPrivate = useAxiosPrivate();
 
-    const { schoolId } = useParams();
-    const userInfo = useUser();
-    const sidebarData = StudentSidebarData({
-        userId: userInfo?.user_id,
-        schoolId: userInfo?.schoolId,
-    });
+  const [profileData, setProfileData] = useState(null);
+  const [error, setError] = useState(null);
 
-    const openSettings = () => setIsSettingsOpen(true); // Відкриття меню налаштувань
-    const closeSettings = () => setIsSettingsOpen(false); // Закриття меню налаштувань
-
-    const openPasswordModal = () => {
-        setIsSettingsOpen(false); // Закриваємо меню налаштувань
-        setIsPasswordModalOpen(true); // Відкриваємо модальне вікно зміни пароля
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const data = await ProfileInfo(axiosPrivate);  
+        setProfileData(data);
+      } catch (err) {
+        console.error(err);
+        setError("Не вдалося завантажити інформацію профілю.");
+      } 
     };
 
-    const closePasswordModal = () => setIsPasswordModalOpen(false); // Закриття модального вікна паролю
+    fetchProfileData();
+  }, [axiosPrivate]);
+  if (error) {
+    return <p>{error}</p>;
+  }
 
-    return (
-        <div className="profile-page">
-            <Sidebar menu={sidebarData.menu} />
-            <div className="main-content">
-                <div className="transparent-box">
-                    <header className="profile-header">
-                        <h1>Профіль користувача</h1>
-                    </header>
-
-                    <div className="profile-container">
-                        {/* Сайдбар з аватаром */}
-                        <div className="profile-sidebar">
-                            <img src={"/ava.png"} alt="Аватар користувача" />
-                            <p className="profile-name">
-                                <strong>Ім'я Користувача</strong>
-                            </p>
-                            <button className="edit-button" onClick={openSettings}>
-                                <FontAwesomeIcon icon={faPenToSquare} />
-                            </button>
-                        </div>
-
-                        {/* Деталі профілю */}
-                        <div className="profile-details">
-                            <h2>Інформація</h2>
-                            <hr />
-                            <div className="profile-row">
-                                <div className="profile-item">
-                                    <p className="label">
-                                        <strong>Email:</strong>
-                                    </p>
-                                    <p className="value">user@example.com</p>
-                                </div>
-                                <div className="profile-item">
-                                    <p className="label">
-                                        <strong>Статус:</strong>
-                                    </p>
-                                    <p className="value">Учень/Вчитель</p>
-                                </div>
-                            </div>
-                            <div className="profile-row">
-                                <div className="profile-item">
-                                    <p className="label">
-                                        <strong>Школа:</strong>
-                                    </p>
-                                    <p className="value">Назва школи</p>
-                                </div>
-                                <div className="profile-item">
-                                    <p className="label">
-                                        <strong>Останній вхід:</strong>
-                                    </p>
-                                    <p className="value">2024-12-01</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Модальне вікно налаштувань */}
-                {isSettingsOpen && (
-                    <Modal isOpen={isSettingsOpen} onClose={closeSettings} title="Налаштування профілю">
-                        <div className="settings-menu">
-                            <button className="action-button" onClick={openPasswordModal}>
-                                Змінити пароль
-                            </button>
-                            <button className="action-button" onClick={() => alert("Змінити Gmail")}>
-                                Змінити Gmail
-                            </button>
-                        </div>
-                    </Modal>
-                )}
-
-                {/* Модальне вікно зміни пароля */}
-                <ChangePasswordModal
-                    isOpen={isPasswordModalOpen}
-                    onClose={closePasswordModal}
-                />
-            </div>
-        </div>
-    );
+  return (
+    <>
+      <Sidebar menu={sidebarData.menu} />
+      <main>
+        <section data-content="true" className="content">
+          <div className="profile-page">
+            <ActivityProfile profileData={profileData} />
+            <InfoProfile profileData={profileData} />
+          </div>
+        </section>
+      </main>
+    </>
+  );
 };
 
 export default ProfilePage;

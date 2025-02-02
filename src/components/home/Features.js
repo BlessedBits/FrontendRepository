@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import styles from "./Features.module.css";
-import {getAllSchools} from "../../api/school";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { getAllSchools } from "../../api/school";
+
+const featuresData = {
+    teachers: [
+        { key: "journal", label: "Журнал", description: "Управління класними журналами та оцінками." },
+        { key: "distanceLearning", label: "Дистанційне навчання", description: "Інструменти для проведення дистанційних уроків." },
+        { key: "onlineLessons", label: "Онлайн уроки", description: "Можливість проводити онлайн-уроки." },
+        { key: "loremIpsum", label: "Lorem ipsum", description: "Додатковий функціонал для вчителів." },
+    ],
+    students: [
+        { key: "diary", label: "Щоденник", description: "Щоденник для відстеження домашніх завдань." },
+        { key: "friends", label: "Друзі", description: "Спілкування з однокласниками та друзями." },
+        { key: "schedule", label: "Розклад уроків", description: "Зручний розклад уроків." },
+        { key: "textbooks", label: "Онлайн підручники", description: "Доступ до онлайн-підручників." },
+    ]
+};
 
 const Features = () => {
     const [activeFeature, setActiveFeature] = useState(null);
     const [section, setSection] = useState(null);
     const axiosPrivate = useAxiosPrivate();
-
-    const descriptions = {
-        journal: "Управління класними журналами та оцінками.",
-        distanceLearning: "Інструменти для проведення дистанційних уроків.",
-        onlineLessons: "Можливість проводити онлайн-уроки.",
-        loremIpsum: "Додатковий функціонал для вчителів.",
-        diary: "Щоденник для відстеження домашніх завдань.",
-        friends: "Спілкування з однокласниками та друзями.",
-        schedule: "Зручний розклад уроків.",
-        textbooks: "Доступ до онлайн-підручників.",
-    };
 
     const handleClick = async (key, sectionName) => {
         setActiveFeature(key);
@@ -33,92 +37,52 @@ const Features = () => {
     return (
         <section id="features" className={styles.features}>
             <h2>Можливості платформи</h2>
-
-            {/* Для вчителів */}
-            <div className={styles.forTeachers}>
-                <h3>Для вчителів:</h3>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "journal" ? styles.active : ""}`}
-                    onClick={() => handleClick("journal", "teachers")}
-                >
-                    Журнал
-                </a>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "distanceLearning" ? styles.active : ""}`}
-                    onClick={() => handleClick("distanceLearning", "teachers")}
-                >
-                    Дистанційне навчання
-                </a>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "onlineLessons" ? styles.active : ""}`}
-                    onClick={() => handleClick("onlineLessons", "teachers")}
-                >
-                    Онлайн уроки
-                </a>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "loremIpsum" ? styles.active : ""}`}
-                    onClick={() => handleClick("loremIpsum", "teachers")}
-                >
-                    Lorem ipsum
-                </a>
-            </div>
-
-            {/* Опис для вчителів */}
-            <div className={styles.teachersDescription}>
-                {section === "teachers" && activeFeature && (
-                    <p className={`${styles.description} ${styles.visible}`}>
-                        {descriptions[activeFeature]}
-                    </p>
-                )}
-            </div>
-
-            {/* Для учнів */}
-            <div className={styles.forStudents}>
-                <h3>Для учнів:</h3>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "diary" ? styles.active : ""}`}
-                    onClick={() => handleClick("diary", "students")}
-                >
-                    Щоденник
-                </a>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "friends" ? styles.active : ""}`}
-                    onClick={() => handleClick("friends", "students")}
-                >
-                    Друзі
-                </a>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "schedule" ? styles.active : ""}`}
-                    onClick={() => handleClick("schedule", "students")}
-                >
-                    Розклад уроків
-                </a>
-                <a
-                    href="javascript:void(0);"
-                    className={`${styles.headerLink} ${activeFeature === "textbooks" ? styles.active : ""}`}
-                    onClick={() => handleClick("textbooks", "students")}
-                >
-                    Онлайн підручники
-                </a>
-            </div>
-
-            {/* Опис для учнів */}
-            <div className={styles.studentsDescription}>
-                {section === "students" && activeFeature && (
-                    <p className={`${styles.description} ${styles.visible}`}>
-                        {descriptions[activeFeature]}
-                    </p>
-                )}
+    
+            <div className={styles.featureContainer}>
+                {/* Для вчителів */}
+                <div className={styles.featureBox}>
+                    <h3>Для вчителів:</h3>
+                    <div className={styles.linksContainer}>
+                        {featuresData.teachers.map(({ key, label }) => (
+                            <button
+                                key={key}
+                                className={`${styles.headerLink} ${activeFeature === key ? styles.active : ""}`}
+                                onClick={() => handleClick(key, "teachers")}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                    {section === "teachers" && activeFeature && (
+                        <p className={`${styles.description} ${styles.visible}`}>
+                            {featuresData.teachers.find((item) => item.key === activeFeature)?.description}
+                        </p>
+                    )}
+                </div>
+    
+                {/* Для учнів */}
+                <div className={styles.featureBox}>
+                    <h3>Для учнів:</h3>
+                    <div className={styles.linksContainer}>
+                        {featuresData.students.map(({ key, label }) => (
+                            <button
+                                key={key}
+                                className={`${styles.headerLink} ${activeFeature === key ? styles.active : ""}`}
+                                onClick={() => handleClick(key, "students")}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                    {section === "students" && activeFeature && (
+                        <p className={`${styles.description} ${styles.visible}`}>
+                            {featuresData.students.find((item) => item.key === activeFeature)?.description}
+                        </p>
+                    )}
+                </div>
             </div>
         </section>
-    );
+    );    
 };
 
 export default Features;

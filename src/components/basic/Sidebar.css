@@ -11,10 +11,10 @@
   align-items: center;
   justify-content: flex-start;
   width: 18%; 
-  max-width: 300px; 
-  min-width: 200px; 
-  height: 100vh;
+  min-width: 230px; 
+  max-width: 350px;
   overflow-y: auto;
+  user-select: none;
 }
 
 
@@ -50,6 +50,14 @@
   overflow: visible;
 }
 
+.menu-button {
+  display: none;
+}
+
+.menu-button {
+  display: none;
+}
+
 .sidebar ul li a i {
   width: 40px;
   height: 40px;
@@ -81,6 +89,7 @@
 }
 
 .sidebar ul li a {
+  padding: 5px;
   color: #ffffff;
   text-align: left;
   font-family: "InriaSans-Regular", sans-serif;
@@ -90,6 +99,13 @@
   flex-grow: 1;
   transition: background-color 0.3s ease, color 0.3s ease;
   text-decoration: none;
+  border-radius: 7px;
+}
+
+.sidebar ul li a.active, .sidebar ul li a.active:hover {
+  background-color: #2ecc71; 
+  color: #ffffff;
+  font-weight: bold; 
 }
 
 .sidebar ul li a.active {
@@ -104,10 +120,104 @@
   background-color: #636e72;
 }
 
-.sidebar ul li a i {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  position: relative;
-  object-fit: cover;
+@media (min-width: 1024px) {
+  .sidebar {
+    width: 18%;
+    min-width: 230px;
+    max-width: 350px;
+  }
 }
+
+@media (max-width: 1023px) and (min-width: 600px) {
+  .sidebar {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+    align-items: center;
+    gap: 0px;
+  }
+
+  .sidebar-logo h2 span{
+    display: none;
+  }
+  .sidebar-logo h2 img{
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sidebar ul {
+    align-items: center;
+    padding: 0;
+    gap: 5px;
+  }
+
+  .sidebar ul li {
+    justify-content: center;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .sidebar ul li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 0.5rem; 
+  }
+
+  .sidebar ul li a span {
+    font-size: 24px; 
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 599px) {
+  .sidebar {
+    width: 0;
+    min-width: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: width 0.3s ease, padding 0.3s ease;
+    gap: 0;
+    padding: 0;
+  }
+
+  .sidebar.open {
+    width: 230px;
+    min-width: 230px;
+    max-width: 350px;
+    overflow: auto;
+  }
+
+  .menu-button {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center; 
+    top: 15px;
+    left: 5px;
+    width: 40px;
+    height: 40px;
+    background: rgba(24, 24, 24, 0.95);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.3s ease, left 0.3s ease;
+    z-index: 1000;
+    user-select: none;
+  }
+
+  .menu-button.open {
+    left: 250px; 
+  }
+
+  .menu-button:hover {
+    background: #696969;
+  }
+}
+
+
+

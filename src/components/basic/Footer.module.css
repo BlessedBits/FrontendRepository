@@ -1,11 +1,11 @@
 footer{
-    margin-top: 30px;
     padding: 20px;
     background: gray;
+    user-select: none;
 }
 
 footer p{
-    margin: 0 auto;
+    margin: 15px auto;
     font-size: 20px;
     color: #fff;
     text-align: center;
