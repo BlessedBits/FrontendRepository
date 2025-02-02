@@ -8,7 +8,7 @@ import { getUserCourses, createCourse } from "../../api/course";
 import { Loading } from "../basic/LoadingAnimation";
 
 
-function CourseList({ user_id, isTeacher }) {
+function CourseList({ isTeacher }) {
   const [courseList, setCourseList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ function CourseList({ user_id, isTeacher }) {
     }
 
     fetchCourseList();
-  }, []);
+  }, [axiosPrivate]);
 
   const handleAddCourse = async (courseName) => {
     try {

@@ -22,13 +22,6 @@ export const updateProfileInfo = async (data, axiosPrivateInstance) => {
 };
 
 export const changePassword = async (oldPassword, newPassword, confirmPassword, axiosPrivateInstance) => {
-    if (!oldPassword || !newPassword || !confirmPassword) {
-        throw new Error('All fields (oldPassword, newPassword, confirmPassword) are required.');
-    }
-
-    if (newPassword !== confirmPassword) {
-        throw new Error('New passwords do not match.');
-    }
 
     const data = { oldPassword, newPassword, confirmPassword };
 

@@ -1,15 +1,19 @@
 import style from "./Loading.module.css"
 export const LoadingPage = () => {
     return (
-        <div className={style.LoadingPage}>
-            Завантаження сторінки<span>.</span><span>.</span><span>.</span>
+        <div class={style.LoadingPage}>
+            <div class={style.waveLoader}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     );
 };
 
 export const Loading = () => {
     return (
-        <div className={style.LoadingPage}>
+        <div className={style.loading}>
             Завантаження<span>.</span><span>.</span><span>.</span>
         </div>
     );
