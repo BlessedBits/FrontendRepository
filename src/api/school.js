@@ -1,27 +1,33 @@
 import { executeRequest } from '../utils/apiUtils';
 
-export const getSchoolContacts = async (id, axiosPrivateInstance) => 
-    executeRequest(
-        () => axiosPrivateInstance.get(`/school/${id}/contacts`),  
-        "Сontacts found"
-    );
+export const getSchoolContacts = async (id, axiosPrivateInstance) => {
 
-export const getSchoolInfo = async (id, axiosPrivateInstance) => 
-    executeRequest(
-        () => axiosPrivateInstance.get(`/school/${id}`),  
+    return executeRequest(
+        () => axiosPrivateInstance.get(`/schools/${id}/contacts`),
+        200,
+        "Profile info in json"
+    );
+};
+export const getSchoolInfo = async (id, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.get(`/schools/${id}`),  
         "Info found"
     );
-export const getSchoolAchievements = async (id, axiosPrivateInstance) => 
-    executeRequest(
-        () => axiosPrivateInstance.get(`/school/${id}/achievements`),  
-        "Info found"
-    );
+};
 
-export const createSchoolAchievements = async (id, axiosPrivateInstance) => 
-    executeRequest(
-        () => axiosPrivateInstance.post(`/school/${id}/achievements/create`),  
+export const getSchoolAchievements = async (id, axiosPrivateInstance) =>{
+    return executeRequest(
+        () => axiosPrivateInstance.get(`/schools/${id}/achievements`),  
         "Info found"
     );
+};
+
+export const createSchoolAchievements = async (id, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.post(`/schools/${id}/achievements/create`),  
+        "Info found"
+    );
+};
 
 
 export const getAllSchools = async (axiosPrivateInstance) => {
