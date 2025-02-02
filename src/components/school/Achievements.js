@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Achievements.module.css';
 
 function AchievementsSchool({ schoolId }) {
@@ -26,19 +26,20 @@ function AchievementsSchool({ schoolId }) {
             id: 4,
             image_url: '/school_test/achi4.jpg',
             title: 'Молодий лідер',
-            description: 'Володька Рєвко, хватить позорити Таньку'    
+            description: 'Володька Рєвко, хватить позорити Таньку'
         },
         {
             id: 5,
             image_url: '/school_test/achi5.jpg',
             title: 'Молодий лідер',
             description: 'Андріан Табак, призрачний гонщик'
-            
         }
     ]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [visibleCards, setVisibleCards] = useState(3);
+    const galleryRef = useRef(null);
 
     useEffect(() => {
         async function fetchAchievements() {
@@ -61,23 +62,60 @@ function AchievementsSchool({ schoolId }) {
         }
     }, [schoolId]);
 
+    // Використовуємо window.innerWidth для визначення visibleCards
+    useEffect(() => {
+        let resizeTimer;
+        const updateVisibleCards = () => {
+            // Дебаунс: оновлення через 100мс після останнього виклику
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const screenWidth = window.innerWidth;
+                let cards = 1; // мінімум 1 картка
+                if (screenWidth >= 1800) {
+                    cards = 4;
+                } else if (screenWidth >= 1240) {
+                    cards = 3;
+                } else if (screenWidth >= 1040) {
+                    cards = 2;
+                } else {
+                    cards = 1;
+                }
+                setVisibleCards(cards);
+            }, 100);
+        };
+
+        // Викликати одразу для встановлення початкового значення
+        updateVisibleCards();
+
+        window.addEventListener('resize', updateVisibleCards);
+        return () => {
+            window.removeEventListener('resize', updateVisibleCards);
+            clearTimeout(resizeTimer);
+        };
+    }, []);
+
     const handlePrev = () => {
-        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+        setCurrentIndex(prev => Math.max(prev - visibleCards, 0));
     };
 
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, achievements.length + staticAchievements.length - 3));
+        setCurrentIndex(prev => Math.min(prev + visibleCards, allAchievements.length - visibleCards));
     };
 
-    // if (loading) {
-    //     return <p>Завантаження даних...</p>;
-    // }
+    const allAchievements = [...achievements, ...staticAchievements];
 
-    if (error) {
-        return <p>{error}</p>;
+    if (loading) {
+        return <p>Завантаження даних...</p>;
     }
 
-    const allAchievements = [...achievements, ...staticAchievements];
+    // if (error) {
+    //     return (
+    //         <section id="achievements" className={styles.achievementsComponent}>
+    //             <h2>Наші досягнення</h2>
+    //             <p>{error}</p>
+    //         </section>
+    //     );
+    // }
 
     if (allAchievements.length === 0) {
         return (
@@ -91,7 +129,7 @@ function AchievementsSchool({ schoolId }) {
     return (
         <section id="achievements" className={styles.achievementsComponent}>
             <h2>Наші досягнення</h2>
-            <div className={styles.galleryContainer}>
+            <div className={styles.galleryContainer} ref={galleryRef}>
                 <button
                     className={styles.navButton}
                     onClick={handlePrev}
@@ -101,7 +139,7 @@ function AchievementsSchool({ schoolId }) {
                 </button>
                 <div className={styles.gallery}>
                     {allAchievements
-                        .slice(currentIndex, currentIndex + 3)
+                        .slice(currentIndex, currentIndex + visibleCards)
                         .map((achievement) => (
                             <div key={achievement.id} className={styles.achievementCard}>
                                 <img
@@ -118,7 +156,7 @@ function AchievementsSchool({ schoolId }) {
                 <button
                     className={styles.navButton}
                     onClick={handleNext}
-                    disabled={currentIndex + 3 >= allAchievements.length}
+                    disabled={currentIndex + visibleCards >= allAchievements.length}
                 >
                     →
                 </button>

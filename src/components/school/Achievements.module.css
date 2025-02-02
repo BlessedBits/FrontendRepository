@@ -2,33 +2,42 @@
     padding: 20px;
     background-color: #fff3f3;
     border-radius: 25px;
+    width: 95%;
+    max-width: 1350px;
 }
 
 .galleryContainer {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
-    gap: 20px;
     overflow: hidden;
+    position: relative;
+    max-width: 1400px;
+    width: 100%;
 }
 
 .gallery {
     display: flex;
-    gap: 20px; /* Розмір між картками */
-    transition: transform 1.5s ease; /* Анімація при переміщенні */
+    gap: 20px;
+    transition: transform 0.5s ease;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    justify-content: center;
+    width: 100%;
 }
 
 .achievementCard {
-    width: 250px; 
+    width: 250px;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
     text-align: center;
+    transition: transform 0.3s ease;
 }
 
 .achievementImage {
@@ -62,4 +71,10 @@
 
 .navButton:hover {
     background-color: rgba(0, 0, 0, 0.85    );
+}
+
+@media (max-width: 1002px) {
+    .achievementCard {
+        width: 200px;
+    }
 }

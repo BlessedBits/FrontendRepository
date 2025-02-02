@@ -7,7 +7,7 @@ import ContactSchool from "../components/school/Contact";
 import Sidebar, { StudentSidebarData } from "../components/basic/Sidebar";
 import { getUserSchool } from "../api/user";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { Loading } from "../components/basic/LoadingAnimation";  
+import { LoadingPage } from "../components/basic/LoadingAnimation";  
 
 const SchoolPage = () => {
   const sidebarData = StudentSidebarData();
@@ -34,7 +34,7 @@ const SchoolPage = () => {
   }, [axiosPrivate]);
 
   if (loading) {
-    return <Loading />; 
+    return <LoadingPage />; 
   }
 
   if (error) {

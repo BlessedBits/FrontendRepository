@@ -9,6 +9,7 @@
     display: inline-block;
     text-align: left;
     max-width: 700px;
+    width: 100vh;
 }
 
 .teacherImage {

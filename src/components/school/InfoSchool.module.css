@@ -16,3 +16,45 @@
     padding: 10px;
     border: 1px solid #ddd;
 }
+
+.valueContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.editIcon {
+    margin-left: 8px;
+    padding: 2px 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.editIcon:hover {
+    opacity: 1;
+}
+
+.editContainer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.editContainer input {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 200px;
+}
+
+.editContainer button {
+    padding: 4px 8px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
