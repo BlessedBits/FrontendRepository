@@ -62,15 +62,13 @@ function AchievementsSchool({ schoolId }) {
         }
     }, [schoolId]);
 
-    // Використовуємо window.innerWidth для визначення visibleCards
     useEffect(() => {
         let resizeTimer;
         const updateVisibleCards = () => {
-            // Дебаунс: оновлення через 100мс після останнього виклику
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
                 const screenWidth = window.innerWidth;
-                let cards = 1; // мінімум 1 картка
+                let cards = 1;
                 if (screenWidth >= 1800) {
                     cards = 4;
                 } else if (screenWidth >= 1240) {
@@ -84,7 +82,6 @@ function AchievementsSchool({ schoolId }) {
             }, 100);
         };
 
-        // Викликати одразу для встановлення початкового значення
         updateVisibleCards();
 
         window.addEventListener('resize', updateVisibleCards);

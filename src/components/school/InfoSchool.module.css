@@ -15,6 +15,7 @@
     text-align: left;
     padding: 10px;
     border: 1px solid #ddd;
+    font-size: 18px; 
 }
 
 .valueContainer {
@@ -30,6 +31,7 @@
     cursor: pointer;
     opacity: 0.6;
     transition: opacity 0.3s;
+    font-size: 16px;
 }
 
 .editIcon:hover {
@@ -47,6 +49,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     max-width: 200px;
+    font-size: 16px;
 }
 
 .editContainer button {
@@ -55,6 +58,56 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
 
+@media (max-width: 599px){
+    .valueContainer{
+        font-size: 12px;
+    }
+    .infoTable th,
+    .infoTable td {
+        font-size: 12px; 
+        padding: 5px;    
+    }
 
+    .editIcon {
+        font-size: 12px; 
+    }
+
+    .editContainer input,
+    .editContainer button {
+        font-size: 12px;
+        padding: 2px 5px;
+    }   
+}
+
+@media (min-width: 600px) and (max-width: 1199px){
+    .infoTable th,
+    .infoTable td {
+        font-size: 16px; 
+        padding: 8px;
+    }
+
+    .editContainer input,
+    .editContainer button {
+        font-size: 15px;
+        padding: 4px 7px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .infoTable th,
+    .infoTable td {
+        font-size: 20px; 
+    }
+
+    .editIcon {
+        font-size: 18px;
+    }
+
+    .editContainer input,
+    .editContainer button {
+        font-size: 18px;
+    }
+}

@@ -48,13 +48,10 @@ function ContactSchool({ schoolId }) {
     return (
         <section id="contacts" className={styles.contacts}>
             <h2>Контакти школи</h2>
-            <form className={styles.contactForm}>
-                <label htmlFor="phone">Телефон:</label>
-                <input type="text" id="phone" value={schoolData.phoneNumber} readOnly />
-
-                <label htmlFor="email">Email:</label>
-                <input type="email" id="email" value={schoolData.email} readOnly />
-            </form>
+            <div className={styles.contactInfo}>
+                <p><strong>Телефон:</strong> {schoolData.phoneNumber}</p>
+                <p><strong>Email:</strong> {schoolData.email}</p>
+            </div>
 
             <div className={styles.socialMedia}>
                 <h3>Ми в соцмережах:</h3>

@@ -1,5 +1,3 @@
-/* ContactSchool.module.css */
-
 .contacts {
     background-color: #fff3f3;
     border-radius: 25px;
@@ -8,20 +6,11 @@
     max-width: 500px;
 }
 
-.contactForm {
-    margin-bottom: 20px;
-}
-
-.contactForm label {
-    display: block;
-    font-weight: bold;
-}
-
-.contactForm input {
+.contactInfo p {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
     border-radius: 5px;
+    font-size: 18px; 
 }
 
 .socialMedia {
@@ -46,6 +35,7 @@
     position: relative;
     text-decoration: none;
     color: inherit;
+    font-size: 18px; 
 }
 
 .socialLink::after {
@@ -69,9 +59,23 @@
     margin-right: 5px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 599px) {
     h2, h3 {
         font-size: 16px;
+    }
+    .contactInfo p,
+    .socialLink {
+        font-size: 14px; 
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1199px) {
+    h2, h3 {
+        font-size: 20px;
+    }
+    .contactInfo p,
+    .socialLink {
+        font-size: 18px; 
     }
 }
 
