@@ -11,21 +11,21 @@ export const getSchoolContacts = async (id, axiosPrivateInstance) => {
 export const getSchoolInfo = async (id, axiosPrivateInstance) => {
     return executeRequest(
         () => axiosPrivateInstance.get(`/schools/${id}`),  
-        "Info found"
+        200, "Info found"
     );
 };
 
 export const getSchoolAchievements = async (id, axiosPrivateInstance) =>{
     return executeRequest(
         () => axiosPrivateInstance.get(`/schools/${id}/achievements`),  
-        "Info found"
+        200, "Info found"
     );
 };
 
 export const createSchoolAchievements = async (id, axiosPrivateInstance) => {
     return executeRequest(
         () => axiosPrivateInstance.post(`/schools/${id}/achievements/create`),  
-        "Info found"
+        200, "Info found"
     );
 };
 

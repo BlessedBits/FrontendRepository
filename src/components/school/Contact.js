@@ -13,7 +13,7 @@ function ContactSchool({ schoolId }) {
     useEffect(() => {
         async function fetchSchoolData() {
             try {
-                const data = await getSchoolContacts(schoolId, axiosPrivate);
+                const data = await getSchoolContacts(3, axiosPrivate);
                 setSchoolData(data);
             } catch (error) {
                 setError(error.message);
@@ -32,13 +32,17 @@ function ContactSchool({ schoolId }) {
     if (error) {
         return (
             <section id="contacts" className={styles.contacts}>
-                <p><strong>На жаль, не вдалось знайти контакти даної школи.</strong></p>
+                <p><strong>На жаль, не вдалось знайти контакти даної школи. Спробуйте пізніше.</strong></p>
             </section>
         );
     }
 
     if (!schoolData) {
-        return <p>Дані не знайдені.</p>;
+        return (
+            <section id="contacts" className={styles.contacts}>
+                <p><strong>Дана школа немає контактів</strong></p>
+            </section>
+        );
     }
 
     return (

@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import styles from './InfoSchool.module.css';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { getSchoolInfo } from '../../api/school';
+import { Loading } from '../basic/LoadingAnimation';
 
 function InfoSchool({ schoolId }) {
     const [schoolInfo, setSchoolInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const axiosPrivate = useAxiosPrivate();     
+
     useEffect(() => {
         async function fetchSchoolInfo() {
             try {
-                const response = await fetch(`/api/schools/${schoolId}/school_details`);
-                if (!response.ok) {
-                    throw new Error('Не вдалося отримати дані про школу');
-                }
-                const data = await response.json();
-                setSchoolInfo(data);
+                const response = await getSchoolInfo(schoolId, axiosPrivate);
+                setSchoolInfo(response); 
             } catch (err) {
-                setError(err.message);
+                setError(err.response?.data?.message || 'Не вдалося отримати дані про школу');
             } finally {
                 setLoading(false);
             }
@@ -26,35 +27,14 @@ function InfoSchool({ schoolId }) {
     }, [schoolId]);
 
     if (loading) {
-        return <p>Завантаження даних...</p>;
+        return <Loading />;
     }
 
-    if (error ) {
+    if (error) {
+        console.log(error);
         return (
             <section id="school-info" className={styles.schoolInfo}>
-                <h1>Наша районна гімназія</h1>
                 <p>Горить і не згасає</p>
-
-                <table className={styles.infoTable}>
-                    <tbody>
-                        <tr>
-                            <th>Рік заснування:</th>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <th>Розташування:</th>
-                            <td>м. Львів, вул. Романа Олега 42</td>
-                        </tr>
-                        <tr>
-                            <th>Кількість учнів:</th>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <th>Кількість вчителів:</th>
-                            <td>1</td>
-                        </tr>
-                    </tbody>
-                </table>
             </section>
         );
     }
@@ -80,11 +60,11 @@ function InfoSchool({ schoolId }) {
                     </tr>
                     <tr>
                         <th>Кількість учнів:</th>
-                        <td>{schoolInfo.student_count}</td>
+                        <td>{schoolInfo.studentCount}</td>
                     </tr>
                     <tr>
                         <th>Кількість вчителів:</th>
-                        <td>{schoolInfo.teacher_count}</td>
+                        <td>{schoolInfo.teacherCount}</td>
                     </tr>
                 </tbody>
             </table>
