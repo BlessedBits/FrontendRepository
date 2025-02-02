@@ -4,6 +4,7 @@ header {
     align-items: center;
     user-select: none;
     padding: 20px 40px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .logo {
@@ -74,7 +75,8 @@ header {
 }
 
 .bn632-hover {
-    width: 140px;
+    width: 20%;
+    max-width: 140px;
     font-size: 16px;
     font-weight: 600;
     color: #fff;
@@ -107,4 +109,15 @@ header {
     box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
   }
   
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   
