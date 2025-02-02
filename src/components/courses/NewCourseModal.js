@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import style from "./NewCourseModal.module.css";
-import { createCourse } from "../../api/course"; 
+import { createCourse } from "../../api/course";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Notification from "../basic/Notification"; 
 
 function NewCourseModal({ onClose, onAddCourse }) {
   const [courseData, setCourseData] = useState({
     name: "",
   });
+  const [notification, setNotification] = useState(null); 
   const axiosPrivate = useAxiosPrivate();
 
   const handleSubmit = async (e) => {
@@ -17,20 +19,34 @@ function NewCourseModal({ onClose, onAddCourse }) {
     };
 
     try {
-      const response = await createCourse(newCourse.name, axiosPrivate); 
-      onAddCourse(response); 
-      onClose(); 
+      await createCourse(newCourse.name, axiosPrivate);
+      
+      setNotification({ type: "success", text: "Курс успішно створено!" });
+      
+      setTimeout(() => {
+        onClose();
+      }, 1500);
+
     } catch (err) {
-      console.error(err.message); 
+      if (err.message === "Network Error") {
+        setNotification({ type: "error", text: "У вас немає доступу до цієї функції" });
+      } 
+      else {
+        setNotification({ type: "error", text: "Щось пішло не так, спробуйте пізніше" });
+      }
+      setTimeout(() => setNotification(null), 3000);
     }
   };
 
   return (
     <div className={style.modal}>
       <div className={style.modalContent}>
+        <Notification message={notification?.text} type={notification?.type} />
+
         <h3>Додати новий курс</h3>
         <form onSubmit={handleSubmit} className={style.form}>
-          <input className={style.input}
+          <input
+            className={style.input}
             type="text"
             placeholder="Назва курсу"
             value={courseData.name}

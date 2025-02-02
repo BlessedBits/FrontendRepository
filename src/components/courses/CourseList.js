@@ -5,10 +5,10 @@ import NewCourseModal from "./NewCourseModal";
 import buttonStyles from "./Buttons.module.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { getUserCourses, createCourse } from "../../api/course";
-import loadingStyle from "../basic/Loading.module.css"
+import { Loading } from "../basic/LoadingAnimation";
 
 
-function CourseList({ user_id, isTeacher }) {
+function CourseList({ isTeacher }) {
   const [courseList, setCourseList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ function CourseList({ user_id, isTeacher }) {
     }
 
     fetchCourseList();
-  }, []);
+  }, [axiosPrivate]);
 
   const handleAddCourse = async (courseName) => {
     try {
@@ -54,9 +54,7 @@ function CourseList({ user_id, isTeacher }) {
   };
 
   if (loading) return (
-    <div className={loadingStyle.loading}>
-      Loading<span>.</span><span>.</span><span>.</span>
-    </div>
+    <Loading/>
   )
 
   if (error) return <p>Помилка завантаження: {error}</p>;

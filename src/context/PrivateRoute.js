@@ -1,19 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import { getRole } from "../api/user";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { LoadingPage } from "../components/basic/LoadingAnimation";
 
-const getCookie = (name) => {
-    const cookies = document.cookie.split("; ");
-    const cookie = cookies.find(row => row.startsWith(`${name}=`));
-    return cookie ? cookie.split('=')[1] : null;
-};
+const PrivateRoute = ({ element: Component, allowedRoles }) => {
+    const axiosPrivate = useAxiosPrivate();
+    const [userRole, setUserRole] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-const PrivateRoute = ({ element: Component }) => {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = getCookie("refreshToken");
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            try {
+                const role = await getRole(axiosPrivate);
+                setUserRole(role);
+            } catch (err) {
+                console.error(err);
+                setError("Не вдалося завантажити інформацію профілю.");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const isAuthenticated = accessToken || refreshToken;
+        fetchProfileData();
+    }, [axiosPrivate]);
 
-    return isAuthenticated ? Component : <Navigate to="/" replace />;
+    if (loading) {
+        return <LoadingPage />;
+    }
+    if (error) {
+        return <p>{error}</p>;
+    }
+
+    if (!userRole || !allowedRoles.includes(userRole)) {
+        return <Navigate to="/unauthorized" replace />;
+    }
+
+    return Component;
 };
 
 export default PrivateRoute;

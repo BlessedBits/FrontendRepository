@@ -7,7 +7,6 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
     const [message, setMessage] = useState(null);
     const [showOldPassword, setShowOldPassword] = useState(false); 
     const [showNewPassword, setShowNewPassword] = useState(false); 
@@ -15,10 +14,8 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
 
         if (newPassword !== confirmPassword) {
-            setError("Нові паролі не співпадають");
             setMessage({ type: "error", text: "Нові паролі не співпадають" });
             setTimeout(() => setMessage(null), 3000);
             return;
@@ -33,10 +30,8 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
             }, 3000);
         } catch (error) {
             if (error.message === "Incorrect data") {
-                setError("Неправильний пароль.");
                 setMessage({ type: "error", text: "Неправильний пароль." });
             } else {
-                setError("Щось пішло не так, спробуйте ще раз");
                 setMessage({ type: "error", text: "Щось пішло не так, спробуйте ще раз" });
             }
             setTimeout(() => setMessage(null), 3000);

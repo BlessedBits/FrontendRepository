@@ -1,5 +1,14 @@
 import { executeRequest } from '../utils/apiUtils';
 
+export const ProfileInfo = async (axiosPrivateInstance) => {
+
+    return executeRequest(
+        () => axiosPrivateInstance.get('users/profile'),
+        200,
+        "Profile info in json"
+    );
+};
+
 export const updateProfileInfo = async (data, axiosPrivateInstance) => {
     if (!data.email && !data.username) {
         throw new Error('Either email or username, or both must be provided.');
@@ -13,13 +22,6 @@ export const updateProfileInfo = async (data, axiosPrivateInstance) => {
 };
 
 export const changePassword = async (oldPassword, newPassword, confirmPassword, axiosPrivateInstance) => {
-    if (!oldPassword || !newPassword || !confirmPassword) {
-        throw new Error('All fields (oldPassword, newPassword, confirmPassword) are required.');
-    }
-
-    if (newPassword !== confirmPassword) {
-        throw new Error('New passwords do not match.');
-    }
 
     const data = { oldPassword, newPassword, confirmPassword };
 

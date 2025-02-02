@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ContactSchool.module.css';
+import { getSchoolContacts } from '../../api/school';
 
 function ContactSchool({ schoolId }) {
     const [schoolData, setSchoolData] = useState(null);
