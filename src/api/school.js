@@ -29,6 +29,14 @@ export const createSchoolAchievements = async (data, axiosPrivateInstance) => {
     );
 };
 
+export const updateSchoolAchievements = async (id, data, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.put(`/schools/achievements/${id}`, data),  
+        200, "Achievements updated!"
+    );
+};
+
+
 export const updateSchoolInfo = async (data, axiosPrivateInstance) => {
     return executeRequest(
         () => axiosPrivateInstance.put(`/schools/update-info`, data),  
@@ -36,6 +44,12 @@ export const updateSchoolInfo = async (data, axiosPrivateInstance) => {
     );
 };
 
+export const deleteSchoolAchievements = async (id, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.delete(`/schools/achievements/${id}`),  
+        204, "No content"
+    );
+};
 
 export const getAllSchools = async (axiosPrivateInstance) => {
     const response = await axiosPrivateInstance.get('/schools/');

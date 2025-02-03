@@ -87,25 +87,30 @@
     background-color: rgba(0, 0, 0, 0.85    );
 }
 
-.formContainer {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.adminActions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-.formTitle {
-    font-size: 1.5rem;
-    color: #2d3748;
-    margin-bottom: 1.5rem;
-    text-align: center;
+.editButton, .deleteButton {
+    user-select: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
-.formGroup {
-    position: relative;
-    margin-bottom: 1.5rem;
+.editButton:hover {
+    color: #007bff;
+    transform: scale(1.2);
+}
+
+.deleteButton:hover {
+    color: #ff4d4d;
+    transform: scale(1.2);
 }
 
 .toggleButton-hover {
@@ -145,6 +150,26 @@
     box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
 }
 
+.formContainer {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formTitle {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.formGroup {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
 
 .inputField, .textareaField {
     width: 100%;

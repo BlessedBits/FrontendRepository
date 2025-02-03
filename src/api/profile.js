@@ -42,7 +42,7 @@ export const updateProfileImage = async (file, axiosPrivateInstance) => {
 
     return executeRequest(
         () =>
-            axiosPrivateInstance.post('users/update-profile-image', formData, {
+            axiosPrivateInstance.put('users/update-profile-image', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             }),
         200,
