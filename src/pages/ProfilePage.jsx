@@ -5,13 +5,12 @@ import Sidebar, { StudentSidebarData } from "../components/basic/Sidebar";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { ProfileInfo } from "../api/profile";
 
-const ProfilePage = () => {
+const ProfilePage = ({userRole}) => {
   const sidebarData = StudentSidebarData();
   const axiosPrivate = useAxiosPrivate();
 
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const fetchProfileData = async () => {
       try {

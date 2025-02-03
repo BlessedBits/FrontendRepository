@@ -3,6 +3,7 @@
     text-align: left;
     background-color: #fff3f3;
     border-radius: 25px;
+    width: 100vh; 
 }
 
 .teacherCard {

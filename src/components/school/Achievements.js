@@ -1,55 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Achievements.module.css';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { getSchoolAchievements, createSchoolAchievements } from '../../api/school';
+import { Loading } from '../basic/LoadingAnimation';
 
-function AchievementsSchool({ schoolId }) {
+function AchievementsSchool({ schoolId, userRole }) {
     const [achievements, setAchievements] = useState([]);
-    const [staticAchievements, setStaticAchievements] = useState([
-        {
-            id: 1,
-            image_url: '/school_test/achi1.jpg',
-            title: 'Переможець алко-олімпіади',
-            description: 'Олег Роман, переможець в алко-олімпіаді серед другокурсиків'
-        },
-        {
-            id: 2,
-            image_url: '/school_test/achi2.jpg',
-            title: 'Переможець у переговорах з міністром',
-            description: 'Ковалець Владислав, домовився з міністром освіти, щоб нам виділили ракету на Марс'
-        },
-        {
-            id: 3,
-            image_url: '/school_test/achi3.jpg',
-            title: 'Переможець конкурсу',
-            description: 'Олександр Ільницький, переможець національного конкурсу качків'
-        },
-        {
-            id: 4,
-            image_url: '/school_test/achi4.jpg',
-            title: 'Молодий лідер',
-            description: 'Володька Рєвко, хватить позорити Таньку'
-        },
-        {
-            id: 5,
-            image_url: '/school_test/achi5.jpg',
-            title: 'Молодий лідер',
-            description: 'Андріан Табак, призрачний гонщик'
-        }
-    ]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [visibleCards, setVisibleCards] = useState(3);
+    const [newAchievement, setNewAchievement] = useState({ title: '', description: '', image: null });
     const galleryRef = useRef(null);
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         async function fetchAchievements() {
             try {
-                const response = await fetch(`/api/schools/${schoolId}/events/important`);
-                if (!response.ok) {
-                    throw new Error('Не вдалося завантажити досягнення.');
-                }
-                const data = await response.json();
-                setAchievements(data);
+                const response = await getSchoolAchievements(schoolId, axiosPrivate);
+                setAchievements(response);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -60,35 +29,25 @@ function AchievementsSchool({ schoolId }) {
         if (schoolId) {
             fetchAchievements();
         }
-    }, [schoolId]);
+    }, [schoolId, axiosPrivate]);
 
     useEffect(() => {
-        let resizeTimer;
         const updateVisibleCards = () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                const screenWidth = window.innerWidth;
-                let cards = 1;
-                if (screenWidth >= 1800) {
-                    cards = 4;
-                } else if (screenWidth >= 1240) {
-                    cards = 3;
-                } else if (screenWidth >= 1040) {
-                    cards = 2;
-                } else {
-                    cards = 1;
-                }
-                setVisibleCards(cards);
-            }, 100);
+            const screenWidth = window.innerWidth;
+            if (screenWidth >= 1800) {
+                setVisibleCards(4);
+            } else if (screenWidth >= 1240) {
+                setVisibleCards(3);
+            } else if (screenWidth >= 1040) {
+                setVisibleCards(2);
+            } else {
+                setVisibleCards(1);
+            }
         };
 
         updateVisibleCards();
-
         window.addEventListener('resize', updateVisibleCards);
-        return () => {
-            window.removeEventListener('resize', updateVisibleCards);
-            clearTimeout(resizeTimer);
-        };
+        return () => window.removeEventListener('resize', updateVisibleCards);
     }, []);
 
     const handlePrev = () => {
@@ -96,29 +55,45 @@ function AchievementsSchool({ schoolId }) {
     };
 
     const handleNext = () => {
-        setCurrentIndex(prev => Math.min(prev + visibleCards, allAchievements.length - visibleCards));
+        setCurrentIndex(prev => Math.min(prev + visibleCards, achievements.length - visibleCards));
     };
 
-    const allAchievements = [...achievements, ...staticAchievements];
+    const handleAddAchievement = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('title', newAchievement.title);
+            formData.append('description', newAchievement.description);
+            if (newAchievement.image) {
+                formData.append('image', newAchievement.image);
+            }
+
+            const response = await createSchoolAchievements(schoolId, formData, axiosPrivate);
+            setAchievements(prev => [...prev, response]);
+            
+            setNewAchievement({ title: '', description: '', image: null });
+        } catch (error) {
+            console.error('Помилка додавання:', error);
+        }
+    };
+
+    const handleFileChange = (e) => {
+        setNewAchievement({ ...newAchievement, image: e.target.files[0] });
+    };
 
     if (loading) {
-        return <p>Завантаження даних...</p>;
-    }
-
-    // if (error) {
-    //     return (
-    //         <section id="achievements" className={styles.achievementsComponent}>
-    //             <h2>Наші досягнення</h2>
-    //             <p>{error}</p>
-    //         </section>
-    //     );
-    // }
-
-    if (allAchievements.length === 0) {
         return (
             <section id="achievements" className={styles.achievementsComponent}>
                 <h2>Наші досягнення</h2>
-                <p>Досягнень поки немає.</p>
+                <Loading />
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section id="achievements" className={styles.achievementsComponent}>
+                <h2>Наші досягнення</h2>
+                <p>{error}</p>
             </section>
         );
     }
@@ -127,37 +102,63 @@ function AchievementsSchool({ schoolId }) {
         <section id="achievements" className={styles.achievementsComponent}>
             <h2>Наші досягнення</h2>
             <div className={styles.galleryContainer} ref={galleryRef}>
-                <button
-                    className={styles.navButton}
-                    onClick={handlePrev}
-                    disabled={currentIndex === 0}
-                >
-                    ←
-                </button>
+                <button className={styles.navButton} onClick={handlePrev} disabled={currentIndex === 0}>←</button>
                 <div className={styles.gallery}>
-                    {allAchievements
-                        .slice(currentIndex, currentIndex + visibleCards)
-                        .map((achievement) => (
-                            <div key={achievement.id} className={styles.achievementCard}>
-                                <img
-                                    src={achievement.image_url}
-                                    alt={achievement.title}
-                                    className={styles.achievementImage}
-                                />
-                                <p className={styles.achievementDescription}>
-                                    {achievement.description}
-                                </p>
-                            </div>
-                        ))}
+                    {achievements.slice(currentIndex, currentIndex + visibleCards).map((achievement) => (
+                        <div key={achievement.id} className={styles.achievementCard}>
+                            <img src={achievement.image} alt={achievement.title} className={styles.achievementImage} />
+                            <p>{achievement.title}</p>
+                            <p className={styles.achievementDescription}>{achievement.description}</p>
+                        </div>
+                    ))}
                 </div>
-                <button
-                    className={styles.navButton}
-                    onClick={handleNext}
-                    disabled={currentIndex + visibleCards >= allAchievements.length}
-                >
-                    →
-                </button>
+                <button className={styles.navButton} onClick={handleNext} disabled={currentIndex + visibleCards >= achievements.length}>→</button>
             </div>
+
+            {userRole === "SCHOOL_ADMIN" && (
+                <div className={styles.formContainer}>
+                    <h3 className={styles.formTitle}>Додати нове досягнення</h3>
+                    <div className={styles.formGroup}>
+                        <input
+                            className={styles.inputField}
+                            type="text"
+                            placeholder=" "
+                            value={newAchievement.title}
+                            onChange={(e) => setNewAchievement({ ...newAchievement, title: e.target.value })}
+                        />
+                        <label className={styles.inputLabel}>Назва</label>
+                    </div>
+                    
+                    <div className={styles.formGroup}>
+                        <textarea
+                            className={styles.textareaField}
+                            placeholder=" "
+                            value={newAchievement.description}
+                            onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
+                        />
+                        <label className={styles.inputLabel}>Опис</label>
+                    </div>
+                
+                    <div className={styles.fileUploadWrapper}>
+                        <label className={styles.fileInputLabel}>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className={styles.fileInput}
+                            />
+                            <span className={styles.uploadButton}>Обрати зображення</span>
+                            <span className={styles.fileName}>
+                                {newAchievement.image ? newAchievement.image.name : "Файл не обрано"}
+                            </span>
+                        </label>
+                    </div>
+                
+                    <button className={styles.submitButton} onClick={handleAddAchievement}>
+                        Додати досягнення
+                    </button>
+                </div>
+            )}
         </section>
     );
 }

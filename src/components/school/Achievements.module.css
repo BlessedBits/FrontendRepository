@@ -75,6 +75,127 @@
     background-color: rgba(0, 0, 0, 0.85    );
 }
 
+.formContainer {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formTitle {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.formGroup {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.inputField, .textareaField {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.inputField:focus, .textareaField:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.inputLabel {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: #718096;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 0 0.5rem;
+}
+
+.inputField:placeholder-shown + .inputLabel,
+.textareaField:placeholder-shown + .inputLabel {
+    top: 1.1rem;
+    font-size: 1rem;
+}
+
+.inputField:focus + .inputLabel,
+.textareaField:focus + .inputLabel,
+.inputField:not(:placeholder-shown) + .inputLabel,
+.textareaField:not(:placeholder-shown) + .inputLabel {
+    top: -0.6rem;
+    font-size: 0.8rem;
+    color: #4299e1;
+}
+
+.textareaField {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.fileUploadWrapper {
+    margin: 1.5rem 0;
+}
+
+.fileInputLabel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.fileInput {
+    display: none;
+}
+
+.uploadButton {
+    background: #4299e1;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.uploadButton:hover {
+    background: #3182ce;
+}
+
+.fileName {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 1rem;
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submitButton:hover {
+    background: #38a169;
+}
+
+.uploadButton:focus, .submitButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+
 @media (max-width: 1002px) {
     .achievementCard {
         width: 200px;

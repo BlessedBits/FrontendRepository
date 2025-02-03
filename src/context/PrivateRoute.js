@@ -37,7 +37,6 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
         return <Navigate to="/unauthorized" replace />;
     }
 
-    return Component;
+    return React.cloneElement(Component, { userRole });
 };
-
 export default PrivateRoute;

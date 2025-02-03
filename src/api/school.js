@@ -22,10 +22,10 @@ export const getSchoolAchievements = async (id, axiosPrivateInstance) =>{
     );
 };
 
-export const createSchoolAchievements = async (id, axiosPrivateInstance) => {
+export const createSchoolAchievements = async (id, data, axiosPrivateInstance) => {
     return executeRequest(
-        () => axiosPrivateInstance.post(`/schools/${id}/achievements/create`),  
-        200, "Info found"
+        () => axiosPrivateInstance.post(`/schools/${id}/achievements/create`, data),  
+        200, "Achievement create"
     );
 };
 

@@ -3,18 +3,15 @@ import styles from './InfoSchool.module.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { getSchoolInfo } from '../../api/school';
 import { Loading } from '../basic/LoadingAnimation';
-import { getRole } from '../../api/user';
 
-function InfoSchool({ schoolId }) {
+function InfoSchool({ schoolId, userRole }) {
     const [schoolInfo, setSchoolInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [userRole, setUserRole] = useState(null);
     const [editingField, setEditingField] = useState(null);
     const [tempValue, setTempValue] = useState('');
     
     const axiosPrivate = useAxiosPrivate();
-
 
     const startEditing = (fieldName, currentValue) => {
         setEditingField(fieldName);
@@ -29,11 +26,8 @@ function InfoSchool({ schoolId }) {
     const saveField = async (fieldName) => {
         try {
             await axiosPrivate.patch(`/schools/${schoolId}`, {
-                [fieldName]: fieldName === 'years' || fieldName === 'studentCount' || fieldName === 'teacherCount' 
-                           ? Number(tempValue) 
-                           : tempValue
+                [fieldName]: fieldName === 'years' ? Number(tempValue) : tempValue
             });
-            
             setSchoolInfo(prev => ({ ...prev, [fieldName]: tempValue }));
             setEditingField(null);
         } catch (err) {
@@ -41,17 +35,11 @@ function InfoSchool({ schoolId }) {
         }
     };
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [infoResponse, roleResponse] = await Promise.all([
-                    getSchoolInfo(schoolId, axiosPrivate),
-                    getRole(axiosPrivate)
-                ]);
-                
+                const infoResponse = await getSchoolInfo(schoolId, axiosPrivate);
                 setSchoolInfo(infoResponse);
-                setUserRole(roleResponse);
             } catch (err) {
                 setError(err.response?.data?.message || 'Помилка завантаження даних');
             } finally {
@@ -63,11 +51,14 @@ function InfoSchool({ schoolId }) {
     }, [schoolId, axiosPrivate]);
 
     if (loading) {
-        return <Loading />;
+        return (
+            <section id="school-info" className={styles.schoolInfo}>
+               <Loading />
+            </section>
+        );
     }
 
     if (error) {
-        console.log(error);
         return (
             <section id="school-info" className={styles.schoolInfo}>
                 <p>Сталась помилка, спробуйте пізніше</p>
@@ -79,7 +70,7 @@ function InfoSchool({ schoolId }) {
         return <p>Дані про школу не знайдені.</p>;
     }
 
-
+    console.log(userRole);
 
     return (
         <section id="school-info" className={styles.schoolInfo}>
@@ -108,31 +99,32 @@ function InfoSchool({ schoolId }) {
                     </div>
                 )}
             </h1>
+
             {schoolInfo.slogan && (
                 <p>
-                {editingField === 'slogan' ? (
-                    <div className={styles.editContainer}>
-                        <input
-                            type="text"
-                            value={tempValue}
-                            onChange={(e) => setTempValue(e.target.value)}
-                        />
-                        <button onClick={() => saveField('slogan')}>💾</button>
-                        <button onClick={cancelEditing}>❌</button>
-                    </div>
-                ) : (
-                    <div className={styles.valueContainer}>
-                        {schoolInfo.slogan}
-                        {userRole === "SCHOOL_ADMIN" && (
-                            <button 
-                                className={styles.editIcon}
-                                onClick={() => startEditing('slogan', schoolInfo.slogan)}
-                            >
-                                ✏️
-                            </button>
-                        )}
-                    </div>
-                )}
+                    {editingField === 'slogan' ? (
+                        <div className={styles.editContainer}>
+                            <input
+                                type="text"
+                                value={tempValue}
+                                onChange={(e) => setTempValue(e.target.value)}
+                            />
+                            <button onClick={() => saveField('slogan')}>💾</button>
+                            <button onClick={cancelEditing}>❌</button>
+                        </div>
+                    ) : (
+                        <div className={styles.valueContainer}>
+                            {schoolInfo.slogan}
+                            {userRole === "SCHOOL_ADMIN" && (
+                                <button 
+                                    className={styles.editIcon}
+                                    onClick={() => startEditing('slogan', schoolInfo.slogan)}
+                                >
+                                    ✏️
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </p>                
             )}
 
@@ -140,34 +132,35 @@ function InfoSchool({ schoolId }) {
                 <tbody>
                     {schoolInfo.years && (
                         <tr>
-                        <th>Рік заснування:</th>
-                        <td>
-                            {editingField === 'years' ? (
-                                <div className={styles.editContainer}>
-                                    <input
-                                        type="number"
-                                        value={tempValue}
-                                        onChange={(e) => setTempValue(e.target.value)}
-                                    />
-                                    <button onClick={() => saveField('years')}>💾</button>
-                                    <button onClick={cancelEditing}>❌</button>
-                                </div>
-                            ) : (
-                                <div className={styles.valueContainer}>
-                                    {schoolInfo.years}
-                                    {userRole === "SCHOOL_ADMIN" && (
-                                        <button 
-                                            className={styles.editIcon}
-                                            onClick={() => startEditing('years', schoolInfo.years)}
-                                        >
-                                            ✏️
-                                        </button>
-                                    )}
-                                </div>
-                            )}
-                        </td>
-                    </tr>
+                            <th>Рік заснування:</th>
+                            <td>
+                                {editingField === 'years' ? (
+                                    <div className={styles.editContainer}>
+                                        <input
+                                            type="number"
+                                            value={tempValue}
+                                            onChange={(e) => setTempValue(e.target.value)}
+                                        />
+                                        <button onClick={() => saveField('years')}>💾</button>
+                                        <button onClick={cancelEditing}>❌</button>
+                                    </div>
+                                ) : (
+                                    <div className={styles.valueContainer}>
+                                        {schoolInfo.years}
+                                        {userRole === "SCHOOL_ADMIN" && (
+                                            <button 
+                                                className={styles.editIcon}
+                                                onClick={() => startEditing('years', schoolInfo.years)}
+                                            >
+                                                ✏️
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
+                            </td>
+                        </tr>
                     )}
+
                     <tr>
                         <th>Розташування:</th>
                         <td>
@@ -196,15 +189,16 @@ function InfoSchool({ schoolId }) {
                             )}
                         </td>
                     </tr>
+
                     <tr>
                         <th>Кількість учнів:</th>
                         <td>{schoolInfo.studentCount}</td>
                     </tr>
+
                     <tr>
                         <th>Кількість вчителів:</th>
                         <td>{schoolInfo.teacherCount}</td>
                     </tr>
-                    
                 </tbody>
             </table>
         </section>
