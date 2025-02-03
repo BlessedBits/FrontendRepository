@@ -9,6 +9,7 @@ import DiaryPage from "./pages/DiaryPage";
 import LogoutPage from "./pages/LogoutPage";
 import PrivateRoute from "./context/PrivateRoute";
 import UnauthorizedPage from "./pages/UnauthorizedPage"; 
+import { LoadingPage } from "./components/basic/LoadingAnimation";
 
 function App() {
     return (
@@ -40,7 +41,8 @@ function App() {
                 {/* Щоденник */}
                 <Route path="my-diary/" element={
                     <PrivateRoute allowedRoles={['STUDENT']} element={<DiaryPage />} />
-                }/>    
+                }/> 
+                <Route path="journal/" element={<LoadingPage />} />   
 
                 {/* Вихід  */}
                 <Route path="logout/" element={

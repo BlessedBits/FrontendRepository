@@ -1,31 +1,38 @@
 import { executeRequest } from '../utils/apiUtils';
 
-export const getSchoolContacts = async (id, axiosPrivateInstance) => {
+export const getSchoolContacts = async (axiosPrivateInstance) => {
 
     return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/${id}/contacts`),
+        () => axiosPrivateInstance.get(`/schools/contacts`),
         200,
         "Profile info in json"
     );
 };
-export const getSchoolInfo = async (id, axiosPrivateInstance) => {
+export const getSchoolInfo = async (axiosPrivateInstance) => {
     return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/${id}`),  
+        () => axiosPrivateInstance.get(`/schools/school`),  
         200, "Info found"
     );
 };
 
-export const getSchoolAchievements = async (id, axiosPrivateInstance) =>{
+export const getSchoolAchievements = async (axiosPrivateInstance) =>{
     return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/${id}/achievements`),  
+        () => axiosPrivateInstance.get(`/schools/achievements`),  
         200, "Info found"
     );
 };
 
-export const createSchoolAchievements = async (id, data, axiosPrivateInstance) => {
+export const createSchoolAchievements = async (data, axiosPrivateInstance) => {
     return executeRequest(
-        () => axiosPrivateInstance.post(`/schools/${id}/achievements/create`, data),  
+        () => axiosPrivateInstance.post(`/schools/achievements/create`, data),  
         201, "Achievement create"
+    );
+};
+
+export const updateSchoolInfo = async (data, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.put(`/schools/update-info`, data),  
+        200, "Data updated!"
     );
 };
 

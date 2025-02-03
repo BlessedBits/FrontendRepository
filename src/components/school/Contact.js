@@ -4,7 +4,7 @@ import { getSchoolContacts } from '../../api/school';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Loading } from '../basic/LoadingAnimation';
 
-function ContactSchool({ schoolId }) {
+function ContactSchool() {
     const [schoolData, setSchoolData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ function ContactSchool({ schoolId }) {
     useEffect(() => {
         async function fetchSchoolData() {
             try {
-                const data = await getSchoolContacts(3, axiosPrivate);
+                const data = await getSchoolContacts(axiosPrivate);
                 setSchoolData(data);
             } catch (error) {
                 setError(error.message);
@@ -23,7 +23,7 @@ function ContactSchool({ schoolId }) {
         }
 
         fetchSchoolData();
-    }, [schoolId, axiosPrivate]);
+    }, [axiosPrivate]);
 
     if (loading) {
         return <Loading />;

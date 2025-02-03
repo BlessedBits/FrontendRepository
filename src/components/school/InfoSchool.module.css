@@ -32,6 +32,7 @@
     opacity: 0.6;
     transition: opacity 0.3s;
     font-size: 16px;
+    user-select: none;
 }
 
 .editIcon:hover {
@@ -45,20 +46,21 @@
 }
 
 .editContainer input {
-    padding: 4px;
+    padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
     max-width: 200px;
     font-size: 16px;
+    background: none;
 }
 
 .editContainer button {
     padding: 4px 8px;
-    background: #f0f0f0;
-    border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    user-select: none;
+    background: none;
 }
 
 @media (max-width: 599px){

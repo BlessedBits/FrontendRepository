@@ -4,6 +4,17 @@
     border-radius: 25px;
     width: 95%;
     max-width: 1350px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.headH2{
+    padding: 20px;
+    font-size: 48px;
+    font-weight: 600;
+    color: #222;
 }
 
 .galleryContainer {
@@ -15,15 +26,6 @@
     max-width: 1400px;
     width: 100%;
     gap: 10px;
-}
-
-.headH2{
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    font-size: 48px;
-    font-weight: 600;
-    color: #222;
 }
 
 .gallery {
@@ -106,6 +108,44 @@
     margin-bottom: 1.5rem;
 }
 
+.toggleButton-hover {
+    user-select: none;
+    width: 160px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 55px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    transition: all .4s ease-in-out;
+}
+
+.toggleButton-hover:hover {
+    background-position: 100% 0;
+    transition: all .4s ease-in-out;
+}
+
+.toggleButton-hover:focus {
+    outline: none;
+}
+
+.toggleButton-hover.bn25 {
+    user-select: none;
+    background-image: linear-gradient(
+      to right,
+      #fc6076,
+      #ff9a44,
+      #ef9d43,
+      #e75516
+    );
+    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+}
+
+
 .inputField, .textareaField {
     width: 100%;
     padding: 1rem;
@@ -168,9 +208,10 @@
 }
 
 .uploadButton {
-    background: #4299e1;
+    background: #56aaef;
     color: white;
-    padding: 0.8rem 1.5rem;
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
     border-radius: 6px;
     transition: background 0.3s ease;
 }
@@ -210,11 +251,6 @@
     .achievementsComponent {
         padding: 15px;
         width: 90%;
-    }
-
-    .galleryContainer {
-        flex-direction: column;
-        align-items: center;
     }
 
     .achievementCard {
@@ -275,6 +311,10 @@
 }
 
 @media (max-width: 480px) { 
+    .galleryContainer {
+        flex-direction: column;
+        align-items: center;
+    }
     .headH2 {
         font-size: 20px;
         font-weight: 300;

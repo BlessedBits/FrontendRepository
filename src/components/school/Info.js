@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './InfoSchool.module.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { getSchoolInfo } from '../../api/school';
+import { getSchoolInfo, updateSchoolInfo } from '../../api/school';
 import { Loading } from '../basic/LoadingAnimation';
 
-function InfoSchool({ schoolId, userRole }) {
+function InfoSchool({ userRole }) {
     const [schoolInfo, setSchoolInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -25,20 +25,23 @@ function InfoSchool({ schoolId, userRole }) {
 
     const saveField = async (fieldName) => {
         try {
-            await axiosPrivate.patch(`/schools/${schoolId}`, {
-                [fieldName]: fieldName === 'years' ? Number(tempValue) : tempValue
-            });
+            await updateSchoolInfo(
+                { [fieldName]: fieldName === 'year' ? Number(tempValue) : tempValue },
+                axiosPrivate
+            );
             setSchoolInfo(prev => ({ ...prev, [fieldName]: tempValue }));
             setEditingField(null);
         } catch (err) {
             console.error('Помилка оновлення:', err);
         }
     };
+    
+    
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const infoResponse = await getSchoolInfo(schoolId, axiosPrivate);
+                const infoResponse = await getSchoolInfo(axiosPrivate);
                 setSchoolInfo(infoResponse);
             } catch (err) {
                 setError(err.response?.data?.message || 'Помилка завантаження даних');
@@ -48,7 +51,7 @@ function InfoSchool({ schoolId, userRole }) {
         };
 
         fetchData();
-    }, [schoolId, axiosPrivate]);
+    }, [ axiosPrivate]);
 
     if (loading) {
         return (
@@ -97,26 +100,24 @@ function InfoSchool({ schoolId, userRole }) {
                     </div>
                 )}
             </h1>
-
-            {schoolInfo.slogan && (
                 <p>
-                    {editingField === 'slogan' ? (
+                    {editingField === 'phrase' ? (
                         <div className={styles.editContainer}>
                             <input
                                 type="text"
                                 value={tempValue}
                                 onChange={(e) => setTempValue(e.target.value)}
                             />
-                            <button onClick={() => saveField('slogan')}>💾</button>
+                            <button onClick={() => saveField('phrase')}>💾</button>
                             <button onClick={cancelEditing}>❌</button>
                         </div>
                     ) : (
                         <div className={styles.valueContainer}>
-                            {schoolInfo.slogan}
+                            {schoolInfo.phrase}
                             {userRole === "SCHOOL_ADMIN" && (
                                 <button 
                                     className={styles.editIcon}
-                                    onClick={() => startEditing('slogan', schoolInfo.slogan)}
+                                    onClick={() => startEditing('phrase', schoolInfo.phrase)}
                                 >
                                     ✏️
                                 </button>
@@ -124,31 +125,30 @@ function InfoSchool({ schoolId, userRole }) {
                         </div>
                     )}
                 </p>                
-            )}
 
             <table className={styles.infoTable}>
                 <tbody>
-                    {schoolInfo.years && (
                         <tr>
                             <th>Рік заснування:</th>
                             <td>
-                                {editingField === 'years' ? (
+                                {editingField === 'year' ? (
                                     <div className={styles.editContainer}>
                                         <input
                                             type="number"
                                             value={tempValue}
                                             onChange={(e) => setTempValue(e.target.value)}
                                         />
-                                        <button onClick={() => saveField('years')}>💾</button>
+                                        <button onClick={() => saveField('year')}>💾</button>
                                         <button onClick={cancelEditing}>❌</button>
                                     </div>
                                 ) : (
                                     <div className={styles.valueContainer}>
-                                        {schoolInfo.years}
+                                        {schoolInfo.year ? (
+                                            <>{schoolInfo.year} рік</>) :(<>Рік ще не встановлений</>)}
                                         {userRole === "SCHOOL_ADMIN" && (
                                             <button 
                                                 className={styles.editIcon}
-                                                onClick={() => startEditing('years', schoolInfo.years)}
+                                                onClick={() => startEditing('year', schoolInfo.year)}
                                             >
                                                 ✏️
                                             </button>
@@ -157,8 +157,6 @@ function InfoSchool({ schoolId, userRole }) {
                                 )}
                             </td>
                         </tr>
-                    )}
-
                     <tr>
                         <th>Розташування:</th>
                         <td>
@@ -174,7 +172,7 @@ function InfoSchool({ schoolId, userRole }) {
                                 </div>
                             ) : (
                                 <div className={styles.valueContainer}>
-                                    {schoolInfo.address}
+                                    {schoolInfo.address} 
                                     {userRole === "SCHOOL_ADMIN" && (
                                         <button 
                                             className={styles.editIcon}
@@ -187,7 +185,6 @@ function InfoSchool({ schoolId, userRole }) {
                             )}
                         </td>
                     </tr>
-
                     <tr>
                         <th>Кількість учнів:</th>
                         <td>{schoolInfo.studentCount}</td>

@@ -5,7 +5,7 @@ import { getSchoolAchievements, createSchoolAchievements } from "../../api/schoo
 import { Loading } from "../basic/LoadingAnimation";
 import Notification from "../basic/Notification";
 
-function AchievementsSchool({ schoolId, userRole }) {
+function AchievementsSchool({ userRole }) {
     const [achievements, setAchievements] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -13,6 +13,7 @@ function AchievementsSchool({ schoolId, userRole }) {
     const [visibleCards, setVisibleCards] = useState(3);
     const [newAchievement, setNewAchievement] = useState({ title: "", description: "", image: null });
     const [notification, setNotification] = useState({ message: "", type: "" });
+    const [showForm, setShowForm] = useState(false); // ✅ Toggle state
 
     const galleryRef = useRef(null);
     const axiosPrivate = useAxiosPrivate();
@@ -20,8 +21,9 @@ function AchievementsSchool({ schoolId, userRole }) {
     useEffect(() => {
         async function fetchAchievements() {
             try {
-                const response = await getSchoolAchievements(schoolId, axiosPrivate);
-                setAchievements(response);
+                const response = await getSchoolAchievements(axiosPrivate);
+                const sortedAchievements = response.sort((a, b) => b.id - a.id);
+                setAchievements(sortedAchievements);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -29,10 +31,8 @@ function AchievementsSchool({ schoolId, userRole }) {
             }
         }
 
-        if (schoolId) {
-            fetchAchievements();
-        }
-    }, [schoolId, axiosPrivate]);
+        fetchAchievements();
+    }, [axiosPrivate]);
 
     useEffect(() => {
         const updateVisibleCards = () => {
@@ -62,9 +62,9 @@ function AchievementsSchool({ schoolId, userRole }) {
             formData.append("description", newAchievement.description);
             formData.append("image", newAchievement.image);
 
-
-            const response = await createSchoolAchievements(schoolId, formData, axiosPrivate);
-            setAchievements(prev => [...prev, response]);
+            const response = await createSchoolAchievements(formData, axiosPrivate);
+            setAchievements(prev => [response, ...prev]);
+            setCurrentIndex(0);
 
             setNewAchievement({ title: "", description: "", image: null });
             setNotification({ message: "Досягнення успішно додано!", type: "success" });
@@ -79,6 +79,8 @@ function AchievementsSchool({ schoolId, userRole }) {
     const handleFileChange = (e) => {
         setNewAchievement({ ...newAchievement, image: e.target.files[0] });
     };
+
+    const toggleForm = () => setShowForm(prev => !prev);
 
     if (loading) {
         return (
@@ -116,43 +118,52 @@ function AchievementsSchool({ schoolId, userRole }) {
             </div>
 
             {userRole === "SCHOOL_ADMIN" && (
-                <div className={styles.formContainer}>
-                    <h3 className={styles.formTitle}>Додати нове досягнення</h3>
-                    <div className={styles.formGroup}>
-                        <input
-                            className={styles.inputField}
-                            type="text"
-                            placeholder=" "
-                            value={newAchievement.title}
-                            onChange={(e) => setNewAchievement({ ...newAchievement, title: e.target.value })}
-                        />
-                        <label className={styles.inputLabel}>Назва</label>
-                    </div>
-                    
-                    <div className={styles.formGroup}>
-                        <textarea
-                            className={styles.textareaField}
-                            placeholder=" "
-                            value={newAchievement.description}
-                            onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
-                        />
-                        <label className={styles.inputLabel}>Опис</label>
-                    </div>
-                
-                    <div className={styles.fileUploadWrapper}>
-                        <label className={styles.fileInputLabel}>
-                            <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput} />
-                            <span className={styles.uploadButton}>Обрати зображення</span>
-                            <span className={styles.fileName}>
-                                {newAchievement.image ? newAchievement.image.name : "Файл не обрано"}
-                            </span>
-                        </label>
-                    </div>
-                
-                    <button className={styles.submitButton} onClick={handleAddAchievement}>
-                        Додати досягнення
+                <>
+                    <button className={`${styles["toggleButton-hover"]} ${styles.bn25}`} onClick={toggleForm}>
+                        <span className={showForm ? 'close' : styles.plus}>
+                            {showForm ? "❌" : "➕"}
+                        </span>
                     </button>
-                </div>
+                    {showForm && (
+                        <div className={styles.formContainer}>
+                            <h3 className={styles.formTitle}>Додати нове досягнення</h3>
+                            <div className={styles.formGroup}>
+                                <input
+                                    className={styles.inputField}
+                                    type="text"
+                                    placeholder=" "
+                                    value={newAchievement.title}
+                                    onChange={(e) => setNewAchievement({ ...newAchievement, title: e.target.value })}
+                                />
+                                <label className={styles.inputLabel}>Назва</label>
+                            </div>
+                            
+                            <div className={styles.formGroup}>
+                                <textarea
+                                    className={styles.textareaField}
+                                    placeholder=" "
+                                    value={newAchievement.description}
+                                    onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
+                                />
+                                <label className={styles.inputLabel}>Опис</label>
+                            </div>
+                        
+                            <div className={styles.fileUploadWrapper}>
+                                <label className={styles.fileInputLabel}>
+                                    <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput} />
+                                    <span className={styles.uploadButton}>Обрати зображення</span>
+                                    <span className={styles.fileName}>
+                                        {newAchievement.image ? newAchievement.image.name : "Файл не обрано"}
+                                    </span>
+                                </label>
+                            </div>
+                        
+                            <button className={styles.submitButton} onClick={handleAddAchievement}>
+                                Додати досягнення
+                            </button>
+                        </div>
+                    )}
+                </>
             )}
 
             <Notification message={notification.message} type={notification.type} />
