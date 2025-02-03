@@ -4,6 +4,7 @@
     background-color: #fff3f3;
     border-radius: 25px;
     width: 100vh; 
+    max-width: 1200px;
 }
 
 .teacherCard {

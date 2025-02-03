@@ -70,8 +70,6 @@ function InfoSchool({ schoolId, userRole }) {
         return <p>Дані про школу не знайдені.</p>;
     }
 
-    console.log(userRole);
-
     return (
         <section id="school-info" className={styles.schoolInfo}>
             <h1>

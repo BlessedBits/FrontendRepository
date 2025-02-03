@@ -58,4 +58,50 @@ export const StudentSidebarData = () => {
         ],
     };
 };
+
+
+export const TeacherSidebarData = () => {
+    return {
+        menu: [
+            { label: 'Профіль', icon: '👤', link: `/my-profile/` },
+            { label: 'Школа', icon: '🏫', link: `/school/` },
+            { label: 'Новини', icon: '📰', link: `/school-news/` },
+            { label: 'Журнал', icon: '📒', link: `/journal/` },
+            { label: 'Розклад', icon: '📅', link: `/my-schedule/` },
+            { label: 'Звіти', icon: '📋', link: `/reports/` },
+            { label: 'Повідомлення', icon: '✉️', link: `/messages/` },
+            { label: 'Курси', icon: '📚', link: `/mycourses/` },
+            { label: 'Вихід', icon: '🚪', link: '/logout' },
+        ],
+    };
+};
+
+
+export const SchoolAdminSidebarData = () => {
+    return {
+        menu: [
+            { label: 'Профіль', icon: '👤', link: `/my-profile/` },
+            { label: 'Школа', icon: '🏫', link: `/school/` },
+            { label: 'Новини', icon: '📰', link: `/school-news/` },
+            { label: 'Розклад', icon: '📅', link: `/my-schedule/` },
+            { label: 'Журнали школи', icon: '📒', link: `/journal/` },
+            { label: 'Адмін панель школи', icon: '📒', link: `/sch-admin-panel/`},
+            { label: 'Звіти', icon: '📋', link: `/reports/` },
+            { label: 'Повідомлення', icon: '✉️', link: `/messages/` },
+            { label: 'Курси', icon: '📚', link: `/mycourses/` },
+            { label: 'Вихід', icon: '🚪', link: '/logout' },
+        ],
+    };
+};
+
+
+export const PlatforAdminSidebarData = () => {
+    return {
+        menu: [
+            { label: 'Адмін панель', icon: '📒',link: '/admin-panel/' },
+            { label: 'Вихід', icon: '🚪', link: '/logout' },
+        ],
+    };
+};
+
 export default Sidebar;

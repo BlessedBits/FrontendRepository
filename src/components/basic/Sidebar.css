@@ -10,10 +10,7 @@
   gap: 20px;
   align-items: center;
   justify-content: flex-start;
-  width: 18%; 
-  min-width: 230px; 
-  max-width: 350px;
-  overflow-y: auto;
+  max-width: 300px;
   user-select: none;
 }
 
@@ -118,14 +115,6 @@
 
 .sidebar ul li a:hover {
   background-color: #636e72;
-}
-
-@media (min-width: 1224px) {
-  .sidebar {
-    width: 18%;
-    min-width: 230px;
-    max-width: 350px;
-  }
 }
 
 @media (max-width: 1223px) and (min-width: 600px) {

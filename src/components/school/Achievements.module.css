@@ -8,12 +8,22 @@
 
 .galleryContainer {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     overflow: hidden;
     position: relative;
     max-width: 1400px;
     width: 100%;
+    gap: 10px;
+}
+
+.headH2{
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    font-size: 48px;
+    font-weight: 600;
+    color: #222;
 }
 
 .gallery {
@@ -23,7 +33,7 @@
     flex-wrap: nowrap;
     overflow: hidden;
     justify-content: center;
-    width: 100%;
+    width: auto;
 }
 
 .achievementCard {
@@ -196,8 +206,100 @@
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
 }
 
-@media (max-width: 1002px) {
+@media (max-width: 1240px) { 
+    .achievementsComponent {
+        padding: 15px;
+        width: 90%;
+    }
+
+    .galleryContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .achievementCard {
         width: 200px;
+        min-width: 200px;
+    }
+
+    .achievementImage {
+        height: 150px;
+    }
+
+    .headH2 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 768px) { 
+    .achievementsComponent {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .gallery {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .achievementCard {
+        width: 100%;
+        max-width: 180px;
+    }
+
+    .achievementImage {
+        height: 120px;
+    }
+
+    .headH2 {
+        font-size: 24px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .formContainer {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .inputField, .textareaField {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+
+    .uploadButton, .submitButton {
+        font-size: 0.9rem;
+        padding: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) { 
+    .headH2 {
+        font-size: 20px;
+        font-weight: 300;
+    }
+
+    .achievementCard {
+        width: 100%;
+        max-width: 160px;
+    }
+
+    .achievementImage {
+        height: 100px;
+    }
+
+    .formContainer {
+        padding: 0.8rem;
+    }
+
+    .inputField, .textareaField {
+        font-size: 0.8rem;
+        padding: 0.6rem;
+    }
+
+    .uploadButton, .submitButton {
+        font-size: 0.8rem;
+        padding: 0.6rem;
     }
 }
