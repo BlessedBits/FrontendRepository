@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import InfoProfile from "../components/profile/Info";
 import ActivityProfile from "../components/profile/Activity";
-import Sidebar, { StudentSidebarData } from "../components/basic/Sidebar";
+import Sidebar from "../components/basic/Sidebar";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { ProfileInfo } from "../api/profile";
 
 const ProfilePage = ({userRole}) => {
-  const sidebarData = StudentSidebarData();
   const axiosPrivate = useAxiosPrivate();
 
   const [profileData, setProfileData] = useState(null);
@@ -30,7 +29,7 @@ const ProfilePage = ({userRole}) => {
 
   return (
     <>
-      <Sidebar menu={sidebarData.menu} />
+      <Sidebar role={userRole} />
       <main>
         <section data-content="true" className="content">
           <div className="profile-page">

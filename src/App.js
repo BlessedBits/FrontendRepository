@@ -19,7 +19,7 @@ function App() {
 
                 {/* Сторінка "Школа"*/}
                 <Route path="school/" element={
-                    <PrivateRoute allowedRoles={['TEACHER', 'STUDENT', 'SCHOOL_ADMIN']} element={<SchoolPage />} />
+                    <PrivateRoute allowedRoles={['TEACHER', 'STUDENT', 'SCHOOL_ADMIN', 'PLATFORM_ADMIN']} element={<SchoolPage />} />
                 }/>
 
                 {/* Курси */}
