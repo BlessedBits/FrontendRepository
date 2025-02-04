@@ -25,6 +25,8 @@ const PhotoUpload = ({ axiosPrivate }) => {
     const handleUpload = async () => {
         if (!file) return;
 
+        setMessage({ type: "loading", text: "Завантаження фото..." })
+
         try {
             await updateProfileImage(file, axiosPrivate);
             setMessage({ type: "success", text: "Фото успішно завантажено!" });

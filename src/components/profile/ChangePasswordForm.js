@@ -21,6 +21,8 @@ const ChangePasswordForm = ({ axiosPrivate, onClose }) => {
             return;
         }
 
+        setMessage({ type: "loading", text: "Оновлення паролю" })
+
         try {
             await changePassword(oldPassword, newPassword, confirmPassword, axiosPrivate);
             setMessage({ type: "success", text: "Пароль успішно змінено! Не забудьте зберегти новий пароль!" });

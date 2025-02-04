@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "./ProfileModal";
 import styles from "./Activity.module.css";
 
-const ActivityProfile = ({ profileData }) => {
+const ActivityProfile = ({ profileData, isOwnProfile }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const handleEditClick = () => {
@@ -23,9 +23,11 @@ const ActivityProfile = ({ profileData }) => {
             <strong>{profileData?.firstName}</strong>
             <strong>{profileData?.secondName}</strong>
             </p>
-            <button className={styles.editButton} onClick={handleEditClick}>
-            Редагувати
-            </button>
+            {isOwnProfile && (
+                <button className={styles.editButton} onClick={handleEditClick}>
+                    Редагувати
+                </button>
+            )}
         </div>
         {isEditing && (
             <SettingsProfile

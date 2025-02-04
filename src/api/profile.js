@@ -1,9 +1,18 @@
 import { executeRequest } from '../utils/apiUtils';
 
-export const ProfileInfo = async (axiosPrivateInstance) => {
+export const getProfileInfo = async (axiosPrivateInstance) => {
 
     return executeRequest(
         () => axiosPrivateInstance.get('users/profile'),
+        200,
+        "Profile info in json"
+    );
+};
+
+export const getProfileInfoById = async (id, axiosPrivateInstance) => {
+
+    return executeRequest(
+        () => axiosPrivateInstance.get(`users/profile/${id}`),
         200,
         "Profile info in json"
     );

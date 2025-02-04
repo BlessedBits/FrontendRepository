@@ -11,6 +11,8 @@ const GmailForm = ({ axiosPrivate, onClose }) => {
         e.preventDefault();
         setMessage(null);
 
+        
+
         try {
             await updateProfileInfo({ email: gmail }, axiosPrivate);
             setMessage({ type: "success", text: "Наш направлено лист підтвердження" });
