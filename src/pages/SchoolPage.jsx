@@ -1,32 +1,25 @@
-import React from "react";
 import InfoSchool from "../components/school/Info";
 import AchievementsSchool from "../components/school/Achievements";
 import GallerySchool from "../components/school/Gallery";
-import TeacherSchool from "../components/school/Teacher.js";
+import TeacherSchool from "../components/school/Teacher";
 import ContactSchool from "../components/school/Contact";
-import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
-import { useUser } from '../context/Context.jsx';
+import Sidebar from "../components/basic/Sidebar";
 
-const SchoolPage = () => {
-  const userInfo = useUser();
-  const sidebarData = StudentSidebarData();
-
+const SchoolPage = ({ userRole }) => { 
   return (
     <>
-      <Sidebar menu={sidebarData.menu} />
+      <Sidebar role={userRole} />
       <main>
         <section data-content="true" className="content">
-          <InfoSchool schoolId={userInfo?.schoolId} />
-          <AchievementsSchool schoolId={userInfo?.schoolId} />
-          <GallerySchool schoolId={userInfo?.schoolId} />
-          <TeacherSchool schoolId={userInfo?.schoolId} />
-          <ContactSchool schoolId={userInfo?.schoolId} />
+          <InfoSchool userRole={userRole} />
+          <AchievementsSchool userRole={userRole} />
+          <GallerySchool userRole={userRole}/>
+          <TeacherSchool userRole={userRole}/>
+          <ContactSchool userRole={userRole}/>
         </section>
       </main>
     </>
   );
 };
-
-
 
 export default SchoolPage;

@@ -1,21 +1,18 @@
 import React from "react";
 import CourseList from "../components/courses/CourseList";
-import { useUser } from '../context/Context.jsx';
-import Sidebar, {  StudentSidebarData } from "../components/basic/Sidebar";
+import Sidebar from "../components/basic/Sidebar";
 
-const CoursePage = () => {
-    const userInfo = useUser();
-    const sidebarData = StudentSidebarData();
+const CoursePage = ({userRole}) => {
     return (
       <>
-        <Sidebar menu={sidebarData.menu} />
-        <main>
-            <section data-content="true" className="content">
-                <CourseList userId={userInfo?.user_id} isTeacher={true} />
-            </section>
-        </main>
+          <Sidebar role={userRole} />
+          <main>
+              <section data-content="true" className="content">
+                  <CourseList userRole={userRole} />
+              </section>
+          </main>
       </>
-    );
-  };
-  
-  export default CoursePage;
+  );
+};
+
+export default CoursePage;

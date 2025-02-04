@@ -2,39 +2,61 @@
     padding: 20px;
     background-color: #fff3f3;
     border-radius: 25px;
+    width: 95%;
+    max-width: 1350px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.headH2{
+    padding: 20px;
+    font-size: 48px;
+    font-weight: 600;
+    color: #222;
 }
 
 .galleryContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
     overflow: hidden;
+    position: relative;
+    max-width: 1400px;
+    width: 100%;
+    gap: 10px;
 }
 
 .gallery {
     display: flex;
-    gap: 20px; /* Розмір між картками */
-    transition: transform 1.5s ease; /* Анімація при переміщенні */
+    gap: 20px;
+    transition: transform 0.5s ease;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    justify-content: center;
+    width: auto;
 }
 
 .achievementCard {
-    width: 250px; 
+    width: 250px;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
     text-align: center;
+    transition: transform 0.3s ease;
 }
 
 .achievementImage {
     width: 100%;
     height: 200px;
     border-radius: 5px;
+    user-select: none;
 }
 
 .achievementDescription {
@@ -54,6 +76,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 
 .navButton:disabled {
@@ -62,4 +85,286 @@
 
 .navButton:hover {
     background-color: rgba(0, 0, 0, 0.85    );
+}
+
+.adminActions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.editButton, .deleteButton {
+    user-select: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.editButton:hover {
+    color: #007bff;
+    transform: scale(1.2);
+}
+
+.deleteButton:hover {
+    color: #ff4d4d;
+    transform: scale(1.2);
+}
+
+.toggleButton-hover {
+    user-select: none;
+    width: 160px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 55px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    transition: all .4s ease-in-out;
+}
+
+.toggleButton-hover:hover {
+    background-position: 100% 0;
+    transition: all .4s ease-in-out;
+}
+
+.toggleButton-hover:focus {
+    outline: none;
+}
+
+.toggleButton-hover.bn25 {
+    user-select: none;
+    background-image: linear-gradient(
+      to right,
+      #fc6076,
+      #ff9a44,
+      #ef9d43,
+      #e75516
+    );
+    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+}
+
+.formContainer {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formTitle {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.formGroup {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.inputField, .textareaField {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.inputField:focus, .textareaField:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.inputLabel {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: #718096;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 0 0.5rem;
+}
+
+.inputField:placeholder-shown + .inputLabel,
+.textareaField:placeholder-shown + .inputLabel {
+    top: 1.1rem;
+    font-size: 1rem;
+}
+
+.inputField:focus + .inputLabel,
+.textareaField:focus + .inputLabel,
+.inputField:not(:placeholder-shown) + .inputLabel,
+.textareaField:not(:placeholder-shown) + .inputLabel {
+    top: -0.6rem;
+    font-size: 0.8rem;
+    color: #4299e1;
+}
+
+.textareaField {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.fileUploadWrapper {
+    margin: 1.5rem 0;
+}
+
+.fileInputLabel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.fileInput {
+    display: none;
+}
+
+.uploadButton {
+    background: #56aaef;
+    color: white;
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.uploadButton:hover {
+    background: #3182ce;
+}
+
+.fileName {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 1rem;
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submitButton:hover {
+    background: #38a169;
+}
+
+.uploadButton:focus, .submitButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+
+@media (max-width: 1240px) { 
+    .achievementsComponent {
+        padding: 15px;
+        width: 90%;
+    }
+
+    .achievementCard {
+        width: 200px;
+        min-width: 200px;
+    }
+
+    .achievementImage {
+        height: 150px;
+    }
+
+    .headH2 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 768px) { 
+    .achievementsComponent {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .gallery {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .achievementCard {
+        width: 100%;
+        max-width: 180px;
+    }
+
+    .achievementImage {
+        height: 120px;
+    }
+
+    .headH2 {
+        font-size: 24px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .formContainer {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .inputField, .textareaField {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+
+    .uploadButton, .submitButton {
+        font-size: 0.9rem;
+        padding: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) { 
+    .galleryContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+    .headH2 {
+        font-size: 20px;
+        font-weight: 300;
+    }
+
+    .achievementCard {
+        width: 100%;
+        max-width: 160px;
+    }
+
+    .achievementImage {
+        height: 100px;
+    }
+
+    .formContainer {
+        padding: 0.8rem;
+    }
+
+    .inputField, .textareaField {
+        font-size: 0.8rem;
+        padding: 0.6rem;
+    }
+
+    .uploadButton, .submitButton {
+        font-size: 0.8rem;
+        padding: 0.6rem;
+    }
 }

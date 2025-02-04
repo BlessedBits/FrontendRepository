@@ -1,14 +1,11 @@
 import React from "react";
 import TestDiaryPage from "../components/diary/TestDiary.js"; 
-import { useUser } from "../context/Context.jsx";
-import Sidebar, { StudentSidebarData } from "../components/basic/Sidebar";
+import Sidebar from "../components/basic/Sidebar";
 
-const DiaryPage = () => {
-  const userInfo = useUser();
-  const sidebarData = StudentSidebarData();
+const DiaryPage = ({userRole}) => {
   return (
     <>
-      <Sidebar menu={sidebarData.menu} />
+      <Sidebar role={userRole} />
       <main>
         <section data-content="true" className="content">
           <TestDiaryPage /> 

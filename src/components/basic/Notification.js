@@ -5,7 +5,10 @@ const Notification = ({ message, type }) => {
     if (!message) return null; 
 
     return (
-        <div className={`${styles.notification} ${type === "success" ? styles.success : styles.error}`}>
+        <div className={`${styles.notification} 
+                         ${type === "success" ? styles.success : 
+                          type === "error" ? styles.error : 
+                          styles.loading}`}>
             {message}
         </div>
     );

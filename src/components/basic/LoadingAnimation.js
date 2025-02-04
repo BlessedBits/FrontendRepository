@@ -1,12 +1,7 @@
 import style from "./Loading.module.css"
 export const LoadingPage = () => {
     return (
-        <div class={style.LoadingPage}>
-            <div class={style.waveLoader}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+        <div className={style.loader}>
         </div>
     );
 };

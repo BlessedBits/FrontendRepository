@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import styles from './ContactSchool.module.css';
-import { getSchoolContacts } from '../../api/school';
+import React, { useState, useEffect } from "react";
+import styles from "./ContactSchool.module.css";
+import { getSchoolContacts, updateSchoolContacts } from "../../api/school";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { Loading } from "../basic/LoadingAnimation";
+import Notification from "../basic/Notification";
 
-function ContactSchool({ schoolId }) {
+function ContactSchool({ userRole }) {
     const [schoolData, setSchoolData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [updatedData, setUpdatedData] = useState({});
+    const [notification, setNotification] = useState({ message: "", type: "" });
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         async function fetchSchoolData() {
             try {
-                const response = await fetch(`/api/schools/${schoolId}/contact`);
-                if (!response.ok) {
-                    throw new Error('Не вдалося завантажити дані школи');
-                }
-                const data = await response.json();
+                const data = await getSchoolContacts(axiosPrivate);
                 setSchoolData(data);
+                setUpdatedData(data); // Ініціалізуємо форму
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -24,103 +28,219 @@ function ContactSchool({ schoolId }) {
         }
 
         fetchSchoolData();
-    }, [schoolId]);
+    }, [axiosPrivate]);
+
+    const handleSave = async () => {
+        setNotification({ message: "Оновлення даних...", type: "loading" });
+        try {
+            const updated = await updateSchoolContacts(updatedData, axiosPrivate);
+            setSchoolData(updated); // Оновлюємо дані після успішного збереження
+            setNotification({ message: "Дані успішно оновлені!", type: "success" });
+            setEditMode(false);
+        } catch (error) {
+            console.error("Помилка оновлення:", error);
+            setNotification({ message: "Не вдалося оновити дані!", type: "error" });
+        }
+
+        setTimeout(() => setNotification({ message: "", type: "" }), 3000);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedData((prev) => ({ ...prev, [name]: value }));
+    };
 
     if (loading) {
-        return <p>Завантаження даних...</p>;
+        return (
+            <section id="contacts" className={styles.contacts}>
+                <Loading />
+            </section>
+        );
     }
 
     if (error) {
         return (
             <section id="contacts" className={styles.contacts}>
-                <h2>Контакти</h2>
-                <form className={styles.contactForm}>
-                    <label htmlFor="phone">Телефон:</label>
-                    <input type="text" id="phone" value="+380xxxxxxxxx" readOnly />
-
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" value="test@gmail.com" readOnly />
-                </form>
-
-                <div className={styles.socialMedia}>
-                    <h3>Ми в соц мережах:</h3>
-                    <ul className={styles.socialIcons}>
-                        <li>
-                            <img src="/icons/facebook.png" alt="Facebook" />
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                Facebook
-                            </a>
-                        </li>
-                        <li>
-                            <img src="/icons/youtube.png" alt="YouTube" />
-                            <a href="https://www.youtube.com/watch?v=S6YDWy6wH7w" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                YouTube
-                            </a>
-                        </li>
-                        <li>
-                            <img src="/icons/instagram.png" alt="Instagram" />
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                Instagram
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <p>
+                    <strong>На жаль, не вдалось знайти контакти даної школи. Спробуйте пізніше.</strong>
+                </p>
             </section>
         );
     }
 
     if (!schoolData) {
-        return <p>Дані не знайдені.</p>;
+        return (
+            <section id="contacts" className={styles.contacts}>
+                <p>
+                    <strong>Дана школа немає контактів</strong>
+                </p>
+            </section>
+        );
     }
 
     return (
         <section id="contacts" className={styles.contacts}>
             <h2>Контакти школи</h2>
-            <form className={styles.contactForm}>
-                <label htmlFor="phone">Телефон:</label>
-                <input type="text" id="phone" value={schoolData.phone_number} readOnly />
 
-                <label htmlFor="email">Email:</label>
-                <input type="email" id="email" value={schoolData.email} readOnly />
-            </form>
+            {!editMode ? (
+                <div className={styles.contactInfo}>
+                    <p>
+                        <strong>Телефон:</strong> {schoolData.phoneNumber}
+                    </p>
+                    <p>
+                        <strong>Email:</strong> {schoolData.email}
+                    </p>
 
-            <div className={styles.socialMedia}>
-                <h3>Ми в соцмережах:</h3>
-                <ul className={styles.socialIcons}>
-                    {schoolData.youtube_link && (
-                        <li>
-                            <img src="/icons/youtube.png" alt="YouTube" />
-                            <a href={schoolData.youtube_link} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                YouTube
-                            </a>
-                        </li>
+                    <div className={styles.socialMedia}>
+                        <h3>Ми в соцмережах:</h3>
+                        <ul className={styles.socialIcons}>
+                            {schoolData.youtubeLink && (
+                                <li>
+                                    <img src="/icons/youtube.png" alt="YouTube" />
+                                    <a
+                                        href={schoolData.youtubeLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialLink}
+                                    >
+                                        YouTube
+                                    </a>
+                                </li>
+                            )}
+                            {schoolData.facebookLink && (
+                                <li>
+                                    <img src="/icons/facebook.png" alt="Facebook" />
+                                    <a
+                                        href={schoolData.facebookLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialLink}
+                                    >
+                                        Facebook
+                                    </a>
+                                </li>
+                            )}
+                            {schoolData.instagramLink && (
+                                <li>
+                                    <img src="/icons/instagram.png" alt="Instagram" />
+                                    <a
+                                        href={schoolData.instagramLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialLink}
+                                    >
+                                        Instagram
+                                    </a>
+                                </li>
+                            )}
+                            {schoolData.tiktokLink && (
+                                <li>
+                                    <img src="/icons/tiktok.png" alt="TikTok" />
+                                    <a
+                                        href={schoolData.tiktokLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialLink}
+                                    >
+                                        TikTok
+                                    </a>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+
+                    {userRole === "SCHOOL_ADMIN" && (
+                        <button className={styles.editButton} onClick={() => setEditMode(true)}>
+                            Редагувати
+                        </button>
                     )}
-                    {schoolData.facebook_link && (
-                        <li>
-                            <img src="/icons/facebook.png" alt="Facebook" />
-                            <a href={schoolData.facebook_link} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                Facebook
-                            </a>
-                        </li>
-                    )}
-                    {schoolData.instagram_link && (
-                        <li>
-                            <img src="/icons/instagram.png" alt="Instagram" />
-                            <a href={schoolData.instagram_link} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                Instagram
-                            </a>
-                        </li>
-                    )}
-                    {schoolData.tiktok_link && (
-                        <li>
-                            <img src="/icons/tiktok.png" alt="TikTok" />
-                            <a href={schoolData.tiktok_link} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                TikTok
-                            </a>
-                        </li>
-                    )}
-                </ul>
-            </div>
+                </div>
+            ) : (
+                <div className={styles.editForm}>
+                    <h3>Редагувати контакти</h3>
+
+                    {/* Поле для телефону */}
+                    <div className={styles.formGroup}>
+                        <label>Телефон</label>
+                        <input
+                            type="text"
+                            name="phoneNumber"
+                            value={updatedData.phoneNumber}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    {/* Поле для email */}
+                    <div className={styles.formGroup}>
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={updatedData.email}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    {/* Поля для соцмереж */}
+                    <div className={styles.formGroup}>
+                        <label>YouTube</label>
+                        <input
+                            type="url"
+                            name="youtubeLink"
+                            value={updatedData.youtubeLink || ""}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label>Facebook</label>
+                        <input
+                            type="url"
+                            name="facebookLink"
+                            value={updatedData.facebookLink || ""}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label>Instagram</label>
+                        <input
+                            type="url"
+                            name="instagramLink"
+                            value={updatedData.instagramLink || ""}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label>TikTok</label>
+                        <input
+                            type="url"
+                            name="tiktokLink"
+                            value={updatedData.tiktokLink || ""}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    {/* Кнопки */}
+                    <div className={styles.buttonGroup}>
+                        <button className={styles.saveButton} onClick={handleSave}>
+                            Зберегти
+                        </button>
+                        <button className={styles.cancelButton} onClick={() => setEditMode(false)}>
+                            Скасувати
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            <Notification message={notification.message} type={notification.type} />
         </section>
     );
 }
