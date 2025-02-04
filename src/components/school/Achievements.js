@@ -125,8 +125,21 @@ function AchievementsSchool({ userRole }) {
         setNewAchievement({ id: null, title: "", description: "", image: null });
     };
 
-    if (loading) return <Loading />;
-    if (error) return <p>{error}</p>;
+    if (loading) {
+        return(
+            <section id="achievements" className={styles.achievementsComponent}>
+                <Loading/>
+            </section>
+        ) 
+    }
+
+    if (error) {
+        return(
+            <section id="achievements" className={styles.achievementsComponent}>
+                <p>Помилка завантаження {error}</p>
+            </section>
+        )
+    }
 
     return (
         <section id="achievements" className={styles.achievementsComponent}>

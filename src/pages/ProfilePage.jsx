@@ -14,7 +14,7 @@ const ProfilePage = ({ userRole }) => {
 
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null); // Зберігаємо ID поточного користувача
+  const [currentUserId, setCurrentUserId] = useState(null); 
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -36,16 +36,32 @@ const ProfilePage = ({ userRole }) => {
           setProfileData(data);
         }
       } catch (err) {
-        console.error(err);
-        setError("Не вдалося завантажити інформацію профілю.");
-      }
+        
+        if (err.message === "Unhandled response status: 404") {
+            setError("Користувача не знайдено. Перевірте правильність введених даних.");
+        } else {
+            setError("Не вдалося завантажити інформацію профілю. Спробуйте пізніше.");
+        }
+    }
+    
     };
 
     fetchProfileData();
   }, [axiosPrivate, id, navigate]);
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <>
+        <Sidebar role={userRole} />
+        <main>
+          <section data-content="true" className="content">
+            <div className="profile-page">
+              <p>{error}</p>
+            </div>
+          </section>
+        </main>
+      </>
+    )
   }
 
   if (!profileData) {

@@ -3,6 +3,7 @@ import styles from './InfoSchool.module.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { getSchoolInfo, updateSchoolInfo } from '../../api/school';
 import { Loading } from '../basic/LoadingAnimation';
+import Notification from '../basic/Notification';
 
 function InfoSchool({ userRole }) {
     const [schoolInfo, setSchoolInfo] = useState(null);
@@ -10,6 +11,8 @@ function InfoSchool({ userRole }) {
     const [error, setError] = useState(null);
     const [editingField, setEditingField] = useState(null);
     const [tempValue, setTempValue] = useState('');
+    const [notification, setNotification] = useState({ message: "", type: "" });
+
     
     const axiosPrivate = useAxiosPrivate();
 
@@ -24,16 +27,21 @@ function InfoSchool({ userRole }) {
     };
 
     const saveField = async (fieldName) => {
+
+        setNotification({ message: "Оновлюється інформація..." , type: "loading" });
         try {
             await updateSchoolInfo(
                 { [fieldName]: fieldName === 'year' ? Number(tempValue) : tempValue },
                 axiosPrivate
             );
             setSchoolInfo(prev => ({ ...prev, [fieldName]: tempValue }));
+            setNotification({ message: "Інформація оновлена!", type: "success" });
             setEditingField(null);
         } catch (err) {
             console.error('Помилка оновлення:', err);
+            setNotification({ message: "Помилка при обробці!", type: "error" });
         }
+        setTimeout(() => setNotification({ message: "", type: "" }), 3000);
     };
     
     
@@ -196,6 +204,7 @@ function InfoSchool({ userRole }) {
                     </tr>
                 </tbody>
             </table>
+            <Notification message={notification.message} type={notification.type} />
         </section>
     );
 }

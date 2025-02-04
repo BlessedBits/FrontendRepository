@@ -13,9 +13,9 @@ const SchoolPage = ({ userRole }) => {
         <section data-content="true" className="content">
           <InfoSchool userRole={userRole} />
           <AchievementsSchool userRole={userRole} />
-          <GallerySchool />
-          <TeacherSchool />
-          <ContactSchool />
+          <GallerySchool userRole={userRole}/>
+          <TeacherSchool userRole={userRole}/>
+          <ContactSchool userRole={userRole}/>
         </section>
       </main>
     </>
