@@ -67,7 +67,8 @@ const Sidebar = ({ role }) => {
                 <div className="sidebar-logo">
                     <h2>
                         <img src={`/weblogo.png`} alt="weblogo" className="icon" />
-                        <span>SchoolHub</span>
+                        <span className="schoolText">School</span>
+                        <span className="hubText">Hub</span>
                     </h2>
                 </div>
                 <ul>
