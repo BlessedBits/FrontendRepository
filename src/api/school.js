@@ -19,7 +19,7 @@ export const getSchoolGallery = async (axiosPrivateInstance) => {
     return executeRequest(
         () => axiosPrivateInstance.get(`/schools/all-gallery-images`),
         200,
-        "Profile info in json"
+        "Gallery load"
     );
 };
 
@@ -75,11 +75,9 @@ export const deleteSchoolAchievements = async (id, axiosPrivateInstance) => {
     );
 };
 
-export const deleteSchoolFoto = async (galleryImage, axiosPrivateInstance) => {
-
-    const data = {galleryImage};
+export const deleteSchoolFoto = async (id, axiosPrivateInstance) => {
     return executeRequest(
-        () => axiosPrivateInstance.delete('/schools/delete-gallery-image/',data),  
+        () => axiosPrivateInstance.delete(`/schools/delete-gallery-image/${id}`),  
         204, "No content"
     );
 };

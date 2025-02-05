@@ -6,9 +6,10 @@ import Sidebar from "../components/basic/Sidebar";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { getProfileInfo, getProfileInfoById } from "../api/profile";
 import { getUserId } from "../api/user";
+import { Loading } from "../components/basic/LoadingAnimation";
 
 const ProfilePage = ({ userRole }) => {
-  const { id } = useParams(); // Отримуємо id з URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
 
@@ -65,7 +66,18 @@ const ProfilePage = ({ userRole }) => {
   }
 
   if (!profileData) {
-    return <p>Завантаження профілю...</p>;
+    return(
+      <>
+        <Sidebar role={userRole} />
+        <main>
+          <section data-content="true" className="content">
+            <div className="profile-page">
+              <Loading/>
+            </div>
+          </section>
+        </main>
+      </>
+    ) 
   }
 
   const isOwnProfile = !id || id === currentUserId;

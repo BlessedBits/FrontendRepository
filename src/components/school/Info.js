@@ -83,7 +83,7 @@ function InfoSchool({ userRole }) {
 
     return (
         <section id="school-info" className={styles.schoolInfo}>
-            <h1>
+            <h1 className={styles.h1}>
                 {editingField === 'name' ? (
                     <div className={styles.editContainer}>
                         <input
@@ -120,7 +120,7 @@ function InfoSchool({ userRole }) {
                             <button onClick={cancelEditing}>❌</button>
                         </div>
                     ) : (
-                        <div className={styles.valueContainer}>
+                        <div className={styles.p}>
                             {schoolInfo.phrase}
                             {userRole === "SCHOOL_ADMIN" && (
                                 <button 
