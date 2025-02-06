@@ -75,12 +75,16 @@ export const deleteSchoolAchievements = async (id, axiosPrivateInstance) => {
     );
 };
 
-export const deleteSchoolFoto = async (id, axiosPrivateInstance) => {
+export const deleteSchoolFoto = async (image, axiosPrivateInstance) => {
     return executeRequest(
-        () => axiosPrivateInstance.delete(`/schools/delete-gallery-image/${id}`),  
-        204, "No content"
+        () => axiosPrivateInstance.delete(`/schools/delete-gallery-image`, {
+            params: { image } 
+        }),
+        204,
+        "No content"
     );
 };
+
 
 
 

@@ -9,7 +9,7 @@ export const getRole = async (axiosPrivateInstance) =>
 export const getUserId = async (axiosPrivateInstance) => 
     executeRequest(
         () => axiosPrivateInstance.get(`/users/my-id`),  
-        200, "Role"
+        200, "ID"
     );
 
 export const getUserSchool = async (axiosPrivateInstance) => 

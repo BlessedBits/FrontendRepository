@@ -59,12 +59,12 @@ function GallerySchool({ userRole }) {
         setTimeout(() => setNotification({ message: "", type: "" }), 3000);
     };
 
-    const handleDeletePhoto = async (id) => {
+    const handleDeletePhoto = async (galleryImage) => {
         setNotification({type: "loading", message: "Фото видаляється..."})
         try {
-            await deleteSchoolFoto(id, axiosPrivate); 
-            setNotification({type: "success", message: "Фото видаілено"})
-            setPhotos(prevPhotos => prevPhotos.filter(photo => photo.id !== id)); 
+            await deleteSchoolFoto(galleryImage, axiosPrivate); 
+            setNotification({type: "success", message: "Фото видалено"})
+            setPhotos(prevPhotos => prevPhotos.filter(photo => photo.galleryImage !== galleryImage)); 
         } catch (error) {
             console.error("Помилка при видаленні фото:", error);
             setNotification({type: "error", message: "Помилка. Спробуйте пізніше"})
@@ -124,7 +124,7 @@ function GallerySchool({ userRole }) {
                                 {userRole === "SCHOOL_ADMIN" && (
                                     <button
                                         className={styles.deleteButton}
-                                        onClick={() => handleDeletePhoto(photo.id)}
+                                        onClick={() => handleDeletePhoto(photo.galleryImage)}
                                     >
                                         ❌
                                     </button>

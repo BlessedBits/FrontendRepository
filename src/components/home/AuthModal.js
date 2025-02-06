@@ -20,8 +20,8 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isRegistering, setIsRegistering] = useState(initialIsRegistering);
-  const [error, setError] = useState(null);
   const { setAuth } = useContext(AuthContext);
+  const [notification, setNotification] = useState(null); 
   const navigate = useNavigate();
 
   const [regions, setRegions] = useState([]);
@@ -79,10 +79,10 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     try {
       if (isRegistering) {
+        setNotification({ type: "loading", text: "Насилається запит" });
         await register(
           formData.username,
           formData.email,
@@ -91,15 +91,23 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
             ? { customSchoolName: formData.customSchoolName, customSchoolDescription: formData.customSchoolDescription }
             : { region: formData.region, educationDepartment: formData.educationDepartment, school: formData.school }
         );
+        setNotification({ type: "success", text: "Реєстрація пройшла успішно! Відповідь буде надіслана на email, протягом тижня" });
       } else {
+        setNotification({ type: "loading", text: "Виконується вхід" });
         await login(formData.username, formData.password, rememberMe, setAuth, navigate);
+        setNotification({ type: "success", text: "Вхід виконано успішно!" });
         onClose();
       }
-      onClose();
     } catch (err) {
-      setError(err.message);
-      setTimeout(() => setError(null), 3000);
+      if(isRegistering)
+        setNotification({ type: "error", text: "Помилка: спробуйте пізніше" });
+      else if(err.message === "User")
+        setNotification({ type: "error", text: "Невірний логін, або пароль" });
+      else
+        setNotification({ type: "error", text: "Помилка: спробуйте пізніше" });
     }
+
+    setTimeout(() => setNotification(null), 3000);
   };
 
   if (!isOpen) return null;
@@ -115,80 +123,84 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
           <span className={styles.hubText}>Hub</span>
         </div>
         <div className={styles.authForm}>
-          <Notification message={error} type="error" />
+          {/* Notification Component */}
+          {notification && (
+            <Notification message={notification.text} type={notification.type} />
+          )}
           <form onSubmit={handleSubmit}>
             {isRegistering && (
-              <>
-                <div className={styles.registrationExtra}>
-                  {!createCustomSchool ? (
-                    <>
-                      <select className={styles.regselector} value={formData.region} onChange={handleChange} required>
-                        <option value="">Оберіть область</option>
-                        {regions.map((region) => (
-                          <option key={region.id} value={region.name}>
-                            {region.name}
-                          </option>
-                        ))}
-                      </select>
-                      <select
-                        className={styles.regselector}
-                        value={formData.educationDepartment}
-                        onChange={handleChange}
-                        disabled={!formData.region}
-                        required
-                      >
-                        <option value="">Оберіть відділ освіти</option>
-                        {educationDepartments.map((department) => (
-                          <option key={department.id} value={department.name}>
-                            {department.name}
-                          </option>
-                        ))}
-                      </select>
-                      <select
-                        className={styles.regselector}
-                        value={formData.school}
-                        onChange={handleChange}
-                        disabled={!formData.educationDepartment}
-                        required
-                      >
-                        <option value="">Оберіть навчальний заклад</option>
-                        {schools.map((school) => (
-                          <option key={school.id} value={school.name}>
-                            {school.name}
-                          </option>
-                        ))}
-                      </select>
-                    </>
-                  ) : (
-                    <>
-                      <input
-                        type="text"
-                        name="customSchoolName"
-                        placeholder="Назва школи"
-                        value={formData.customSchoolName}
-                        onChange={handleChange}
-                        required
-                      />
-                      <textarea
-                        className={styles.customSchoolDescription}
-                        placeholder="Опис школи"
-                        value={formData.customSchoolDescription}
-                        onChange={handleChange}
-                        required
-                      />
-                    </>
-                  )}
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Введіть пошту майбутнього адміна"
-                    value={formData.email}
-                    onChange={handleChange}
-                    autoComplete="email"
-                    required
-                  />
-                </div>
-              </>
+              <div className={styles.registrationExtra}>
+                {!createCustomSchool ? (
+                  <>
+                    <select className={styles.regselector} name="region" value={formData.region} onChange={handleChange} required>
+                      <option value="">Оберіть область</option>
+                      {regions.map((region) => (
+                        <option key={region.id} value={region.name}>
+                          {region.name}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      className={styles.regselector}
+                      name="educationDepartment"
+                      value={formData.educationDepartment}
+                      onChange={handleChange}
+                      disabled={!formData.region}
+                      required
+                    >
+                      <option value="">Оберіть відділ освіти</option>
+                      {educationDepartments.map((department) => (
+                        <option key={department.id} value={department.name}>
+                          {department.name}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      className={styles.regselector}
+                      name="school"
+                      value={formData.school}
+                      onChange={handleChange}
+                      disabled={!formData.educationDepartment}
+                      required
+                    >
+                      <option value="">Оберіть навчальний заклад</option>
+                      {schools.map((school) => (
+                        <option key={school.id} value={school.name}>
+                          {school.name}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      name="customSchoolName"
+                      placeholder="Назва школи"
+                      value={formData.customSchoolName}
+                      onChange={handleChange}
+                      required
+                    />
+                    <textarea
+                      className={styles.customSchoolDescription}
+                      name="customSchoolDescription"
+                      placeholder="Опис школи"
+                      value={formData.customSchoolDescription}
+                      onChange={handleChange}
+                      required
+                    />
+                  </>
+                )}
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Введіть пошту майбутнього адміна"
+                  value={formData.email}
+                  onChange={handleChange}
+                  autoComplete="email"
+                  required
+                />
+              </div>
             )}
             <input
               type="text"
@@ -213,16 +225,16 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                 {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
-            {isRegistering &&(
-                <div className={styles.rememberMeContainer}>
-                    <input
-                      name="newSchool"
-                      type="checkbox"
-                      checked={createCustomSchool}
-                      onChange={handleCreateCustomSchoolChange}
-                    />
-                    <label htmlFor="newSchool">Створити власну школу</label>
-                </div>              
+            {isRegistering && (
+              <div className={styles.rememberMeContainer}>
+                <input
+                  name="newSchool"
+                  type="checkbox"
+                  checked={createCustomSchool}
+                  onChange={handleCreateCustomSchoolChange}
+                />
+                <label htmlFor="newSchool">Створити власну школу</label>
+              </div>
             )}
             {!isRegistering && (
               <div className={styles.rememberMeContainer}>
