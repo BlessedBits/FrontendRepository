@@ -10,6 +10,7 @@ import LogoutPage from "./pages/LogoutPage";
 import PrivateRoute from "./context/PrivateRoute";
 import UnauthorizedPage from "./pages/UnauthorizedPage"; 
 import { LoadingPage } from "./components/basic/LoadingAnimation";
+import { SchAdminPanel, PlfAdminPanel } from "./pages/AdminPanel";
 
 function App() {
     return (
@@ -47,7 +48,19 @@ function App() {
                 <Route path="/diary/" element={
                     <PrivateRoute allowedRoles={['STUDENT']} element={<DiaryPage />} />
                 }/> 
+
+                {/* Журнал */}
                 <Route path="/journal/" element={<LoadingPage />} />   
+                
+                {/* шкільна адмін панель */}
+                <Route path="/sch-admin-panel/" element={
+                    <PrivateRoute allowedRoles={['SCHOOL_ADMIN']} element={<SchAdminPanel />} />
+                }/> 
+
+                {/* адмін панель */}
+                <Route path="/admin-panel/" element={
+                    <PrivateRoute allowedRoles={['PLATFORM_ADMIN']} element={<PlfAdminPanel />} />
+                }/> 
 
                 {/* Вихід  */}
                 <Route path="/logout/" element={

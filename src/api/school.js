@@ -1,5 +1,12 @@
 import { executeRequest } from '../utils/apiUtils';
 
+export const getAllSchools = async (axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.get(`/schools`),  
+        200, "Info found"
+    );
+};
+
 export const getSchoolInfo = async (axiosPrivateInstance) => {
     return executeRequest(
         () => axiosPrivateInstance.get(`/schools/school`),  
@@ -29,6 +36,13 @@ export const getSchoolContacts = async (axiosPrivateInstance) => {
         () => axiosPrivateInstance.get(`/schools/contacts`),
         200,
         "Profile info in json"
+    );
+};
+
+export const createSchool = async (data, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.post(`/schools/`, data),  
+        200, "Info found"
     );
 };
 
@@ -84,13 +98,3 @@ export const deleteSchoolFoto = async (image, axiosPrivateInstance) => {
         "No content"
     );
 };
-
-
-
-
-export const getAllSchools = async (axiosPrivateInstance) => {
-    const response = await axiosPrivateInstance.get('/schools/');
-    if (response && response.status === 200) {
-        return response.data;
-    }
-}

@@ -16,11 +16,9 @@ export const createSchedule = async (scheduleData, axiosPrivateInstance) => {
     );
 };
 
-
-
 export const getAllSchedules = async (axiosPrivateInstance) => 
     executeRequest(
-        () => axiosPrivateInstance.get('/schedules/'),
+        () => axiosPrivateInstance.get('/schedules'),
         200
     );
 
@@ -30,3 +28,11 @@ export const getScheduleById = async (id, axiosPrivateInstance) =>
         200,
         `Schedule fetched successfully with ID: ${id}`
     );
+
+export const updateScheduleById = async (data, id, axiosPrivateInstance) => 
+    executeRequest(
+        () => axiosPrivateInstance.put(`/schedules/${id}`, data),
+        200,
+        `Schedule fetched successfully with ID: ${id}`
+    );
+
