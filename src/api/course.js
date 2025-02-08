@@ -1,20 +1,21 @@
 import { executeRequest } from '../utils/apiUtils';
 
-export const createCourse = async (courseName, axiosPrivateInstance) => {
-    return (
-        executeRequest(
-            () => axiosPrivateInstance.post('/courses/new', { name: courseName }),
-            201,
-            "Course created"
-        )
-    );
-};
-
 export const getUserCourses = async (axiosPrivateInstance) => {
     return (
         executeRequest(
             () => axiosPrivateInstance.get('/courses/user'),
             200
+        )
+    );
+};
+
+
+export const createCourse = async (courseName, userId, axiosPrivateInstance) => {
+    return (
+        executeRequest(
+            () => axiosPrivateInstance.post('/courses/new/', { name: courseName, teacherId: userId }),
+            201,
+            "Course created"
         )
     );
 };

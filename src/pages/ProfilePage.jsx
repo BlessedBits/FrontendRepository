@@ -15,72 +15,53 @@ const ProfilePage = ({ userRole }) => {
 
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null); 
+  const [userId, setUserId] = useState(null); 
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  const fetchProfileData = async () => {
+    try {
+      const userId = await getUserId(axiosPrivate); 
+      setUserId(userId);
+      setCurrentUserId(userId);
+
+      if (id && Number(id) === userId) {
+        navigate("/profile/", { replace: true });
+        return;
+      }
+
+      const data = id
+        ? await getProfileInfoById(id, axiosPrivate)
+        : await getProfileInfo(axiosPrivate);
+      setProfileData(data);
+    } catch (err) {
+      const errorMessage =
+        err.message === "Unhandled response status: 404"
+          ? "Користувача не знайдено. Перевірте правильність введених даних."
+          : "Не вдалося завантажити інформацію профілю. Спробуйте пізніше.";
+      setError(errorMessage);
+    }
+  };
 
   useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const currentUserId = await getUserId(axiosPrivate);
-        setCurrentUserId(currentUserId);
-
-        if (id && Number(id) === currentUserId) {
-          navigate("/profile/", { replace: true });
-          return;
-        }
-        
-
-        if (id) {
-          const data = await getProfileInfoById(id, axiosPrivate);
-          setProfileData(data);
-        } else {
-          const data = await getProfileInfo(axiosPrivate);
-          setProfileData(data);
-        }
-      } catch (err) {
-        
-        if (err.message === "Unhandled response status: 404") {
-            setError("Користувача не знайдено. Перевірте правильність введених даних.");
-        } else {
-            setError("Не вдалося завантажити інформацію профілю. Спробуйте пізніше.");
-        }
-    }
-    
-    };
-
     fetchProfileData();
   }, [axiosPrivate, id, navigate]);
 
-  if (error) {
+  if (error || !profileData) {
     return (
       <>
         <Sidebar role={userRole} />
         <main>
           <section data-content="true" className="content">
             <div className="profile-page">
-              <p>{error}</p>
+              {error ? <p>{error}</p> : <Loading />}
             </div>
           </section>
         </main>
       </>
-    )
+    );
   }
-
-  if (!profileData) {
-    return(
-      <>
-        <Sidebar role={userRole} />
-        <main>
-          <section data-content="true" className="content">
-            <div className="profile-page">
-              <Loading/>
-            </div>
-          </section>
-        </main>
-      </>
-    ) 
-  }
-
-  const isOwnProfile = !id || id === currentUserId;
+  
+  const isOwnProfile = !id || Number(id) === currentUserId;
 
   return (
     <>
@@ -88,7 +69,11 @@ const ProfilePage = ({ userRole }) => {
       <main>
         <section data-content="true" className="content">
           <div className="profile-page">
-            <ActivityProfile profileData={profileData} isOwnProfile={isOwnProfile} />
+            <ActivityProfile
+              profileData={profileData}
+              isOwnProfile={isOwnProfile}
+              userId={userId}
+            />
             <InfoProfile profileData={profileData} />
           </div>
         </section>

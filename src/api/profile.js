@@ -41,7 +41,7 @@ export const changePassword = async (oldPassword, newPassword, confirmPassword, 
     );
 };
 
-export const updateProfileImage = async (file, axiosPrivateInstance) => {
+export const updateProfileImage = async (id, file, axiosPrivateInstance) => {
     if (!file) {
         throw new Error('No file provided.');
     }
@@ -51,7 +51,7 @@ export const updateProfileImage = async (file, axiosPrivateInstance) => {
 
     return executeRequest(
         () =>
-            axiosPrivateInstance.put('users/update-profile-image', formData, {
+            axiosPrivateInstance.put(`users/${id}/image`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             }),
         200,

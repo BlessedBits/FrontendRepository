@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import { updateProfileImage } from "../../api/profile";
+import Notification from "../basic/Notification";
 import styles from "./PhotoUpload.module.css";
-import Notification from "../basic/Notification"; 
 
-const PhotoUpload = ({ axiosPrivate }) => {
+const PhotoUpload = ({ axiosPrivate, userId, onClose }) => {
     const inputRef = useRef(null);
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [file, setFile] = useState(null);
@@ -12,12 +12,12 @@ const PhotoUpload = ({ axiosPrivate }) => {
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
-            setMessage(null); 
+            setMessage(null);
 
             const reader = new FileReader();
             reader.onload = (e) => setSelectedPhoto(e.target.result);
             reader.readAsDataURL(selectedFile);
-            
+
             setFile(selectedFile);
         }
     };
@@ -25,13 +25,15 @@ const PhotoUpload = ({ axiosPrivate }) => {
     const handleUpload = async () => {
         if (!file) return;
 
-        setMessage({ type: "loading", text: "Завантаження фото..." })
+        setMessage({ type: "loading", text: "Завантаження фото..." });
 
         try {
-            await updateProfileImage(file, axiosPrivate);
+            await updateProfileImage(userId, file, axiosPrivate);
             setMessage({ type: "success", text: "Фото успішно завантажено!" });
             setTimeout(() => {
-                window.location.reload(); 
+                setSelectedPhoto(null);
+                setFile(null);
+                onClose();
             }, 1500);
         } catch (error) {
             setMessage({ type: "error", text: error.message || "Помилка завантаження фото." });
@@ -41,7 +43,6 @@ const PhotoUpload = ({ axiosPrivate }) => {
     return (
         <>
             <Notification message={message?.text} type={message?.type} />
-
             <button onClick={() => inputRef.current?.click()} className={styles.actionButton}>
                 Обрати фото
             </button>
@@ -52,7 +53,6 @@ const PhotoUpload = ({ axiosPrivate }) => {
                 style={{ display: "none" }}
                 onChange={handleFileChange}
             />
-
             {selectedPhoto && (
                 <>
                     <img src={selectedPhoto} alt="Попередній перегляд" className={styles.photoPreview} />

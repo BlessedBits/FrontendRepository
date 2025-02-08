@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './GallerySchool.module.css';
-import { getSchoolGallery, addSchoolFoto, deleteSchoolFoto } from '../../api/school';
+import { getSchoolGallery, createSchoolFoto, deleteSchoolFoto } from '../../api/school';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import Notification from '../basic/Notification';
 import { Loading } from '../basic/LoadingAnimation';
@@ -47,7 +47,7 @@ function GallerySchool({ userRole }) {
         formData.append('image', newPhoto);
         setNotification({type: "loading", message: "Додається нове фото..."})
         try {
-            await addSchoolFoto(formData, axiosPrivate);
+            await createSchoolFoto(formData, axiosPrivate);
             const updatedPhotos = await getSchoolGallery(axiosPrivate);
             setPhotos(updatedPhotos); 
             setNotification({type: "success", message: "Додано нове фото"})

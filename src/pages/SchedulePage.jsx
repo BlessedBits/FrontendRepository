@@ -2,7 +2,7 @@ import React from "react";
 import Schedule from "../components/schedule/Schedule.js";
 import Sidebar from "../components/basic/Sidebar";
 
-const SchedulePage = (userRole) => {
+const SchedulePage = ({userRole}) => {
     return (
       <>
         <Sidebar role={userRole} />

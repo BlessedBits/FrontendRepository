@@ -6,9 +6,9 @@ import buttonStyles from "./Buttons.module.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { getUserCourses, createCourse } from "../../api/course";
 import { Loading } from "../basic/LoadingAnimation";
+import { getUserId }  from "../../api/user"
 
-
-function CourseList({ isTeacher }) {
+function CourseList({ userRole }) {
   const [courseList, setCourseList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,7 +24,8 @@ function CourseList({ isTeacher }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const axiosPrivate = useAxiosPrivate();
-  // Fetch user courses
+
+  // Завантаження списку курсів
   useEffect(() => {
     async function fetchCourseList() {
       try {
@@ -32,7 +33,7 @@ function CourseList({ isTeacher }) {
         setCourseList(courses);
       } catch (err) {
         console.error(err.message);
-        setError(err.message);
+        setError("Не вдалося завантажити курси. Спробуйте пізніше.");
       } finally {
         setLoading(false);
       }
@@ -41,23 +42,21 @@ function CourseList({ isTeacher }) {
     fetchCourseList();
   }, [axiosPrivate]);
 
+
   const handleAddCourse = async (courseName) => {
     try {
-      const result = await createCourse(courseName, axiosPrivate);
-      console.log(result); // Log success message
-      const updatedCourses = await getUserCourses();
-      setCourseList(updatedCourses);
+      const result = await createCourse(courseName, 3, axiosPrivate);
+      console.log("Курс створено:", result);
+
+      setCourseList((prev) => [...prev, result]);
+      setIsModalOpen(false); 
     } catch (err) {
-      console.error("Failed to create course:", err.message);
-      alert(`Error: ${err.message}`);
+      console.error("Не вдалося створити курс:", err.message);
+      alert(`Помилка: ${err.message}`);
     }
   };
 
-  if (loading) return (
-    <Loading/>
-  )
-
-  if (error) return <p>Помилка завантаження: {error}</p>;
+  if (loading) return <Loading />;
 
   return (
     <div className={style.courses}>
@@ -67,7 +66,7 @@ function CourseList({ isTeacher }) {
           <CourseItem
             key={course.id}
             course={course}
-            isTeacher={isTeacher}
+            userRole={userRole}
             selectedCourseId={selectedCourseId}
             selectedThemeId={selectedThemeId}
             editThemeId={editThemeId}
@@ -80,8 +79,11 @@ function CourseList({ isTeacher }) {
           />
         ))}
       </div>
-      {isTeacher && (
-        <button className={buttonStyles.button} onClick={() => setIsModalOpen(true)}>
+      {["SCHOOL_ADMIN", "TEACHER"].includes(userRole) && (
+        <button
+          className={buttonStyles.button}
+          onClick={() => setIsModalOpen(true)}
+        >
           Додати курс
         </button>
       )}

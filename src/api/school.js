@@ -39,7 +39,7 @@ export const createSchoolAchievements = async (data, axiosPrivateInstance) => {
     );
 };
 
-export const addSchoolFoto = async (data, axiosPrivateInstance) => {
+export const createSchoolFoto = async (data, axiosPrivateInstance) => {
     return executeRequest(
         () => axiosPrivateInstance.post(`/schools/add-gallery-image`, data),  
         201, "Foto add"
@@ -54,9 +54,9 @@ export const updateSchoolAchievements = async (id, data, axiosPrivateInstance) =
 };
 
 
-export const updateSchoolInfo = async (data, axiosPrivateInstance) => {
+export const updateSchoolInfo = async (id, data, axiosPrivateInstance) => {
     return executeRequest(
-        () => axiosPrivateInstance.put(`/schools/update-info`, data),  
+        () => axiosPrivateInstance.put(`/schools/${id}/info`, data),  
         200, "Data updated!"
     );
 };
