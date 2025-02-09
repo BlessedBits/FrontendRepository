@@ -1,19 +1,22 @@
 import { executeRequest } from '../utils/apiUtils';
 
-export const getUserCourses = async (axiosPrivateInstance) => {
-    return (
-        executeRequest(
-            () => axiosPrivateInstance.get('/courses/user'),
-            200
-        )
+export const getUserCourses = async (userId, axiosPrivateInstance) => {
+    let data = await executeRequest(
+        () => axiosPrivateInstance.get(`users/${userId}`),
+        200
+    );
+
+    return await executeRequest(
+        () => axiosPrivateInstance.get(`classes/${data.userClassId}/courses`),
+        200
     );
 };
 
 
-export const createCourse = async (courseName, userId, axiosPrivateInstance) => {
+export const createCourse = async (courseName, axiosPrivateInstance) => {
     return (
         executeRequest(
-            () => axiosPrivateInstance.post('/courses/new/', { name: courseName, teacherId: userId }),
+            () => axiosPrivateInstance.post('/courses', { name: courseName }),
             201,
             "Course created"
         )

@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from './GallerySchool.module.css';
-import { getSchoolGallery, createSchoolFoto, deleteSchoolFoto } from '../../api/school';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import Notification from '../basic/Notification';
-import { Loading } from '../basic/LoadingAnimation';
+import React, { useState, useEffect, useRef } from "react";
+import styles from "./GallerySchool.module.css";
+import {
+    getSchoolGallery,
+    createSchoolFoto,
+    deleteSchoolFoto,
+} from "../../api/school";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Notification from "../basic/Notification";
+import { Loading } from "../basic/LoadingAnimation";
 
 function GallerySchool({ userRole }) {
     const [photos, setPhotos] = useState([]);
@@ -21,7 +25,9 @@ function GallerySchool({ userRole }) {
                 setPhotos(response);
             } catch (error) {
                 console.error("Помилка при завантаженні галереї:", error);
-                setError(error.message || "Сталася помилка під час завантаження.");
+                setError(
+                    error.message || "Сталася помилка під час завантаження."
+                );
             } finally {
                 setLoading(false);
             }
@@ -34,8 +40,8 @@ function GallerySchool({ userRole }) {
         if (sliderRef.current) {
             const scrollAmount = 320;
             sliderRef.current.scrollBy({
-                left: direction === 'left' ? -scrollAmount : scrollAmount,
-                behavior: 'smooth',
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
             });
         }
     };
@@ -44,57 +50,66 @@ function GallerySchool({ userRole }) {
         if (!newPhoto) return;
 
         const formData = new FormData();
-        formData.append('image', newPhoto);
-        setNotification({type: "loading", message: "Додається нове фото..."})
+        formData.append("image", newPhoto);
+        setNotification({ type: "loading", message: "Додається нове фото..." });
         try {
             await createSchoolFoto(formData, axiosPrivate);
             const updatedPhotos = await getSchoolGallery(axiosPrivate);
-            setPhotos(updatedPhotos); 
-            setNotification({type: "success", message: "Додано нове фото"})
+            setPhotos(updatedPhotos);
+            setNotification({ type: "success", message: "Додано нове фото" });
             setNewPhoto(null);
         } catch (error) {
             console.error("Помилка при додаванні фото:", error);
-            setNotification({type: "error", message: "Помилка при додаванні фото. Спробуйте пізніше"})
+            setNotification({
+                type: "error",
+                message: "Помилка при додаванні фото. Спробуйте пізніше",
+            });
         }
         setTimeout(() => setNotification({ message: "", type: "" }), 3000);
     };
 
     const handleDeletePhoto = async (galleryImage) => {
-        setNotification({type: "loading", message: "Фото видаляється..."})
+        setNotification({ type: "loading", message: "Фото видаляється..." });
         try {
-            await deleteSchoolFoto(galleryImage, axiosPrivate); 
-            setNotification({type: "success", message: "Фото видалено"})
-            setPhotos(prevPhotos => prevPhotos.filter(photo => photo.galleryImage !== galleryImage)); 
+            await deleteSchoolFoto(galleryImage, axiosPrivate);
+            setNotification({ type: "success", message: "Фото видалено" });
+            setPhotos((prevPhotos) =>
+                prevPhotos.filter(
+                    (photo) => photo.galleryImage !== galleryImage
+                )
+            );
         } catch (error) {
             console.error("Помилка при видаленні фото:", error);
-            setNotification({type: "error", message: "Помилка. Спробуйте пізніше"})
+            setNotification({
+                type: "error",
+                message: "Помилка. Спробуйте пізніше",
+            });
         }
         setTimeout(() => setNotification({ message: "", type: "" }), 3000);
     };
-    
 
     if (loading) {
-        return(
+        return (
             <section id="gallery" className={styles.galleryComponent}>
-                <Loading/>
+                <Loading />
             </section>
-        ) 
+        );
     }
 
     if (error) {
-        return(
+        return (
             <section id="gallery" className={styles.galleryComponent}>
                 <p>{error}</p>
             </section>
-        ) 
+        );
     }
 
-    if (!photos){
-        return(
+    if (!photos) {
+        return (
             <section id="gallery" className={styles.galleryComponent}>
                 <p>Школа ще немає фоток</p>
             </section>
-        ) 
+        );
     }
 
     return (
@@ -115,16 +130,32 @@ function GallerySchool({ userRole }) {
             )}
 
             <div className={styles.galleryContainer}>
-                <button className={`${styles.scrollButton} ${styles.scrollButtonLeft}`} onClick={() => scrollSlider('left')}>❮</button>
+                <button
+                    className={`${styles.scrollButton} ${styles.scrollButtonLeft}`}
+                    onClick={() => scrollSlider("left")}
+                >
+                    ❮
+                </button>
                 <div ref={sliderRef} className={styles.gallerySlider}>
                     {photos.length > 0 ? (
-                        photos.map(photo => (
-                            <div key={photo.galleryImage} className={styles.photoContainer}>
-                                <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
+                        photos.map((photo) => (
+                            <div
+                                key={photo.galleryImage}
+                                className={styles.photoContainer}
+                            >
+                                <img
+                                    src={photo.galleryImage}
+                                    alt="Фото школи"
+                                    className={styles.galleryPhoto}
+                                />
                                 {userRole === "SCHOOL_ADMIN" && (
                                     <button
                                         className={styles.deleteButton}
-                                        onClick={() => handleDeletePhoto(photo.galleryImage)}
+                                        onClick={() =>
+                                            handleDeletePhoto(
+                                                photo.galleryImage
+                                            )
+                                        }
                                     >
                                         ❌
                                     </button>
@@ -135,9 +166,17 @@ function GallerySchool({ userRole }) {
                         <p>Немає доступних фото.</p>
                     )}
                 </div>
-                <button className={`${styles.scrollButton} ${styles.scrollButtonRight}`} onClick={() => scrollSlider('right')}>❯</button>
+                <button
+                    className={`${styles.scrollButton} ${styles.scrollButtonRight}`}
+                    onClick={() => scrollSlider("right")}
+                >
+                    ❯
+                </button>
             </div>
-            <Notification message={notification.message} type={notification.type} />
+            <Notification
+                message={notification.message}
+                type={notification.type}
+            />
         </section>
     );
 }

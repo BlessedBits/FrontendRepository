@@ -18,7 +18,7 @@ export const createSchedule = async (scheduleData, axiosPrivateInstance) => {
 
 export const getAllSchedules = async (axiosPrivateInstance) => 
     executeRequest(
-        () => axiosPrivateInstance.get('/schedules'),
+        () => axiosPrivateInstance.get('/schedules/'),
         200
     );
 

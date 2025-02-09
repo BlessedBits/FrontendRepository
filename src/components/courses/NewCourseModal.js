@@ -43,7 +43,7 @@ function NewCourseModal({ onClose }) {
     };
 
     try {
-      await createCourse(newCourse.name, newCourse.teacherId, axiosPrivate);
+      await createCourse(newCourse.name, axiosPrivate);
 
       setNotification({ type: "success", text: "Курс успішно створено!" });
 

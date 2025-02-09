@@ -7,47 +7,47 @@ import AuthModal from "../components/home/AuthModal";
 import Footer from "../components/basic/Footer";
 
 const HomePage = () => {
-  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false); // Стан для визначення режиму
+    const [isAuthModalOpen, setAuthModalOpen] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false); // Стан для визначення режиму
 
-  const openLoginModal = () => {
-    setIsRegistering(false);   // Вхід
-    setAuthModalOpen(true);
-  };
+    const openLoginModal = () => {
+        setIsRegistering(false); // Вхід
+        setAuthModalOpen(true);
+    };
 
-  const openRegisterModal = () => {
-    setIsRegistering(true);    // Реєстрація
-    setAuthModalOpen(true);
-  };
+    const openRegisterModal = () => {
+        setIsRegistering(true); // Реєстрація
+        setAuthModalOpen(true);
+    };
 
-  const closeModal = () => {
-    setAuthModalOpen(false);
-  };
+    const closeModal = () => {
+        setAuthModalOpen(false);
+    };
 
-  useEffect(() => {
-    document.body.classList.add("homepage-body");
-    return () => document.body.classList.remove("homepage-body");
-  }, []);
+    useEffect(() => {
+        document.body.classList.add("homepage-body");
+        return () => document.body.classList.remove("homepage-body");
+    }, []);
 
-  return (
-    <>
-      <Header onLoginClick={openLoginModal} /> 
-      <About onRegisterClick={openRegisterModal} /> 
-      {isAuthModalOpen && (
-        <AuthModal
-          isOpen={isAuthModalOpen} 
-          onClose={closeModal} 
-          initialIsRegistering={isRegistering} 
-        />
-      )}
+    return (
+        <>
+            <Header onLoginClick={openLoginModal} />
+            <About onRegisterClick={openRegisterModal} />
+            {isAuthModalOpen && (
+                <AuthModal
+                    isOpen={isAuthModalOpen}
+                    onClose={closeModal}
+                    initialIsRegistering={isRegistering}
+                />
+            )}
 
-      <main className="homepage-main">
-        <Features />
-        <FAQ />
-        <Footer />
-      </main>
-    </>
-  );
+            <main className="homepage-main">
+                <Features />
+                <FAQ />
+                <Footer />
+            </main>
+        </>
+    );
 };
 
 export default HomePage;
