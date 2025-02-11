@@ -10,7 +10,7 @@ function CourseList({ userRole }) {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [userId, setUserId] = useState(null)
+    const [userId, setUserId] = useState(null);
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
@@ -36,11 +36,15 @@ function CourseList({ userRole }) {
     return (
         <div className={styles.courses}>
             <h1 className={styles.title}>Мої курси:</h1>
-            <div className={styles.list}>
+            <ul className={styles.list}>
                 {courses.map((course) => (
-                    <CourseItem key={course.id} course={course} userRole={userRole} />
+                    <CourseItem
+                        key={course.id}
+                        course={course}
+                        userRole={userRole}
+                    />
                 ))}
-            </div>
+            </ul>
         </div>
     );
 }

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getAllClasses } from "../../api/class";
-import { getAllSchools, createSchool } from "../../api/school";
-import { getAllSchedules, updateScheduleById } from "../../api/schedule";
+import {
+    getAllSchools,
+    createSchool,
+    updateSchoolInfo,
+} from "../../api/school";
+import { getAllSchedules } from "../../api/schedule";
 import Notification from "../basic/Notification";
 import { Loading } from "../basic/LoadingAnimation";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -13,7 +17,11 @@ const AdminPanel = () => {
     const [schedules, setSchedules] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [newSchoolName, setNewSchoolName] = useState("");
+    const [newSchool, setNewSchool] = useState({
+        name: "",
+        address: "",
+        year: "",
+    });
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -21,11 +29,11 @@ const AdminPanel = () => {
             try {
                 const schoolsData = await getAllSchools(axiosPrivate);
                 const classesData = await getAllClasses(axiosPrivate);
-                const schedulesData = await getAllSchedules(axiosPrivate);
+                //const schedulesData = await getAllSchedules(axiosPrivate);
 
                 setSchools(schoolsData);
                 setClasses(classesData);
-                setSchedules(schedulesData);
+                //setSchedules(schedulesData);
             } catch (err) {
                 console.error("Помилка завантаження даних:", err);
                 setError("Не вдалося завантажити дані");
@@ -38,16 +46,17 @@ const AdminPanel = () => {
     }, [axiosPrivate]);
 
     const handleCreateSchool = async () => {
-        if (!newSchoolName) return;
+        if (!newSchool.name || !newSchool.address || !newSchool.year) return;
         try {
-            const newSchool = await createSchool(newSchoolName, axiosPrivate);
-            setSchools([...schools, newSchool]);
-            setNewSchoolName("");
-            setMessage("Школу успішно додано!");
+            const createdSchool = await createSchool(newSchool, axiosPrivate);
+            setSchools([...schools, createdSchool]);
+            setNewSchool({ name: "", address: "", year: "" });
+            setMessage({ type: "success", text: "Успішно створено" });
         } catch (err) {
             console.error("Помилка створення школи:", err);
-            setMessage("Не вдалося створити школу.");
+            setMessage({ type: "error", text: "Помилка створення школи" });
         }
+        setTimeout(() => setMessage(null), 3000);
     };
 
     if (loading) return <Loading />;
@@ -57,42 +66,63 @@ const AdminPanel = () => {
         <div>
             <h2>Адмін-панель</h2>
 
-            {/* Повідомлення */}
-            {message && <Notification message={message} />}
+            <Notification message={message?.text} type={message?.type} />
 
-            {/* Список шкіл */}
             <section>
                 <h3>Школи</h3>
                 <ul>
-                    {schools.map(school => (
-                        <li key={school.id}>{school.name}</li>
+                    {schools.map((school) => (
+                        <li key={school.id}>
+                            {school.name} ({school.address}, {school.year})
+                        </li>
                     ))}
                 </ul>
                 <input
                     type="text"
-                    value={newSchoolName}
-                    onChange={(e) => setNewSchoolName(e.target.value)}
+                    value={newSchool.name}
+                    onChange={(e) =>
+                        setNewSchool({ ...newSchool, name: e.target.value })
+                    }
                     placeholder="Назва школи"
+                />
+                <input
+                    type="text"
+                    value={newSchool.address}
+                    onChange={(e) =>
+                        setNewSchool({ ...newSchool, address: e.target.value })
+                    }
+                    placeholder="Адреса"
+                />
+                <input
+                    type="number"
+                    value={newSchool.year}
+                    onChange={(e) =>
+                        setNewSchool({
+                            ...newSchool,
+                            year: e.target.value,
+                        })
+                    }
+                    placeholder="Рік заснування"
                 />
                 <button onClick={handleCreateSchool}>Додати школу</button>
             </section>
 
-            {/* Список класів */}
             <section>
                 <h3>Класи</h3>
                 <ul>
-                    {classes.map(cls => (
+                    {classes.map((cls) => (
                         <li key={cls.id}>{cls.name}</li>
                     ))}
                 </ul>
             </section>
 
-            {/* Список розкладів */}
             <section>
                 <h3>Розклади</h3>
                 <ul>
-                    {schedules.map(schedule => (
-                        <li key={schedule.id}>{schedule.class} - {schedule.time}</li>
+                    {schedules.map((schedule) => (
+                        <li key={schedule.id}>
+                            {schedule.class} - {schedule.time}
+                        </li>
                     ))}
                 </ul>
             </section>

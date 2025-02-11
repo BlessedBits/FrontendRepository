@@ -6,21 +6,26 @@ function CourseItem({ course, userRole }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
-        <>
-            <div onClick={() => setExpanded(!expanded)} className={styles.courseItem}>
-              <button className={styles.toggleButton}>
-                      {expanded ? "🔽" : "▶️"}
-              </button>
-              {course.name}
-            </div>
+        <li className={styles.courseItem}>
+            <button
+                className={styles.toggleButton}
+                onClick={() => setExpanded(!expanded)}
+            >
+                {expanded ? "🔽" : "▶️"} {course.name}
+            </button>
+
             {expanded && (
-                <div className={styles.modules}>
+                <ul className={styles.modules}>
                     {course.modules.map((module) => (
-                        <ModuleItem key={module.id} module={module} userRole={userRole} />
+                        <ModuleItem
+                            key={module.id}
+                            module={module}
+                            userRole={userRole}
+                        />
                     ))}
-                </div>
+                </ul>
             )}
-        </>
+        </li>
     );
 }
 

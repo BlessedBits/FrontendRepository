@@ -2,15 +2,16 @@
     padding: 15px 30px;
     display: flex;
     flex-direction: column;
-  }
-  
-  .title {
+}
+
+.title {
     font-size: 48px;
     color: #000000;
     margin-bottom: 10px;
-  }
-  
-  .list {
+}
+
+.list {
     display: flex;
     flex-direction: column;
-  }
+    padding: 0;
+}

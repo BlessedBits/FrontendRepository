@@ -1,0 +1,67 @@
+.moduleItem {
+    list-style: none;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+    transition: background 0.3s;
+}
+
+.header:hover {
+    background: #eef2ff;
+}
+
+.toggleButton {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #007bff;
+    transition: transform 0.2s;
+}
+
+.toggleButton:hover {
+    color: #0056b3;
+    transform: scale(1.1);
+}
+
+.themes {
+    list-style: none;
+    padding: 10px 20px;
+    background: #ffffff;
+}
+
+.themes li {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+}
+
+.themes li:hover {
+    background: #f1f5f9;
+}
+
+.themes li:last-child {
+    border-bottom: none;
+}
+
+.notification {
+    color: red;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+}

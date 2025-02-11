@@ -36,16 +36,6 @@ function GallerySchool({ userRole }) {
         fetchPhotos();
     }, [axiosPrivate]);
 
-    const scrollSlider = (direction) => {
-        if (sliderRef.current) {
-            const scrollAmount = 320;
-            sliderRef.current.scrollBy({
-                left: direction === "left" ? -scrollAmount : scrollAmount,
-                behavior: "smooth",
-            });
-        }
-    };
-
     const handleAddPhoto = async () => {
         if (!newPhoto) return;
 
@@ -104,14 +94,6 @@ function GallerySchool({ userRole }) {
         );
     }
 
-    if (!photos) {
-        return (
-            <section id="gallery" className={styles.galleryComponent}>
-                <p>Школа ще немає фоток</p>
-            </section>
-        );
-    }
-
     return (
         <section id="gallery" className={styles.galleryComponent}>
             <h2 className={styles.galleryTitle}>Наша школа</h2>
@@ -129,50 +111,35 @@ function GallerySchool({ userRole }) {
                 </div>
             )}
 
-            <div className={styles.galleryContainer}>
-                <button
-                    className={`${styles.scrollButton} ${styles.scrollButtonLeft}`}
-                    onClick={() => scrollSlider("left")}
-                >
-                    ❮
-                </button>
-                <div ref={sliderRef} className={styles.gallerySlider}>
-                    {photos.length > 0 ? (
-                        photos.map((photo) => (
-                            <div
-                                key={photo.galleryImage}
-                                className={styles.photoContainer}
-                            >
-                                <img
-                                    src={photo.galleryImage}
-                                    alt="Фото школи"
-                                    className={styles.galleryPhoto}
-                                />
-                                {userRole === "SCHOOL_ADMIN" && (
-                                    <button
-                                        className={styles.deleteButton}
-                                        onClick={() =>
-                                            handleDeletePhoto(
-                                                photo.galleryImage
-                                            )
-                                        }
-                                    >
-                                        ❌
-                                    </button>
-                                )}
-                            </div>
-                        ))
-                    ) : (
-                        <p>Немає доступних фото.</p>
-                    )}
-                </div>
-                <button
-                    className={`${styles.scrollButton} ${styles.scrollButtonRight}`}
-                    onClick={() => scrollSlider("right")}
-                >
-                    ❯
-                </button>
-            </div>
+            <ul ref={sliderRef} className={styles.galleryList}>
+                {photos.length > 0 ? (
+                    photos.map((photo) => (
+                        <li
+                            key={photo.galleryImage}
+                            className={styles.galleryItem}
+                        >
+                            <img
+                                src={photo.galleryImage}
+                                alt="Фото школи"
+                                className={styles.galleryPhoto}
+                            />
+                            {userRole === "SCHOOL_ADMIN" && (
+                                <button
+                                    className={styles.deleteButton}
+                                    onClick={() =>
+                                        handleDeletePhoto(photo.galleryImage)
+                                    }
+                                >
+                                    ❌
+                                </button>
+                            )}
+                        </li>
+                    ))
+                ) : (
+                    <p>Немає доступних фото.</p>
+                )}
+            </ul>
+
             <Notification
                 message={notification.message}
                 type={notification.type}
