@@ -1,33 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ThemeItem.module.css";
+import { getMaterials } from "../../api/course";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Notification from "../basic/Notification";
+import { Loading } from "../basic/LoadingAnimation";
 
-function ThemeItem({ theme }) {
-    const [expanded, setExpanded] = useState(false);
+function ThemeItem({ moduleId, userRole }) {
+    const [materials, setMaterials] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [notification, setNotification] = useState(null);
+    const axiosPrivate = useAxiosPrivate();
 
-    function test(){
-    console.log("Hello");
+    useEffect(() => {
+        const fetchMaterials = async () => {
+            setLoading(true);
+            try {
+                const data = await getMaterials(moduleId, axiosPrivate);
+                setMaterials(data);
+            } catch (err) {
+                console.error("Помилка завантаження матеріалів:", err.message);
+                setNotification({
+                    type: "error",
+                    message:
+                        "Помилка при завантаженні матеріалу, спробуйте пізніше",
+                });
+            } finally {
+                setLoading(false);
+            }
+
+            setTimeout(() => setNotification(null), 3000);
+        };
+
+        fetchMaterials();
+    }, [moduleId, axiosPrivate]);
+    if (loading) {
+        return <Loading />;
     }
+
     return (
-        <div className={styles.themeItem}>
-            <div onClick={() => setExpanded(!expanded)} className={styles.header}>
-                {theme.name}
-                <button className={styles.toggleButton}>
-                    {expanded ? "🔽" : "▶️"}
-                </button>
-            </div>
-            {expanded && (
-                <div className={styles.tasks}>
-                    <h4>Завдання:</h4>
-                    <ul>
-                        {theme.tasks.map((task) => (
-                            <li key={task.id}>
-                                <strong>{task.name}:</strong> {task.description}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+        <li className={styles.themeItem}>
+            <Notification
+                message={notification?.message}
+                type={notification?.type}
+            />
+            {!materials === null && <p>Матеріали відсутні.</p>}
+            {materials && materials.length === 0 && (
+                <p>Матеріали для цього модуля поки що не додані.</p>
             )}
-        </div>
+            {!loading && materials && materials.length > 0 && (
+                <ul>
+                    {materials.map((material) => (
+                        <li key={material.id}>
+                            <h4 className={styles.title}>{material.title}</h4>
+                            <p>Опис: {material.description}</p>
+                            <p>
+                                Корисні лінки:{" "}
+                                <a
+                                    href={material.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {material.url}
+                                </a>
+                            </p>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </li>
     );
 }
 

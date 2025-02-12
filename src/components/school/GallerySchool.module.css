@@ -30,9 +30,9 @@
 .galleryList {
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
-    padding-left: 10%;
+    padding: 0 100px;
     height: 200px;
     gap: 16px;
     transition: 1s;
@@ -75,10 +75,7 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    background: rgba(255, 0, 0, 0.7);
-    color: white;
-    border: none;
-    border-radius: 50%;
+    background: none;
     width: 30px;
     height: 30px;
     font-size: 18px;
@@ -86,9 +83,4 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s;
-}
-
-.deleteButton:hover {
-    background: rgba(255, 0, 0, 1);
 }

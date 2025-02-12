@@ -49,6 +49,7 @@ function TeacherSchool({ userRole }) {
                 message: "Не вдалося оновити дані.",
             });
         }
+        setTimeout(() => setNotification({ message: "", type: "" }), 3000);
     };
 
     if (loading) {
