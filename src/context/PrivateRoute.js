@@ -50,5 +50,4 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
 
     return React.cloneElement(Component, { userRole });
 };
-
 export default PrivateRoute;

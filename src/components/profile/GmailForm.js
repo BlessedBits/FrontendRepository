@@ -11,6 +11,8 @@ const GmailForm = ({ axiosPrivate, onClose }) => {
         e.preventDefault();
         setMessage({ type: "loading", text: "Обробка запиту..." });
 
+        
+
         try {
             await updateProfileInfo({ email: gmail }, axiosPrivate);
             setMessage({ type: "success", text: "Лист підтвердження відправлено." });
