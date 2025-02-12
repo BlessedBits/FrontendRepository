@@ -13,16 +13,10 @@ export const login = async (username, password, rememberMe, setAuth, navigate) =
 
         navigate('/school/');
     } catch (err) {
-        if (!err?.response) {
-            throw new Error("Немає відповіді від сервера. Перевірте підключення до інтернету.");
-        } else if (err.response?.status === 400) {
-            throw new Error("Невірний логін або пароль.");
-        } else if (err.response?.status === 404) {
-            throw new Error("Користувача з таким логіном не знайдено.");
-        } else if (err.response?.status === 401) {
-            throw new Error("Невірний логін або пароль.");
+        if (err.response?.status === 401) {
+            throw new Error("User");
         } else if (err.response?.status === 500) {
-            throw new Error("Помилка сервера. Спробуйте пізніше.");
+            throw new Error("Server");
         } else {
             throw new Error("Щось пішло не так. Спробуйте ще раз.");
         }

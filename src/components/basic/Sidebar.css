@@ -36,7 +36,7 @@
 
 .sidebar-logo h2 {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 32px;
+  font-size: 38px;
 }
 .sidebar-title {
   width: auto;
@@ -45,6 +45,17 @@
   text-align: center;
   margin: 20px 0;
   overflow: visible;
+}
+
+.schoolText {
+  padding-left: 20px;
+  color: rgb(138, 138, 138); 
+  text-shadow:0 3px 6px rgb(138, 138, 138, 0.75);
+}
+
+.hubText {
+  color: rgb(255, 149, 0); 
+  text-shadow:0 3px 6px rgb(255, 149, 0, 0.75);
 }
 
 .menu-button {
@@ -141,6 +152,7 @@
   }
 
   .sidebar ul li {
+    align-items: center;
     justify-content: center;
     width: 100%;
     padding: 0 20px;

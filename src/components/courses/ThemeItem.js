@@ -1,81 +1,74 @@
-import React from "react";
-import style from "./ThemeItem.module.css";
-import EditThemeForm from "./EditThemeForm";
-import buttonStyles from "./Buttons.module.css";
+import React, { useState, useEffect } from "react";
+import styles from "./ThemeItem.module.css";
+import { getMaterials } from "../../api/course";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Notification from "../basic/Notification";
+import { Loading } from "../basic/LoadingAnimation";
 
-function ThemeItem({
-  theme,
-  courseId,
-  isTeacher,
-  selectedThemeId,
-  editThemeId,
-  themeEditData,
-  setSelectedThemeId,
-  setEditThemeId,
-  setThemeEditData,
-  setCourseList,
-}) {
-  const toggleTheme = (themeId) => {
-    setSelectedThemeId((prev) => (prev === themeId ? null : themeId));
-  };
+function ThemeItem({ moduleId, userRole }) {
+    const [materials, setMaterials] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [notification, setNotification] = useState(null);
+    const axiosPrivate = useAxiosPrivate();
 
-  const startEditingTheme = () => {
-    setEditThemeId(theme.id);
-    setThemeEditData({
-      name: theme.name,
-      description: theme.description,
-      homework: theme.homework,
-      links: theme.links.join(", "),
-    });
-  };
+    useEffect(() => {
+        const fetchMaterials = async () => {
+            setLoading(true);
+            try {
+                const data = await getMaterials(moduleId, axiosPrivate);
+                setMaterials(data);
+            } catch (err) {
+                console.error("Помилка завантаження матеріалів:", err.message);
+                setNotification({
+                    type: "error",
+                    message:
+                        "Помилка при завантаженні матеріалу, спробуйте пізніше",
+                });
+            } finally {
+                setLoading(false);
+            }
 
-  return (
-    <li
-      className={`${style.themeItem} ${
-        selectedThemeId === theme.id ? style.selected : ""
-      }`}
-    >
-      <div onClick={() => toggleTheme(theme.id)}>{theme.name}</div>
-      {selectedThemeId === theme.id && (
-        <div className={style.themeDetails}>
-          <p>
-            <strong>Опис:</strong> {theme.description}
-          </p>
-          <p>
-            <strong>Домашнє завдання:</strong> {theme.homework}
-          </p>
-          <p>
-            <strong>Посилання:</strong>
-            <ul>
-              {theme.links.map((link, i) => (
-                <li key={i}>
-                  <a href={link} target="_blank" rel="noopener noreferrer">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </p>
-          {editThemeId === theme.id ? (
-            <EditThemeForm
-              courseId={courseId}
-              theme={theme}
-              themeEditData={themeEditData}
-              setEditThemeId={setEditThemeId}
-              setThemeEditData={setThemeEditData}
-              setCourseList={setCourseList}
+            setTimeout(() => setNotification(null), 3000);
+        };
+
+        fetchMaterials();
+    }, [moduleId, axiosPrivate]);
+    if (loading) {
+        return <Loading />;
+    }
+
+    return (
+        <li className={styles.themeItem}>
+            <Notification
+                message={notification?.message}
+                type={notification?.type}
             />
-          ) : (
-            isTeacher && (
-              <button className={buttonStyles.editButton} onClick={startEditingTheme}>
-                Редагувати
-              </button>
-            )
-          )}
-        </div>
-      )}
-    </li>
-  );
+            {!materials === null && <p>Матеріали відсутні.</p>}
+            {materials && materials.length === 0 && (
+                <p>Матеріали для цього модуля поки що не додані.</p>
+            )}
+            {!loading && materials && materials.length > 0 && (
+                <ul>
+                    {materials.map((material) => (
+                        <li key={material.id}>
+                            <h4 className={styles.title}>{material.title}</h4>
+                            <p>Опис: {material.description}</p>
+                            <p>
+                                Корисні лінки:{" "}
+                                <a
+                                    href={material.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {material.url}
+                                </a>
+                            </p>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </li>
+    );
 }
 
 export default ThemeItem;

@@ -1,98 +1,100 @@
 import React, { useState, useEffect } from "react";
-import style from "./CourseList.module.css";
-import CourseItem from "./CourseItem";
-import NewCourseModal from "./NewCourseModal";
-import buttonStyles from "./Buttons.module.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { getUserCourses, createCourse } from "../../api/course";
+import CourseItem from "./CourseItem";
 import { Loading } from "../basic/LoadingAnimation";
+import { getUserCourses } from "../../api/course";
+import styles from "./CourseList.module.css";
+import NewCourseModal from "./NewCourseModal";
+import Notification from "../basic/Notification";
+import { getUserId } from "../../api/user";
 
+function CourseList({ userRole }) {
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [notification, setNotification] = useState(null);
+    const axiosPrivate = useAxiosPrivate();
 
-function CourseList({ isTeacher }) {
-  const [courseList, setCourseList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedCourseId, setSelectedCourseId] = useState(null);
-  const [selectedThemeId, setSelectedThemeId] = useState(null);
-  const [editThemeId, setEditThemeId] = useState(null);
-  const [themeEditData, setThemeEditData] = useState({
-    name: "",
-    description: "",
-    homework: "",
-    links: "",
-  });
-  const [isModalOpen, setIsModalOpen] = useState(false);
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const id = await getUserId(axiosPrivate);
+                setUserId(id);
+                const data = await getUserCourses(id, userRole, axiosPrivate);
+                setCourses(data);
+            } catch (err) {
+                console.error(err.message);
+                setError("Не вдалося завантажити курси. Спробуйте пізніше.");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourses();
+    }, [axiosPrivate]);
 
-  const axiosPrivate = useAxiosPrivate();
-  // Fetch user courses
-  useEffect(() => {
-    async function fetchCourseList() {
-      try {
-        const courses = await getUserCourses(axiosPrivate);
-        setCourseList(courses);
-      } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
+    const handleCourseCreated = async () => {
+        try {
+            setNotification({
+                type: "loading",
+                text: "Оновлюємо список курсів...",
+            });
+            const updatedCourses = await getUserCourses(userId, axiosPrivate);
+            setCourses(updatedCourses);
+            setNotification({
+                type: "success",
+                text: "Список курсів оновлено!",
+            });
+        } catch (err) {
+            setNotification({
+                type: "error",
+                text: "Не вдалося оновити список курсів. Спробуйте пізніше.",
+            });
+        } finally {
+            setTimeout(() => setNotification(null), 3000);
+        }
+    };
 
-    fetchCourseList();
-  }, [axiosPrivate]);
+    if (loading) return <Loading />;
+    if (error) return <p className={styles.error}>{error}</p>;
 
-  const handleAddCourse = async (courseName) => {
-    try {
-      const result = await createCourse(courseName, axiosPrivate);
-      console.log(result); // Log success message
-      const updatedCourses = await getUserCourses();
-      setCourseList(updatedCourses);
-    } catch (err) {
-      console.error("Failed to create course:", err.message);
-      alert(`Error: ${err.message}`);
-    }
-  };
+    return (
+        <div className={styles.courses}>
+            <h1 className={styles.title}>Мої курси:</h1>
 
-  if (loading) return (
-    <Loading/>
-  )
+            <ul className={styles.list}>
+                {courses.map((course) => (
+                    <CourseItem
+                        key={course.id}
+                        course={course}
+                        userRole={userRole}
+                    />
+                ))}
+            </ul>
 
-  if (error) return <p>Помилка завантаження: {error}</p>;
+            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                <button
+                    className={`${styles["createButton"]} ${styles.createButton27}`}
+                    onClick={() => setIsModalOpen(true)}
+                >
+                    Створити новий курс
+                </button>
+            )}
 
-  return (
-    <div className={style.courses}>
-      <h1 className={style.title}>Мої курси:</h1>
-      <div className={style.list}>
-        {courseList.map((course) => (
-          <CourseItem
-            key={course.id}
-            course={course}
-            isTeacher={isTeacher}
-            selectedCourseId={selectedCourseId}
-            selectedThemeId={selectedThemeId}
-            editThemeId={editThemeId}
-            themeEditData={themeEditData}
-            setSelectedCourseId={setSelectedCourseId}
-            setSelectedThemeId={setSelectedThemeId}
-            setEditThemeId={setEditThemeId}
-            setThemeEditData={setThemeEditData}
-            setCourseList={setCourseList}
-          />
-        ))}
-      </div>
-      {isTeacher && (
-        <button className={buttonStyles.button} onClick={() => setIsModalOpen(true)}>
-          Додати курс
-        </button>
-      )}
-      {isModalOpen && (
-        <NewCourseModal
-          onClose={() => setIsModalOpen(false)}
-          onAddCourse={handleAddCourse}
-        />
-      )}
-    </div>
-  );
+            {isModalOpen && (
+                <NewCourseModal
+                    onClose={() => setIsModalOpen(false)}
+                    onCourseCreated={handleCourseCreated}
+                />
+            )}
+
+            <Notification
+                message={notification?.text}
+                type={notification?.type}
+            />
+        </div>
+    );
 }
 
 export default CourseList;

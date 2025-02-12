@@ -37,13 +37,18 @@ const Sidebar = ({ role }) => {
                 { label: "Новини", icon: "📰", link: `/school-news/` },
                 { label: "Розклад", icon: "📅", link: `/schedule/` },
                 { label: "Журнали школи", icon: "📒", link: `/journal/` },
-                { label: "Адмін панель школи", icon: "⚙️", link: `/sch-admin-panel/` },
+                {
+                    label: "Адмін панель школи",
+                    icon: "⚙️",
+                    link: `/sch-admin-panel/`,
+                },
                 { label: "Звіти", icon: "📋", link: `/reports/` },
                 { label: "Повідомлення", icon: "✉️", link: `/messages/` },
                 { label: "Курси", icon: "📚", link: `/courses/` },
                 { label: "Вихід", icon: "🚪", link: "/logout" },
             ],
             PLATFORM_ADMIN: [
+                { label: "Профіль", icon: "👤", link: `/profile/` },
                 { label: "Адмін панель", icon: "⚙️", link: "/admin-panel/" },
                 { label: "Вихід", icon: "🚪", link: "/logout" },
             ],
@@ -66,8 +71,13 @@ const Sidebar = ({ role }) => {
             <nav className={`sidebar ${isOpen ? "open" : ""}`}>
                 <div className="sidebar-logo">
                     <h2>
-                        <img src={`/weblogo.png`} alt="weblogo" className="icon" />
-                        <span>SchoolHub</span>
+                        <img
+                            src={`/weblogo.png`}
+                            alt="weblogo"
+                            className="icon"
+                        />
+                        <span className="schoolText">School</span>
+                        <span className="hubText">Hub</span>
                     </h2>
                 </div>
                 <ul>
@@ -76,9 +86,13 @@ const Sidebar = ({ role }) => {
                             <a
                                 href={item.link || "#"}
                                 aria-label={item.label}
-                                className={currentPath === item.link ? "active" : ""}
+                                className={
+                                    currentPath === item.link ? "active" : ""
+                                }
                             >
-                                <span aria-hidden="true">{item.icon || ""}</span>
+                                <span aria-hidden="true">
+                                    {item.icon || ""}
+                                </span>
                                 {item.label}
                             </a>
                         </li>

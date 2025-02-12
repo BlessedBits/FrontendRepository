@@ -1,75 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0;
+    width: auto;
+}
+
+.toggleButton {
+    background: none;
+    padding: 15px 10px;
+    font-size: 24px;
+}
+
 .courseItem {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-  }
-  
-  .item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 20px;
-    color: #69a5ff;
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
+    align-items: flex-start;
+    font-size: 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    width: fit-content;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
 
-  .themes h3{
-    font-size: 20px;
-  }
-  
-  .item:hover {
-    color: #0056b3;
-  }
-  
-  .icon {
-    width: 19px;
-    height: 19px;
-    transform: rotate(90deg);
-    fill: #000000;
-    transition: transform 0.3s ease;
-  }
-  
-  .iconDown {
-    transform: rotate(180deg);
-  }
-  
-  .actions {
-    display: flex;
-    gap: 20px;
-    justify-content: flex-start;
-  }
-  
-  .themes {
-    margin-left: 20px;
-    padding: 10px 0;
-  }
-  
-  .themesList {
-    margin: 0;
-    padding: 0;
-      
-  }
-  .themeItem {
-    padding: 10px 15px;
-    margin: 5px 0;
-    cursor: pointer;
-    transition:  background-color 1s ease;
-  }
-  
-  .themeItem:hover {
+.courseItem:hover {
     background-color: #eaeaea;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-  }
-  
-  .themeItem.selected {
-    background-color: #b3d9ff; 
-    border: 2px solid #4a90e2; 
-    border-radius: 10px;
-  }
-  
-  .themeItem.selected:hover {
-    background-color: #99cfff; /* Наприклад, світліший колір */
-  }
+}
+
+.courseItem.selected {
+    background-color: #d9ecff;
+    border: 2px solid #4a90e2;
+}
