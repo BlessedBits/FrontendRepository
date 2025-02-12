@@ -6,6 +6,7 @@
     color: #222;
     margin-bottom: 20px;
     text-align: center;
+    padding-bottom: 5%;
 }
 
 .galleryComponent {
@@ -21,21 +22,88 @@
     flex-direction: column;
 }
 
+/* Admin Controls */
 .adminControls {
-    margin-bottom: 15px;
+    padding: 15px 10%;
+    margin: 0 auto;
     display: flex;
+    width: 50%;
+    max-width: 500px;
     gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.iconButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #ff6b6b;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    position: relative;
+    border: none;
+    flex-shrink: 0;
+}
+
+.iconButton:hover {
+    background-color: #ff4a4a;
+    transform: scale(1.1);
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    background-image: url("../../../public/icons/link.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.saveButton {
+    flex: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.saveButton:hover {
+    background-color: #ff4a4a;
+    transform: scale(1.05);
+}
+
+.saveButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.galleryLists {
+    width: 100%;
 }
 
 .galleryList {
     width: 100%;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    padding: 0 100px;
+    flex-wrap: nowrap;
     height: 200px;
     gap: 16px;
     transition: 1s;
+    padding: 0;
 }
 
 .galleryItem {
@@ -59,12 +127,14 @@
     object-fit: cover;
 }
 
-.galleryList:hover {
-    gap: 0px;
+.galleryLists:hover {
+    .galleryList {
+        gap: 0px;
+    }
 }
 
 .galleryItem:hover {
-    flex: 0 1 300px;
+    flex: 0 1 250px;
     transform: scale(1.1);
     z-index: 10;
     opacity: 1;
@@ -83,4 +153,165 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.previewContainer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.previewImage {
+    max-width: 200px;
+    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+@media (min-width: 1201px) and (max-width: 1440px) {
+    .galleryList {
+        height: 150px;
+        gap: 14px;
+    }
+
+    .galleryItem {
+        flex: 0 0 65px;
+    }
+
+    .galleryItem:hover {
+        flex: 0 1 200px;
+        transform: scale(1.08);
+    }
+
+    .galleryPhoto {
+        object-fit: cover;
+    }
+    .deleteButton {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+    }
+    .icon {
+        height: 15px;
+        width: 25px;
+    }
+    .previewImage {
+        max-width: 125px;
+        max-height: 125px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .galleryList {
+        height: 125px;
+        gap: 10px;
+    }
+
+    .galleryItem {
+        flex: 0 0 50px;
+    }
+
+    .galleryItem:hover {
+        flex: 0 1 125px;
+        transform: scale(1.07);
+    }
+
+    .galleryPhoto {
+        object-fit: cover;
+    }
+    .previewImage {
+        max-width: 100px;
+        max-height: 100px;
+    }
+    .iconButton {
+        height: 25px;
+        width: 25px;
+    }
+    .icon {
+        height: 14px;
+        width: 24px;
+    }
+    .saveButton {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .galleryList {
+        height: 75px;
+        gap: 5px;
+    }
+
+    .galleryItem {
+        flex: 0 0 30px;
+    }
+
+    .galleryItem:hover {
+        flex: 0 1 100px;
+        transform: scale(1.05);
+    }
+
+    .galleryPhoto {
+        object-fit: cover;
+    }
+    .deleteButton {
+        width: 8px;
+        height: 8px;
+        font-size: 10px;
+    }
+    .iconButton {
+        height: 25px;
+        width: 25px;
+    }
+    .icon {
+        height: 7px;
+        width: 12px;
+    }
+    .saveButton {
+        font-size: 8px;
+        padding: 3px 6px;
+    }
+    .previewImage {
+        max-width: 50px;
+        max-height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .galleryList {
+        height: 50px;
+        gap: 2px;
+    }
+
+    .galleryItem {
+        flex: 0 0 20px;
+    }
+
+    .galleryItem:hover {
+        flex: 0 1 50px;
+        transform: scale(1.02);
+    }
+
+    .deleteButton {
+        width: 5px;
+        height: 5px;
+        font-size: 6px;
+    }
+    .iconButton {
+        height: 15px;
+        width: 15px;
+    }
+    .icon {
+        height: 5px;
+        width: 8px;
+    }
+    .saveButton {
+        font-size: 6px;
+        padding: 2.5px 5px;
+    }
+    .previewImage {
+        max-width: 35px;
+        max-height: 35px;
+    }
 }

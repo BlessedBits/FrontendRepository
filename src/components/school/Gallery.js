@@ -14,6 +14,7 @@ function GallerySchool({ userRole }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [newPhoto, setNewPhoto] = useState(null);
+    const [preview, setPreview] = useState(null); // State for preview
     const [notification, setNotification] = useState({ message: "", type: "" });
     const sliderRef = useRef(null);
     const axiosPrivate = useAxiosPrivate();
@@ -48,6 +49,7 @@ function GallerySchool({ userRole }) {
             setPhotos(updatedPhotos);
             setNotification({ type: "success", message: "Додано нове фото" });
             setNewPhoto(null);
+            setPreview(null); // Clear the preview after upload
         } catch (error) {
             console.error("Помилка при додаванні фото:", error);
             setNotification({
@@ -78,6 +80,15 @@ function GallerySchool({ userRole }) {
         setTimeout(() => setNotification({ message: "", type: "" }), 3000);
     };
 
+    const handlePhotoChange = (file) => {
+        setNewPhoto(file);
+        if (file) {
+            setPreview(URL.createObjectURL(file)); // Generate preview URL
+        } else {
+            setPreview(null); // Clear preview if no file is selected
+        }
+    };
+
     if (loading) {
         return (
             <section id="gallery" className={styles.galleryComponent}>
@@ -94,51 +105,117 @@ function GallerySchool({ userRole }) {
         );
     }
 
+    const midpoint = Math.ceil(photos.length / 2);
+    const firstList = photos.slice(0, midpoint);
+    const secondList = photos.slice(midpoint);
+
     return (
         <section id="gallery" className={styles.galleryComponent}>
             <h2 className={styles.galleryTitle}>Наша школа</h2>
 
-            {userRole === "SCHOOL_ADMIN" && (
-                <div className={styles.adminControls}>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setNewPhoto(e.target.files[0])}
-                    />
-                    <button onClick={handleAddPhoto} disabled={!newPhoto}>
-                        Додати фото
-                    </button>
-                </div>
-            )}
+            <div className={styles.galleryLists}>
+                <ul ref={sliderRef} className={styles.galleryList}>
+                    {firstList.length > 0 ? (
+                        firstList.map((photo) => (
+                            <li
+                                key={photo.galleryImage}
+                                className={styles.galleryItem}
+                            >
+                                <img
+                                    src={photo.galleryImage}
+                                    alt="Фото школи"
+                                    className={styles.galleryPhoto}
+                                />
+                                {userRole === "SCHOOL_ADMIN" && (
+                                    <button
+                                        className={styles.deleteButton}
+                                        onClick={() =>
+                                            handleDeletePhoto(
+                                                photo.galleryImage
+                                            )
+                                        }
+                                    >
+                                        ❌
+                                    </button>
+                                )}
+                            </li>
+                        ))
+                    ) : (
+                        <p>Немає доступних фото.</p>
+                    )}
+                </ul>
 
-            <ul ref={sliderRef} className={styles.galleryList}>
-                {photos.length > 0 ? (
-                    photos.map((photo) => (
-                        <li
-                            key={photo.galleryImage}
-                            className={styles.galleryItem}
+                <ul className={styles.galleryList}>
+                    {secondList.length > 0 ? (
+                        secondList.map((photo) => (
+                            <li
+                                key={photo.galleryImage}
+                                className={styles.galleryItem}
+                            >
+                                <img
+                                    src={photo.galleryImage}
+                                    alt="Фото школи"
+                                    className={styles.galleryPhoto}
+                                />
+                                {userRole === "SCHOOL_ADMIN" && (
+                                    <button
+                                        className={styles.deleteButton}
+                                        onClick={() =>
+                                            handleDeletePhoto(
+                                                photo.galleryImage
+                                            )
+                                        }
+                                    >
+                                        ❌
+                                    </button>
+                                )}
+                            </li>
+                        ))
+                    ) : (
+                        <p>Немає доступних фото.</p>
+                    )}
+                </ul>
+                {userRole === "SCHOOL_ADMIN" && (
+                    <div className={styles.adminControls}>
+                        <label
+                            htmlFor="fileInput"
+                            className={styles.iconButton}
                         >
-                            <img
-                                src={photo.galleryImage}
-                                alt="Фото школи"
-                                className={styles.galleryPhoto}
-                            />
-                            {userRole === "SCHOOL_ADMIN" && (
-                                <button
-                                    className={styles.deleteButton}
-                                    onClick={() =>
-                                        handleDeletePhoto(photo.galleryImage)
-                                    }
-                                >
-                                    ❌
-                                </button>
-                            )}
-                        </li>
-                    ))
-                ) : (
-                    <p>Немає доступних фото.</p>
+                            <span className={styles.icon}></span>
+                        </label>
+
+                        <input
+                            id="fileInput"
+                            className={styles.hiddenInput}
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) =>
+                                handlePhotoChange(e.target.files[0])
+                            }
+                        />
+
+                        <button
+                            className={styles.saveButton}
+                            onClick={handleAddPhoto}
+                            disabled={!newPhoto}
+                        >
+                            Додати фото
+                        </button>
+                    </div>
                 )}
-            </ul>
+
+                {preview && (
+                    <section className={styles.preview}>
+                        <div className={styles.previewContainer}>
+                            <img
+                                src={preview}
+                                alt="Прев'ю вибраного фото"
+                                className={styles.previewImage}
+                            />
+                        </div>
+                    </section>
+                )}
+            </div>
 
             <Notification
                 message={notification.message}
