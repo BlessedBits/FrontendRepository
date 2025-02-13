@@ -6,22 +6,15 @@ function CourseItem({ course, userRole }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
-        <li className={styles.courseItem}>
-            <button
-                className={styles.toggleButton}
-                onClick={() => setExpanded(!expanded)}
-            >
+        <li className={expanded ? styles.courseItemExpanded : styles.courseItem}>
+            <button className={styles.toggleButton} onClick={() => setExpanded(!expanded)}>
                 {expanded ? "🔽" : "▶️"} {course.name}
             </button>
 
             {expanded && (
                 <ul className={styles.modules}>
                     {course.modules.map((module) => (
-                        <ModuleItem
-                            key={module.id}
-                            module={module}
-                            userRole={userRole}
-                        />
+                        <ModuleItem key={module.id} module={module} userRole={userRole} />
                     ))}
                 </ul>
             )}

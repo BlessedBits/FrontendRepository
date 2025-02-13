@@ -65,11 +65,7 @@ function CourseList({ userRole }) {
 
             <ul className={styles.list}>
                 {courses.map((course) => (
-                    <CourseItem
-                        key={course.id}
-                        course={course}
-                        userRole={userRole}
-                    />
+                    <CourseItem key={course.id} course={course} userRole={userRole} />
                 ))}
             </ul>
 
@@ -83,16 +79,10 @@ function CourseList({ userRole }) {
             )}
 
             {isModalOpen && (
-                <NewCourseModal
-                    onClose={() => setIsModalOpen(false)}
-                    onCourseCreated={handleCourseCreated}
-                />
+                <NewCourseModal onClose={() => setIsModalOpen(false)} onCourseCreated={handleCourseCreated} />
             )}
 
-            <Notification
-                message={notification?.text}
-                type={notification?.type}
-            />
+            <Notification message={notification?.text} type={notification?.type} />
         </div>
     );
 }

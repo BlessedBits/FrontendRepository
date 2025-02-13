@@ -21,8 +21,7 @@ function ThemeItem({ moduleId, userRole }) {
                 console.error("Помилка завантаження матеріалів:", err.message);
                 setNotification({
                     type: "error",
-                    message:
-                        "Помилка при завантаженні матеріалу, спробуйте пізніше",
+                    message: "Помилка при завантаженні матеріалу, спробуйте пізніше",
                 });
             } finally {
                 setLoading(false);
@@ -38,36 +37,27 @@ function ThemeItem({ moduleId, userRole }) {
     }
 
     return (
-        <li className={styles.themeItem}>
-            <Notification
-                message={notification?.message}
-                type={notification?.type}
-            />
+        <>
+            <Notification message={notification?.message} type={notification?.type} />
             {!materials === null && <p>Матеріали відсутні.</p>}
-            {materials && materials.length === 0 && (
-                <p>Матеріали для цього модуля поки що не додані.</p>
-            )}
+            {materials && materials.length === 0 && <p>Матеріали для цього модуля поки що не додані.</p>}
             {!loading && materials && materials.length > 0 && (
-                <ul>
+                <>
                     {materials.map((material) => (
-                        <li key={material.id}>
+                        <li key={material.id} className={styles.themeItem}>
                             <h4 className={styles.title}>{material.title}</h4>
                             <p>Опис: {material.description}</p>
                             <p>
                                 Корисні лінки:{" "}
-                                <a
-                                    href={material.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
+                                <a href={material.url} target="_blank" rel="noopener noreferrer">
                                     {material.url}
                                 </a>
                             </p>
                         </li>
                     ))}
-                </ul>
+                </>
             )}
-        </li>
+        </>
     );
 }
 

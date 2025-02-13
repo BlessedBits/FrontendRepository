@@ -30,5 +30,5 @@ export const updateScheduleById = async (data, id, axiosPrivateInstance) =>
     executeRequest(
         () => axiosPrivateInstance.put(`/schedules/${id}`, data),
         200,
-        `Schedule fetched successfully with ID: ${id}`
+        `Schedule updated successfully with ID: ${id}`
     );

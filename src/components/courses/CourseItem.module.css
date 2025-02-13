@@ -23,11 +23,28 @@
     transition: background-color 0.3s ease, border 0.3s ease;
 }
 
-.courseItem:hover {
+.courseItemExpanded {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    width: 100%;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.courseItem:hover,
+.courseItemExpanded:hover {
     background-color: #eaeaea;
 }
 
-.courseItem.selected {
+.courseItem.selected,
+.courseItemExpanded.selected {
     background-color: #d9ecff;
     border: 2px solid #4a90e2;
+}
+
+.modules {
+    width: 100%;
 }
