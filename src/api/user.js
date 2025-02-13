@@ -20,3 +20,7 @@ export const updateUserName = async (id, data, axiosPrivateInstance) => {
         "User name was updated successfully!"
     );
 };
+
+export const getBaseInfo = async (userId, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/users/${userId}`), 200);
+};

@@ -32,6 +32,7 @@
     border-radius: 8px;
     width: 100%;
     transition: background-color 0.3s ease, border 0.3s ease;
+    position: relative;
 }
 
 .courseItem:hover,
@@ -47,4 +48,16 @@
 
 .modules {
     width: 100%;
+}
+
+.deleteButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
 }

@@ -1,9 +1,9 @@
 .contacts {
+    padding: 20px;
     background-color: #fff3f3;
     border-radius: 25px;
-    padding: 20px;
     width: 100%;
-    max-width: 500px;
+    max-width: 1350px;
 }
 
 .contactInfo p {

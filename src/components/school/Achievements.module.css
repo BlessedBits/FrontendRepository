@@ -2,7 +2,7 @@
     padding: 20px;
     background-color: #fff3f3;
     border-radius: 25px;
-    width: 95%;
+    width: 100%;
     max-width: 1350px;
     flex-direction: column;
     display: flex;
@@ -10,7 +10,7 @@
     align-items: center;
 }
 
-.headH2{
+.headH2 {
     padding: 20px;
     font-size: 48px;
     font-weight: 600;
@@ -84,7 +84,7 @@
 }
 
 .navButton:hover {
-    background-color: rgba(0, 0, 0, 0.85    );
+    background-color: rgba(0, 0, 0, 0.85);
 }
 
 .adminActions {
@@ -94,7 +94,8 @@
     margin-top: 10px;
 }
 
-.editButton, .deleteButton {
+.editButton,
+.deleteButton {
     user-select: none;
     background: none;
     border: none;
@@ -126,12 +127,12 @@
     border: none;
     background-size: 300% 100%;
     border-radius: 50px;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
 }
 
 .toggleButton-hover:hover {
     background-position: 100% 0;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
 }
 
 .toggleButton-hover:focus {
@@ -140,13 +141,7 @@
 
 .toggleButton-hover.bn25 {
     user-select: none;
-    background-image: linear-gradient(
-      to right,
-      #fc6076,
-      #ff9a44,
-      #ef9d43,
-      #e75516
-    );
+    background-image: linear-gradient(to right, #fc6076, #ff9a44, #ef9d43, #e75516);
     box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
 }
 
@@ -171,7 +166,8 @@
     margin-bottom: 1.5rem;
 }
 
-.inputField, .textareaField {
+.inputField,
+.textareaField {
     width: 100%;
     padding: 1rem;
     border: 2px solid #e2e8f0;
@@ -180,7 +176,8 @@
     transition: all 0.3s ease;
 }
 
-.inputField:focus, .textareaField:focus {
+.inputField:focus,
+.textareaField:focus {
     outline: none;
     border-color: #4299e1;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
@@ -267,15 +264,15 @@
     background: #38a169;
 }
 
-.uploadButton:focus, .submitButton:focus {
+.uploadButton:focus,
+.submitButton:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
 }
 
-@media (max-width: 1240px) { 
+@media (max-width: 1240px) {
     .achievementsComponent {
         padding: 15px;
-        width: 90%;
     }
 
     .achievementCard {
@@ -292,10 +289,9 @@
     }
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
     .achievementsComponent {
         padding: 10px;
-        width: 100%;
     }
 
     .gallery {
@@ -324,18 +320,20 @@
         padding: 1rem;
     }
 
-    .inputField, .textareaField {
+    .inputField,
+    .textareaField {
         font-size: 0.9rem;
         padding: 0.8rem;
     }
 
-    .uploadButton, .submitButton {
+    .uploadButton,
+    .submitButton {
         font-size: 0.9rem;
         padding: 0.7rem;
     }
 }
 
-@media (max-width: 480px) { 
+@media (max-width: 480px) {
     .galleryContainer {
         flex-direction: column;
         align-items: center;
@@ -358,12 +356,14 @@
         padding: 0.8rem;
     }
 
-    .inputField, .textareaField {
+    .inputField,
+    .textareaField {
         font-size: 0.8rem;
         padding: 0.6rem;
     }
 
-    .uploadButton, .submitButton {
+    .uploadButton,
+    .submitButton {
         font-size: 0.8rem;
         padding: 0.6rem;
     }

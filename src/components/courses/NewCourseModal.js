@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import style from "./NewCourseModal.module.css";
 import { createCourse } from "../../api/course";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
-import { getUserId } from "../../api/user";
 
-function NewCourseModal({ onClose, onCourseCreated }) {
+function NewCourseModal({ onClose, onCourseCreated, data }) {
     const [courseData, setCourseData] = useState({ name: "" });
     const [notification, setNotification] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -17,8 +16,7 @@ function NewCourseModal({ onClose, onCourseCreated }) {
         setLoading(true);
 
         try {
-            const id = await getUserId(axiosPrivate);
-            await createCourse(id, courseData.name, axiosPrivate);
+            await createCourse(data.schoolId, data.id, courseData.name, axiosPrivate);
             setNotification({
                 type: "success",
                 text: "Курс успішно створено!",
@@ -28,10 +26,17 @@ function NewCourseModal({ onClose, onCourseCreated }) {
                 onClose();
             }, 1500);
         } catch (err) {
-            setNotification({
-                type: "error",
-                text: "Щось пішло не так, спробуйте пізніше",
-            });
+            if (err.status === 500) {
+                setNotification({
+                    type: "error",
+                    text: "Такий курс вже існує",
+                });
+            } else {
+                setNotification({
+                    type: "error",
+                    text: "Щось пішло не так, спробуйте пізніше",
+                });
+            }
         } finally {
             setLoading(false);
         }
@@ -40,10 +45,7 @@ function NewCourseModal({ onClose, onCourseCreated }) {
     return (
         <div className={style.modal}>
             <div className={style.modalContent}>
-                <Notification
-                    message={notification?.text}
-                    type={notification?.type}
-                />
+                <Notification message={notification?.text} type={notification?.type} />
                 <h3>Додати новий курс</h3>
                 <form onSubmit={handleSubmit} className={style.form}>
                     <input
@@ -60,18 +62,10 @@ function NewCourseModal({ onClose, onCourseCreated }) {
                         required
                     />
                     <div className={style.modalActions}>
-                        <button
-                            type="submit"
-                            className={style.saveButton}
-                            disabled={loading}
-                        >
+                        <button type="submit" className={style.saveButton} disabled={loading}>
                             {loading ? "Завантаження..." : "Зберегти"}
                         </button>
-                        <button
-                            type="button"
-                            className={style.cancelButton}
-                            onClick={onClose}
-                        >
+                        <button type="button" className={style.cancelButton} onClick={onClose}>
                             Скасувати
                         </button>
                     </div>

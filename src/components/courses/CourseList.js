@@ -6,24 +6,28 @@ import { getUserCourses } from "../../api/course";
 import styles from "./CourseList.module.css";
 import NewCourseModal from "./NewCourseModal";
 import Notification from "../basic/Notification";
-import { getUserId } from "../../api/user";
+import { getUserId, getBaseInfo } from "../../api/user";
+import { getAllClassesSchool, getAllClassesCourses } from "../../api/class";
 
 function CourseList({ userRole }) {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [userId, setUserId] = useState(null);
+    const [classes, setSchoolClasses] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [notification, setNotification] = useState(null);
+    const [notification, setNotification] = useState({ message: "", type: "" });
+    const [base, setBaseInfo] = useState(null);
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         const fetchCourses = async () => {
             try {
                 const id = await getUserId(axiosPrivate);
-                setUserId(id);
-                const data = await getUserCourses(id, userRole, axiosPrivate);
-                setCourses(data);
+                const data = await getBaseInfo(id, axiosPrivate);
+                setBaseInfo(data);
+                await getAllClassesSchool(data, axiosPrivate);
+                const response = await getUserCourses(data, userRole, axiosPrivate);
+                setCourses(response);
             } catch (err) {
                 console.error(err.message);
                 setError("Не вдалося завантажити курси. Спробуйте пізніше.");
@@ -40,7 +44,7 @@ function CourseList({ userRole }) {
                 type: "loading",
                 text: "Оновлюємо список курсів...",
             });
-            const updatedCourses = await getUserCourses(userId, axiosPrivate);
+            const updatedCourses = await getUserCourses(base, userRole, axiosPrivate);
             setCourses(updatedCourses);
             setNotification({
                 type: "success",
@@ -56,16 +60,31 @@ function CourseList({ userRole }) {
         }
     };
 
+    const handleCourseDeleted = (deletedCourseId) => {
+        setCourses((prevCourses) => prevCourses.filter((course) => course.id !== deletedCourseId));
+    };
+
     if (loading) return <Loading />;
     if (error) return <p className={styles.error}>{error}</p>;
 
     return (
         <div className={styles.courses}>
-            <h1 className={styles.title}>Мої курси:</h1>
+            {userRole === "SCHOOL_ADMIN" ? (
+                <h1 className={styles.title}> Курси школи</h1>
+            ) : (
+                <h1 className={styles.title}> Мої курси </h1>
+            )}
 
             <ul className={styles.list}>
                 {courses.map((course) => (
-                    <CourseItem key={course.id} course={course} userRole={userRole} />
+                    <CourseItem
+                        key={course.id}
+                        course={course}
+                        userRole={userRole}
+                        onCourseDeleted={handleCourseDeleted}
+                        data={base}
+                        classes={classes}
+                    />
                 ))}
             </ul>
 
@@ -79,7 +98,11 @@ function CourseList({ userRole }) {
             )}
 
             {isModalOpen && (
-                <NewCourseModal onClose={() => setIsModalOpen(false)} onCourseCreated={handleCourseCreated} />
+                <NewCourseModal
+                    onClose={() => setIsModalOpen(false)}
+                    onCourseCreated={handleCourseCreated}
+                    data={base}
+                />
             )}
 
             <Notification message={notification?.text} type={notification?.type} />

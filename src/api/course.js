@@ -1,21 +1,11 @@
 import { executeRequest } from "../utils/apiUtils";
 
-export const getUserCourses = async (userId, userRole, axiosPrivateInstance) => {
-    try {
-        const data = await executeRequest(() => axiosPrivateInstance.get(`users/${userId}`), 200);
+export const getUserCourses = async (data, userRole, axiosPrivateInstance) => {
+    const url = ["TEACHER", "SCHOOL_ADMIN"].includes(userRole)
+        ? `schools/${data.schoolId}/courses?include=modules`
+        : `classes/${data.userClassId}/courses?include=modules`;
 
-        if (!data) {
-            throw new Error("Не вдалося отримати дані користувача.");
-        }
-        const url = ["TEACHER", "SCHOOL_ADMIN"].includes(userRole)
-            ? `schools/${data.schoolId}/courses?include=modules`
-            : `classes/${data.userClassId}/courses?include=modules`;
-
-        return await executeRequest(() => axiosPrivateInstance.get(url), 200);
-    } catch (err) {
-        console.error("Помилка при отриманні курсів:", err.message);
-        throw new Error("Не вдалося отримати курси. Спробуйте пізніше.");
-    }
+    return executeRequest(() => axiosPrivateInstance.get(url), 200);
 };
 
 export const getModules = async (id, axiosPrivateInstance) => {
@@ -23,14 +13,14 @@ export const getModules = async (id, axiosPrivateInstance) => {
 };
 
 export const getMaterials = async (id, axiosPrivateInstance) => {
-    return executeRequest(() => axiosPrivateInstance.get(`modules/${id}/materials`), 200, "Material found");
+    return executeRequest(() => axiosPrivateInstance.get(`/modules/${id}/materials`), 200, "Material found");
 };
 
-export const getaAssignments = async (id, axiosPrivateInstance) => {
+export const getAssignments = async (id, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/modules/${id}/assignments`), 200, "Assignments found");
 };
 
-export const createCourse = async (teacherId, courseName, axiosPrivateInstance) => {
+export const createCourse = async (schoolId, teacherId, courseName, axiosPrivateInstance) => {
     if (!courseName || !teacherId) {
         throw new Error("Назва курсу та ID викладача є обов'язковими");
     }
@@ -41,6 +31,7 @@ export const createCourse = async (teacherId, courseName, axiosPrivateInstance) 
         () =>
             axiosPrivateInstance.post("/courses", {
                 name: courseName,
+                schoolId: schoolId,
                 teacherIds,
             }),
         201,
@@ -94,4 +85,8 @@ export const gradeSubmission = async (submissionId, grade, axiosPrivateInstance)
         201,
         "Submission graded"
     );
+};
+
+export const deleteCourse = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.delete(`/courses/${id}`), 200, "No content");
 };
