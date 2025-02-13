@@ -35,9 +35,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
 
     useEffect(() => {
         if (isRegistering && !createCustomSchool) {
-            axios
-                .get("/api/regions")
-                .then((response) => setRegions(response.data));
+            axios.get("/api/regions").then((response) => setRegions(response.data));
         }
     }, [isRegistering, createCustomSchool]);
 
@@ -57,9 +55,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
     useEffect(() => {
         if (formData.educationDepartment && !createCustomSchool) {
             axios
-                .get(
-                    `/api/schools?educationDepartment=${formData.educationDepartment}`
-                )
+                .get(`/api/schools?educationDepartment=${formData.educationDepartment}`)
                 .then((response) => setSchools(response.data));
             setFormData((prev) => ({ ...prev, school: "" }));
         }
@@ -103,8 +99,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                     createCustomSchool
                         ? {
                               customSchoolName: formData.customSchoolName,
-                              customSchoolDescription:
-                                  formData.customSchoolDescription,
+                              customSchoolDescription: formData.customSchoolDescription,
                           }
                         : {
                               region: formData.region,
@@ -118,18 +113,13 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                 });
             } else {
                 setNotification({ type: "loading", text: "Виконується вхід" });
-                await login(
-                    formData.username,
-                    formData.password,
-                    rememberMe,
-                    setAuth,
-                    navigate
-                );
+                await login(formData.username, formData.password, rememberMe, setAuth, navigate);
                 setNotification({
                     type: "success",
                     text: "Вхід виконано успішно!",
                 });
                 onClose();
+                navigate("/school/");
             }
         } catch (err) {
             if (isRegistering)
@@ -166,12 +156,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                 </div>
                 <div className={styles.authForm}>
                     {/* Notification Component */}
-                    {notification && (
-                        <Notification
-                            message={notification.text}
-                            type={notification.type}
-                        />
-                    )}
+                    {notification && <Notification message={notification.text} type={notification.type} />}
                     <form onSubmit={handleSubmit}>
                         {isRegistering ? (
                             <div className={styles.registrationExtra}>
@@ -184,14 +169,9 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                                             onChange={handleChange}
                                             required
                                         >
-                                            <option value="">
-                                                Оберіть область
-                                            </option>
+                                            <option value="">Оберіть область</option>
                                             {regions.map((region) => (
-                                                <option
-                                                    key={region.id}
-                                                    value={region.name}
-                                                >
+                                                <option key={region.id} value={region.name}>
                                                     {region.name}
                                                 </option>
                                             ))}
@@ -204,38 +184,24 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                                             disabled={!formData.region}
                                             required
                                         >
-                                            <option value="">
-                                                Оберіть відділ освіти
-                                            </option>
-                                            {educationDepartments.map(
-                                                (department) => (
-                                                    <option
-                                                        key={department.id}
-                                                        value={department.name}
-                                                    >
-                                                        {department.name}
-                                                    </option>
-                                                )
-                                            )}
+                                            <option value="">Оберіть відділ освіти</option>
+                                            {educationDepartments.map((department) => (
+                                                <option key={department.id} value={department.name}>
+                                                    {department.name}
+                                                </option>
+                                            ))}
                                         </select>
                                         <select
                                             className={styles.regselector}
                                             name="school"
                                             value={formData.school}
                                             onChange={handleChange}
-                                            disabled={
-                                                !formData.educationDepartment
-                                            }
+                                            disabled={!formData.educationDepartment}
                                             required
                                         >
-                                            <option value="">
-                                                Оберіть навчальний заклад
-                                            </option>
+                                            <option value="">Оберіть навчальний заклад</option>
                                             {schools.map((school) => (
-                                                <option
-                                                    key={school.id}
-                                                    value={school.name}
-                                                >
+                                                <option key={school.id} value={school.name}>
                                                     {school.name}
                                                 </option>
                                             ))}
@@ -252,14 +218,10 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                                             required
                                         />
                                         <textarea
-                                            className={
-                                                styles.customSchoolDescription
-                                            }
+                                            className={styles.customSchoolDescription}
                                             name="customSchoolDescription"
                                             placeholder="Опис школи"
-                                            value={
-                                                formData.customSchoolDescription
-                                            }
+                                            value={formData.customSchoolDescription}
                                             onChange={handleChange}
                                             required
                                         />
@@ -288,9 +250,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                                 />
                                 <div className={styles.passwordContainer}>
                                     <input
-                                        type={
-                                            showPassword ? "text" : "password"
-                                        }
+                                        type={showPassword ? "text" : "password"}
                                         name="password"
                                         placeholder="Введіть пароль"
                                         value={formData.password}
@@ -316,9 +276,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                                     checked={createCustomSchool}
                                     onChange={handleCreateCustomSchoolChange}
                                 />
-                                <label htmlFor="newSchool">
-                                    Створити власну школу
-                                </label>
+                                <label htmlFor="newSchool">Створити власну школу</label>
                             </div>
                         )}
                         {!isRegistering && (
@@ -329,15 +287,10 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                                     checked={rememberMe}
                                     onChange={handleRememberMeChange}
                                 />
-                                <label htmlFor="rememberMe">
-                                    Запам'ятати мене
-                                </label>
+                                <label htmlFor="rememberMe">Запам'ятати мене</label>
                             </div>
                         )}
-                        <button
-                            type="submit"
-                            className={`${styles["bn632-hover"]} ${styles.bn25}`}
-                        >
+                        <button type="submit" className={`${styles["bn632-hover"]} ${styles.bn25}`}>
                             {isRegistering ? "Зареєструватись" : "Увійти"}
                         </button>
                     </form>
