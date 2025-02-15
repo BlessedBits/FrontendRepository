@@ -24,12 +24,7 @@ function App() {
                     path="/school/"
                     element={
                         <PrivateRoute
-                            allowedRoles={[
-                                "TEACHER",
-                                "STUDENT",
-                                "SCHOOL_ADMIN",
-                                "PLATFORM_ADMIN",
-                            ]}
+                            allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN", "PLATFORM_ADMIN"]}
                             element={<SchoolPage />}
                         />
                     }
@@ -39,14 +34,7 @@ function App() {
                 <Route
                     path="/courses/"
                     element={
-                        <PrivateRoute
-                            allowedRoles={[
-                                "TEACHER",
-                                "STUDENT",
-                                "SCHOOL_ADMIN",
-                            ]}
-                            element={<CoursePage />}
-                        />
+                        <PrivateRoute allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN"]} element={<CoursePage />} />
                     }
                 />
 
@@ -55,12 +43,7 @@ function App() {
                     path="/profile/"
                     element={
                         <PrivateRoute
-                            allowedRoles={[
-                                "TEACHER",
-                                "STUDENT",
-                                "SCHOOL_ADMIN",
-                                "PLATFORM_ADMIN",
-                            ]}
+                            allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN", "PLATFORM_ADMIN"]}
                             element={<ProfilePage isOwnProfile={true} />}
                         />
                     }
@@ -71,11 +54,7 @@ function App() {
                     path="/profile/:id/"
                     element={
                         <PrivateRoute
-                            allowedRoles={[
-                                "TEACHER",
-                                "STUDENT",
-                                "SCHOOL_ADMIN",
-                            ]}
+                            allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN"]}
                             element={<ProfilePage isOwnProfile={false} />}
                         />
                     }
@@ -86,26 +65,14 @@ function App() {
                     path="/schedule/"
                     element={
                         <PrivateRoute
-                            allowedRoles={[
-                                "TEACHER",
-                                "STUDENT",
-                                "SCHOOL_ADMIN",
-                            ]}
+                            allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN"]}
                             element={<SchedulePage />}
                         />
                     }
                 />
 
                 {/* Щоденник */}
-                <Route
-                    path="/diary/"
-                    element={
-                        <PrivateRoute
-                            allowedRoles={["STUDENT"]}
-                            element={<DiaryPage />}
-                        />
-                    }
-                />
+                <Route path="/diary/" element={<PrivateRoute allowedRoles={["STUDENT"]} element={<DiaryPage />} />} />
 
                 {/* Журнал */}
                 <Route path="/journal/" element={<LoadingPage />} />
@@ -113,23 +80,13 @@ function App() {
                 {/* шкільна адмін панель */}
                 <Route
                     path="/sch-admin-panel/"
-                    element={
-                        <PrivateRoute
-                            allowedRoles={["SCHOOL_ADMIN"]}
-                            element={<SchAdminPanel />}
-                        />
-                    }
+                    element={<PrivateRoute allowedRoles={["SCHOOL_ADMIN"]} element={<SchAdminPanel />} />}
                 />
 
                 {/* адмін панель */}
                 <Route
                     path="/admin-panel/"
-                    element={
-                        <PrivateRoute
-                            allowedRoles={["PLATFORM_ADMIN"]}
-                            element={<PlfAdminPanel />}
-                        />
-                    }
+                    element={<PrivateRoute allowedRoles={["PLATFORM_ADMIN"]} element={<PlfAdminPanel />} />}
                 />
 
                 {/* Вихід  */}
@@ -137,12 +94,7 @@ function App() {
                     path="/logout/"
                     element={
                         <PrivateRoute
-                            allowedRoles={[
-                                "TEACHER",
-                                "STUDENT",
-                                "SCHOOL_ADMIN",
-                                "PLATFORM_ADMIN",
-                            ]}
+                            allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN", "PLATFORM_ADMIN"]}
                             element={<LogoutPage />}
                         />
                     }

@@ -20,6 +20,7 @@
     text-decoration: none;
     border-radius: 8px;
     width: fit-content;
+    background-color: #d2e1ff95;
     transition: background-color 0.3s ease, border 0.3s ease;
 }
 
@@ -31,13 +32,13 @@
     text-decoration: none;
     border-radius: 8px;
     width: 100%;
+    background-color: #ffffff;
     transition: background-color 0.3s ease, border 0.3s ease;
     position: relative;
 }
 
-.courseItem:hover,
-.courseItemExpanded:hover {
-    background-color: #eaeaea;
+.courseItem:hover {
+    background-color: #ffffff;
 }
 
 .courseItem.selected,

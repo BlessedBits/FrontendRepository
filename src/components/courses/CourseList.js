@@ -7,7 +7,12 @@ import styles from "./CourseList.module.css";
 import NewCourseModal from "./NewCourseModal";
 import Notification from "../basic/Notification";
 import { getUserId, getBaseInfo } from "../../api/user";
-import { getAllClassesSchool, getAllClassesCourses } from "../../api/class";
+import {
+    getAllClassesSchool,
+    getAllClassesCourses,
+    getAllClassesStudents,
+    getAllClassesSchedule,
+} from "../../api/class";
 
 function CourseList({ userRole }) {
     const [courses, setCourses] = useState([]);
@@ -25,7 +30,8 @@ function CourseList({ userRole }) {
                 const id = await getUserId(axiosPrivate);
                 const data = await getBaseInfo(id, axiosPrivate);
                 setBaseInfo(data);
-                await getAllClassesSchool(data, axiosPrivate);
+                //await getAllClassesSchool(data, axiosPrivate);
+                //await getAllClassesStudents(data, axiosPrivate);
                 const response = await getUserCourses(data, userRole, axiosPrivate);
                 setCourses(response);
             } catch (err) {
@@ -55,8 +61,6 @@ function CourseList({ userRole }) {
                 type: "error",
                 text: "Не вдалося оновити список курсів. Спробуйте пізніше.",
             });
-        } finally {
-            setTimeout(() => setNotification(null), 3000);
         }
     };
 
@@ -102,6 +106,7 @@ function CourseList({ userRole }) {
                     onClose={() => setIsModalOpen(false)}
                     onCourseCreated={handleCourseCreated}
                     data={base}
+                    userRole={userRole}
                 />
             )}
 

@@ -1,20 +1,14 @@
 import React, { useState } from "react";
-import { updateTheme } from "../../api/theme"; // API-запит для оновлення теми
+import { updateTheme } from "../../api/theme";
 import styles from "./EditThemeForm.module.css";
 import Notification from "../basic/Notification";
 
-function EditThemeForm({ 
-    theme, 
-    courseId, 
-    onCancel, 
-    onSave, 
-    setCourseList 
-}) {
+function EditThemeForm({ theme, courseId, onCancel, onSave, setCourseList }) {
     const [formData, setFormData] = useState({
         name: theme.name || "",
         description: theme.description || "",
         homework: theme.homework || "",
-        links: theme.links ? theme.links.join(", ") : "", // Конвертуємо в строку
+        links: theme.links ? theme.links.join(", ") : "",
     });
     const [notification, setNotification] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -60,37 +54,19 @@ function EditThemeForm({
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label>Назва:</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
                 </div>
                 <div className={styles.formGroup}>
                     <label>Опис:</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                    />
+                    <textarea name="description" value={formData.description} onChange={handleChange} />
                 </div>
                 <div className={styles.formGroup}>
                     <label>Домашнє завдання:</label>
-                    <textarea
-                        name="homework"
-                        value={formData.homework}
-                        onChange={handleChange}
-                    />
+                    <textarea name="homework" value={formData.homework} onChange={handleChange} />
                 </div>
                 <div className={styles.formGroup}>
                     <label>Посилання (через кому):</label>
-                    <textarea
-                        name="links"
-                        value={formData.links}
-                        onChange={handleChange}
-                    />
+                    <textarea name="links" value={formData.links} onChange={handleChange} />
                 </div>
                 <div className={styles.actions}>
                     <button type="submit" disabled={loading} className={styles.saveButton}>

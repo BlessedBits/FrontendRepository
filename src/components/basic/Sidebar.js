@@ -60,10 +60,7 @@ const Sidebar = ({ role }) => {
 
     return (
         <>
-            <button
-                className={`menu-button ${isOpen ? "open" : ""}`}
-                onClick={() => setIsOpen(!isOpen)}
-            >
+            <button className={`menu-button ${isOpen ? "open" : ""}`} onClick={() => setIsOpen(!isOpen)}>
                 ☰
             </button>
 
@@ -71,11 +68,7 @@ const Sidebar = ({ role }) => {
             <nav className={`sidebar ${isOpen ? "open" : ""}`}>
                 <div className="sidebar-logo">
                     <h2>
-                        <img
-                            src={`/weblogo.png`}
-                            alt="weblogo"
-                            className="icon"
-                        />
+                        <img src={`/weblogo.png`} alt="weblogo" className="icon" />
                         <span className="schoolText">School</span>
                         <span className="hubText">Hub</span>
                     </h2>
@@ -86,13 +79,9 @@ const Sidebar = ({ role }) => {
                             <a
                                 href={item.link || "#"}
                                 aria-label={item.label}
-                                className={
-                                    currentPath === item.link ? "active" : ""
-                                }
+                                className={currentPath === item.link ? "active" : ""}
                             >
-                                <span aria-hidden="true">
-                                    {item.icon || ""}
-                                </span>
+                                <span aria-hidden="true">{item.icon || ""}</span>
                                 {item.label}
                             </a>
                         </li>

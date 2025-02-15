@@ -15,7 +15,8 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const role = await getRole(axiosPrivate);
+                const response = await getRole(axiosPrivate);
+                const role = response.length > 0 ? response[0].name : null;
                 setUserRole(role);
 
                 if (role === "PLATFORM_ADMIN" && location.pathname === "/school/") {
@@ -47,7 +48,6 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
     if (!userRole || !allowedRoles.includes(userRole)) {
         return <Navigate to="/unauthorized" replace />;
     }
-
     return React.cloneElement(Component, { userRole });
 };
 

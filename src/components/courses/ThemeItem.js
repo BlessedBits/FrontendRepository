@@ -26,8 +26,6 @@ function ThemeItem({ moduleId, userRole }) {
             } finally {
                 setLoading(false);
             }
-
-            setTimeout(() => setNotification(null), 3000);
         };
 
         fetchMaterials();

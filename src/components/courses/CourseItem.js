@@ -49,8 +49,6 @@ function CourseItem({ course, userRole, onCourseDeleted }) {
                 type: "error",
                 message: "Помилка. Спробуйте пізніше",
             });
-        } finally {
-            setTimeout(() => setNotification({ message: "", type: "" }), 3000);
         }
     };
 

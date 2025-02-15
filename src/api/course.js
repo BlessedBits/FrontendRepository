@@ -8,6 +8,10 @@ export const getUserCourses = async (data, userRole, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(url), 200);
 };
 
+export const getCourses = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/courses/${id}`), 200, "Course found");
+};
+
 export const getModules = async (id, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/courses/${id}/modules`), 200, "Module found");
 };

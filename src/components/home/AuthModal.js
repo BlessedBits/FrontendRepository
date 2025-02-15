@@ -138,8 +138,6 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                     text: "Помилка: спробуйте пізніше",
                 });
         }
-
-        setTimeout(() => setNotification(null), 3000);
     };
 
     if (!isOpen) return null;
