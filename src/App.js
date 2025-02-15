@@ -11,6 +11,9 @@ import PrivateRoute from "./context/PrivateRoute";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import { LoadingPage } from "./components/basic/LoadingAnimation";
 import { SchAdminPanel, PlfAdminPanel } from "./pages/AdminPanel";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
+import { LoadingPage } from "./components/basic/LoadingAnimation";
+import { SchAdminPanel, PlfAdminPanel } from "./pages/AdminPanel";
 
 function App() {
     return (
@@ -101,6 +104,7 @@ function App() {
                 />
 
                 {/* Сторінка для неавторизованих або без доступу */}
+                <Route path="/unauthorized/" element={<UnauthorizedPage />} />
                 <Route path="/unauthorized/" element={<UnauthorizedPage />} />
             </Routes>
         </Router>

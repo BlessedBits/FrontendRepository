@@ -48,7 +48,10 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
     if (!userRole || !allowedRoles.includes(userRole)) {
         return <Navigate to="/unauthorized" replace />;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> d03617cca347e31b97ae840f99c391e07e0e9429
     return React.cloneElement(Component, { userRole });
 };
-
 export default PrivateRoute;
