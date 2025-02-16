@@ -15,14 +15,13 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const role = await getRole(axiosPrivate);
-                setUserRole(role);
+                const response = await getRole(axiosPrivate);
+                setUserRole(response);
 
-                if (role === "PLATFORM_ADMIN" && location.pathname === "/school/") {
+                if (response === "PLATFORM_ADMIN" && location.pathname === "/school/") {
                     setRedirectPath("/admin-panel/");
                 }
             } catch (err) {
-                console.error(err);
                 setError("Не вдалося завантажити інформацію профілю.");
             } finally {
                 setLoading(false);
@@ -47,7 +46,6 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
     if (!userRole || !allowedRoles.includes(userRole)) {
         return <Navigate to="/unauthorized" replace />;
     }
-
     return React.cloneElement(Component, { userRole });
 };
 export default PrivateRoute;

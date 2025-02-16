@@ -1,30 +1,314 @@
 import React, { useState } from "react";
 import ModuleItem from "./ModuleItem";
 import styles from "./CourseItem.module.css";
+import { deleteCourse, getCourseInfo, createModule, updateCourse } from "../../api/course";
+import { connectCourseClass, delConnectCourseClass } from "../../api/course";
+import Notification from "../basic/Notification";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { getAllClassesCourses } from "../../api/class";
 
-function CourseItem({ course, userRole }) {
+function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, ClassesSchool }) {
     const [expanded, setExpanded] = useState(false);
+    const [classes, setClasses] = useState([]);
+    const [availableClasses, setAvailableClasses] = useState([]);
+    const [loadingClasses, setLoadingClasses] = useState(false);
+    const [selectedClass, setSelectedClass] = useState("");
+    const [notification, setNotification] = useState({ message: "", type: "" });
+    const [courseDetails, setCourseDetails] = useState(null);
+    const [loadingCourseDetails, setLoadingCourseDetails] = useState(false);
+    const [newCourseName, setNewCourseName] = useState(course.name);
+    const [newModule, setNewModule] = useState({ name: "", courseId: course.id });
+
+    // Стейти для відображення форм редагування та створення модуля
+    const [isEditingCourse, setIsEditingCourse] = useState(false);
+    const [isCreatingModule, setIsCreatingModule] = useState(false);
+
+    const axiosPrivate = useAxiosPrivate();
+
+    const fetchCourseDetails = async () => {
+        setLoadingCourseDetails(true);
+        try {
+            const response = await getCourseInfo(course.id, axiosPrivate);
+            setCourseDetails(response);
+        } catch (error) {
+            console.error("Помилка при завантаженні інформації про курс:", error);
+            setNotification({ type: "error", message: "Не вдалося завантажити інформацію про курс" });
+        } finally {
+            setLoadingCourseDetails(false);
+        }
+    };
+
+    const handleToggleExpand = async () => {
+        setExpanded(!expanded);
+
+        if (!expanded) {
+            if (!courseDetails) {
+                await fetchCourseDetails();
+            }
+
+            if (["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && classes.length === 0) {
+                setLoadingClasses(true);
+                try {
+                    const response = await getAllClassesCourses(course.id, axiosPrivate);
+                    setClasses(response.classes);
+                    const filteredClasses = ClassesSchool.filter(
+                        (classItem) => !response.classes.some((c) => c.id === classItem.id)
+                    );
+                    setAvailableClasses(filteredClasses);
+                } catch (err) {
+                    console.error(err.message);
+                    setNotification({ type: "error", message: "Помилка при завантаженні класів" });
+                } finally {
+                    setLoadingClasses(false);
+                }
+            }
+        }
+    };
+
+    // Видалення курсу
+    const handleDeleteCourse = async (id) => {
+        if (!window.confirm("Ви впевнені, що хочете видалити даний предмет?")) return;
+        setNotification({ type: "loading", message: "Курс видаляється..." });
+        try {
+            await deleteCourse(id, axiosPrivate);
+            setNotification({ type: "success", message: "Курс видалено" });
+            if (onCourseDeleted) {
+                onCourseDeleted(id);
+            }
+        } catch (error) {
+            console.error("Помилка при видаленні курсу:", error);
+            setNotification({ type: "error", message: "Помилка. Спробуйте пізніше" });
+        }
+    };
+
+    const handleUpdateCourse = async (id, newName) => {
+        try {
+            await updateCourse(id, { name: newName }, axiosPrivate);
+            setNotification({ type: "success", message: "Курс оновлено!" });
+            if (onCourseUpdated) {
+                onCourseUpdated(id, newName);
+            }
+        } catch (error) {
+            console.error("Помилка при оновленні курсу:", error);
+            setNotification({ type: "error", message: "Не вдалося оновити курс." });
+        }
+    };
+
+    const handleCreateModule = async () => {
+        if (!newModule.name.trim()) {
+            setNotification({ type: "error", message: "Назва модуля не може бути порожньою" });
+            return;
+        }
+
+        setNotification({ type: "loading", message: "Створення модуля..." });
+
+        try {
+            await createModule(newModule, axiosPrivate);
+            await fetchCourseDetails();
+            setNotification({ type: "success", message: "Модуль створено успішно" });
+            setNewModule({ name: "", courseId: course.id });
+            setIsCreatingModule(false);
+        } catch (error) {
+            console.error("Помилка при створенні модуля:", error);
+            setNotification({ type: "error", message: "Не вдалося створити модуль" });
+        }
+    };
+
+    const handleAddConnectionClass = async () => {
+        if (!selectedClass) return;
+        setNotification({ type: "loading", message: "Додаємо клас..." });
+
+        try {
+            await connectCourseClass(selectedClass, course.id, axiosPrivate);
+            setNotification({ type: "success", message: "Клас успішно додано" });
+
+            const selectedClassId = parseInt(selectedClass, 10);
+            const newClass = availableClasses.find((c) => c.id === selectedClassId);
+            if (newClass) {
+                setClasses([...classes, newClass]);
+                setAvailableClasses(availableClasses.filter((c) => c.id !== selectedClassId));
+            } else {
+                setNotification({ type: "error", message: "Вибраний клас не знайдено" });
+            }
+
+            setSelectedClass("");
+        } catch (error) {
+            console.error("Помилка при додаванні класу:", error);
+            setNotification({ type: "error", message: "Не вдалося додати клас" });
+        }
+    };
+
+    const handleDeleteConnectionClass = async (id) => {
+        setNotification({ type: "loading", message: "Видаляємо зв'язок..." });
+
+        try {
+            await delConnectCourseClass(id, course.id, axiosPrivate);
+            setNotification({ type: "success", message: "Зв'язок видалено" });
+
+            setClasses((prevClasses) => prevClasses.filter((classItem) => classItem.id !== id));
+
+            const deletedClass = classes.find((classItem) => classItem.id === id);
+            if (deletedClass) {
+                setAvailableClasses((prevAvailableClasses) => [...prevAvailableClasses, deletedClass]);
+            }
+        } catch (error) {
+            console.error("Помилка при видаленні зв'язку:", error);
+            setNotification({ type: "error", message: "Помилка. Спробуйте пізніше" });
+        }
+    };
+
+    // Функція, яка викликається у ModuleItem після видалення модуля
+    const handleModuleDeleted = (moduleId) => {
+        setCourseDetails((prevModules) => prevModules.filter((module) => module.id !== moduleId));
+    };
 
     return (
-        <li className={styles.courseItem}>
-            <button
-                className={styles.toggleButton}
-                onClick={() => setExpanded(!expanded)}
-            >
-                {expanded ? "🔽" : "▶️"} {course.name}
-            </button>
+        <li className={expanded ? styles.courseItemExpanded : styles.courseItem}>
+            <div className={styles.moduleEditContainer}>
+                <button className={styles.courseBtn} onClick={handleToggleExpand}>
+                    {expanded ? "🔽" : "▶️"} {course.name}
+                </button>
+                {expanded && ["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                    <div className={styles.editContainer}>
+                        {isEditingCourse ? (
+                            <>
+                                <input
+                                    type="text"
+                                    value={newCourseName}
+                                    onChange={(e) => setNewCourseName(e.target.value)}
+                                    className={styles.courseInput}
+                                />
+                                <button
+                                    className={styles.editButton}
+                                    onClick={() => {
+                                        handleUpdateCourse(course.id, newCourseName);
+                                        setIsEditingCourse(false);
+                                    }}
+                                >
+                                    Зберегти
+                                </button>
+                                <button
+                                    className={styles.cancelButton}
+                                    onClick={() => {
+                                        setNewCourseName(course.name);
+                                        setIsEditingCourse(false);
+                                    }}
+                                >
+                                    Скасувати
+                                </button>
+                            </>
+                        ) : (
+                            <button className={styles.iconBtn} onClick={() => setIsEditingCourse(true)}>
+                                ✏️ Редагувати
+                            </button>
+                        )}
+                        <button className={styles.iconBtn} onClick={() => handleDeleteCourse(course.id)}>
+                            🗑️ Видалити
+                        </button>
+                    </div>
+                )}
+            </div>
 
             {expanded && (
-                <ul className={styles.modules}>
-                    {course.modules.map((module) => (
-                        <ModuleItem
-                            key={module.id}
-                            module={module}
-                            userRole={userRole}
-                        />
-                    ))}
-                </ul>
+                <>
+                    {loadingCourseDetails ? (
+                        <p>Завантаження інформації про курс...</p>
+                    ) : (
+                        <div className={styles.moduleContainer}>
+                            <ul className={styles.modules}>
+                                {courseDetails?.length > 0 ? (
+                                    courseDetails.map((module) => (
+                                        <ModuleItem
+                                            key={module.id}
+                                            module={module}
+                                            userRole={userRole}
+                                            onModuleDeleted={handleModuleDeleted}
+                                        />
+                                    ))
+                                ) : (
+                                    <p>Модулі відсутні</p>
+                                )}
+                            </ul>
+                            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                                <div className={styles.createModuleContainer}>
+                                    {isCreatingModule ? (
+                                        <>
+                                            <input
+                                                type="text"
+                                                placeholder="Назва модуля"
+                                                value={newModule.name}
+                                                onChange={(e) => setNewModule({ ...newModule, name: e.target.value })}
+                                                className={styles.moduleInput}
+                                            />
+                                            <button className={styles.createBtn} onClick={handleCreateModule}>
+                                                Додати модуль
+                                            </button>
+                                            <button
+                                                className={styles.cancelButton}
+                                                onClick={() => {
+                                                    setIsCreatingModule(false);
+                                                    setNewModule({ name: "", courseId: course.id });
+                                                }}
+                                            >
+                                                Скасувати
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <button className={styles.iconBtn} onClick={() => setIsCreatingModule(true)}>
+                                            ➕ Додати модуль
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                        <div className={styles.classesContainer}>
+                            <h4>Класи в яких є даний предмет:</h4>
+                            {loadingClasses ? (
+                                <p>Завантаження класів...</p>
+                            ) : classes.length > 0 ? (
+                                <ul className={styles.classesList}>
+                                    {classes.map((classItem) => (
+                                        <li key={classItem.id} className={styles.classItem}>
+                                            {classItem.name}
+                                            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                                                <button
+                                                    className={styles.deleteClassButton}
+                                                    onClick={() => handleDeleteConnectionClass(classItem.id)}
+                                                >
+                                                    ❌
+                                                </button>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>Відсутні</p>
+                            )}
+
+                            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && availableClasses.length > 0 && (
+                                <div className={styles.addClassContainer}>
+                                    <select value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+                                        <option value="">Виберіть клас</option>
+                                        {availableClasses.map((classItem) => (
+                                            <option key={classItem.id} value={classItem.id}>
+                                                {classItem.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <button className={styles.createBtn} onClick={handleAddConnectionClass}>
+                                        Додати клас
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </>
             )}
+
+            <Notification message={notification.message} type={notification.type} />
         </li>
     );
 }

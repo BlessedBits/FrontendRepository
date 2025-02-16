@@ -3,7 +3,7 @@ import { executeRequest } from "../utils/apiUtils";
 export const createSchedule = async (scheduleData, axiosPrivateInstance) => {
     return executeRequest(
         () =>
-            axiosPrivateInstance.post("/schedules/new", {
+            axiosPrivateInstance.post("/schedules/", {
                 classId: scheduleData.classId,
                 courseId: scheduleData.courseId,
                 dayOfWeek: scheduleData.dayOfWeek,
@@ -26,9 +26,23 @@ export const getScheduleById = async (id, axiosPrivateInstance) =>
         `Schedule fetched successfully with ID: ${id}`
     );
 
-export const updateScheduleById = async (data, id, axiosPrivateInstance) =>
+export const getScheduleByClassesId = async (id, axiosPrivateInstance) =>
+    executeRequest(
+        () => axiosPrivateInstance.get(`/schedules/class/${id}`),
+        200,
+        `Schedule fetched successfully with class ID: ${id}`
+    );
+
+export const updateScheduleById = async (id, data, axiosPrivateInstance) =>
     executeRequest(
         () => axiosPrivateInstance.put(`/schedules/${id}`, data),
         200,
-        `Schedule fetched successfully with ID: ${id}`
+        `Schedule updated successfully with ID: ${id}`
+    );
+
+export const daleteScheduleById = async (id, axiosPrivateInstance) =>
+    executeRequest(
+        () => axiosPrivateInstance.delete(`/schedules/${id}`),
+        204,
+        `Schedule delete successfully with ID: ${id}`
     );

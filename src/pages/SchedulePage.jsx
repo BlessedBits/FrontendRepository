@@ -8,7 +8,7 @@ const SchedulePage = ({ userRole }) => {
             <Sidebar role={userRole} />
             <main>
                 <section data-content="true" className="content">
-                    <Schedule />
+                    <Schedule userRole={userRole} />
                 </section>
             </main>
         </>

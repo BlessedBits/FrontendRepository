@@ -1,19 +1,11 @@
 import { executeRequest } from "../utils/apiUtils";
 
 export const getProfileInfo = async (axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get("users/profile"),
-        200,
-        "Profile info in json"
-    );
+    return executeRequest(() => axiosPrivateInstance.get("users/profile"), 200, "Profile info in json");
 };
 
 export const getProfileInfoById = async (id, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get(`users/profile/${id}`),
-        200,
-        "Profile info in json"
-    );
+    return executeRequest(() => axiosPrivateInstance.get(`users/profile/${id}`), 200, "Profile info in json");
 };
 
 export const updateProfileInfo = async (data, axiosPrivateInstance) => {
@@ -28,12 +20,7 @@ export const updateProfileInfo = async (data, axiosPrivateInstance) => {
     );
 };
 
-export const changePassword = async (
-    oldPassword,
-    newPassword,
-    confirmPassword,
-    axiosPrivateInstance
-) => {
+export const changePassword = async (oldPassword, newPassword, confirmPassword, axiosPrivateInstance) => {
     const data = { oldPassword, newPassword, confirmPassword };
 
     return executeRequest(
@@ -62,12 +49,5 @@ export const updateProfileImage = async (id, file, axiosPrivateInstance) => {
 };
 
 export const setUserDuty = async (id, duty, axiosPrivateInstance) => {
-    const formData = new FormData();
-    formData.append("duty", duty);
-
-    return executeRequest(
-        () => axiosPrivateInstance.post(`/users/set-duty/${id}`, formData),
-        200,
-        "OK"
-    );
+    return executeRequest(() => axiosPrivateInstance.put(`/users/${id}/duty`, { duty: duty }), 200, "OK");
 };

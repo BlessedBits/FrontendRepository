@@ -12,7 +12,9 @@
 
 .list {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 0;
 }
 
@@ -42,12 +44,6 @@
 
 .createButton27 {
     user-select: none;
-    background-image: linear-gradient(
-        to right,
-        #ed6ea0,
-        #ec8c69,
-        #f7186a,
-        #fbb03b
-    );
+    background-image: linear-gradient(to right, #ed6ea0, #ec8c69, #f7186a, #fbb03b);
     box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
 }

@@ -11,8 +11,6 @@ const GmailForm = ({ axiosPrivate, onClose }) => {
         e.preventDefault();
         setMessage({ type: "loading", text: "Обробка запиту..." });
 
-        
-
         try {
             await updateProfileInfo({ email: gmail }, axiosPrivate);
             setMessage({ type: "success", text: "Лист підтвердження відправлено." });
@@ -35,14 +33,11 @@ const GmailForm = ({ axiosPrivate, onClose }) => {
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label>Ваш Gmail</label>
-                    <input
-                        type="email"
-                        value={gmail}
-                        onChange={(e) => setGmail(e.target.value)}
-                        required
-                    />
+                    <input type="email" value={gmail} onChange={(e) => setGmail(e.target.value)} required />
                 </div>
-                <button type="submit" className={styles.submitButton}>Відправити</button>
+                <button type="submit" className={styles.submitButton}>
+                    Відправити
+                </button>
             </form>
         </>
     );

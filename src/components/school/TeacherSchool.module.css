@@ -2,7 +2,7 @@
     padding: 20px;
     background-color: #fff3f3;
     border-radius: 25px;
-    width: 95%;
+    width: 100%;
     max-width: 1350px;
 }
 
@@ -47,6 +47,7 @@
 
 .teacherName {
     font-size: 20px;
+    text-align: center;
     font-weight: bold;
     margin: 10px 0 5px;
     color: #333;

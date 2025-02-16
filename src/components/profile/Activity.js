@@ -13,7 +13,7 @@ const ActivityProfile = ({ profileData, isOwnProfile, userId }) => {
                 <img src={profileData?.profileImage || "/ava.png"} alt="Profile" />
                 <p className={styles.firstName}>
                     <strong>{profileData?.firstName}</strong>
-                    <strong>{profileData?.secondName}</strong>
+                    <strong> {profileData?.lastName}</strong>
                 </p>
                 {isOwnProfile && (
                     <button className={styles.editButton} onClick={() => setIsEditing(true)}>
@@ -21,13 +21,7 @@ const ActivityProfile = ({ profileData, isOwnProfile, userId }) => {
                     </button>
                 )}
             </div>
-            {isEditing && (
-                <ProfileModal
-                    isOpen={isEditing}
-                    onClose={() => setIsEditing(false)}
-                    userId={userId}
-                />
-            )}
+            {isEditing && <ProfileModal isOpen={isEditing} onClose={() => setIsEditing(false)} userId={userId} />}
         </section>
     );
 };

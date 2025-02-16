@@ -1,17 +1,20 @@
 import axios from "./axios";
 
-export const login = async (username, password, rememberMe, setAuth, navigate) => {
+export const login = async (username, password, rememberMe, setAuth) => {
     try {
-        const response = await axios.post(`/auth/login`, { username, password }, {
-            headers: { 'Content-type': 'application/json' },
-            params: { rememberMe: rememberMe },
-            withCredentials: true,
-        });
+        const response = await axios.post(
+            `/auth/login`,
+            { username, password },
+            {
+                headers: { "Content-type": "application/json" },
+                params: { rememberMe },
+                withCredentials: true,
+            }
+        );
 
         const { accessToken, tokenType } = response?.data;
         setAuth({ accessToken, tokenType });
-
-        navigate('/school/');
+        return true; // Indicate success
     } catch (err) {
         if (err.response?.status === 401) {
             throw new Error("User");

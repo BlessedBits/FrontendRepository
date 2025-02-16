@@ -5,6 +5,7 @@ import { getSchoolTeachers } from "../../api/school";
 import { Loading } from "../basic/LoadingAnimation";
 import Notification from "../basic/Notification";
 import { setUserDuty } from "../../api/profile";
+import { updateUserName } from "../../api/user";
 
 function TeacherSchool({ userRole }) {
     const [teachers, setTeachers] = useState([]);
@@ -30,9 +31,13 @@ function TeacherSchool({ userRole }) {
 
     const handleDutyChange = (id, newDuty) => {
         setTeachers((prevTeachers) =>
-            prevTeachers.map((teacher) =>
-                teacher.id === id ? { ...teacher, duty: newDuty } : teacher
-            )
+            prevTeachers.map((teacher) => (teacher.id === id ? { ...teacher, duty: newDuty } : teacher))
+        );
+    };
+
+    const handleNameChange = (id, field, newValue) => {
+        setTeachers((prevTeachers) =>
+            prevTeachers.map((teacher) => (teacher.id === id ? { ...teacher, [field]: newValue } : teacher))
         );
     };
 
@@ -41,12 +46,29 @@ function TeacherSchool({ userRole }) {
             await setUserDuty(id, duty, axiosPrivate);
             setNotification({
                 type: "success",
-                message: "Дані успішно оновлено.",
+                message: "Обов'язок успішно оновлено.",
             });
         } catch {
             setNotification({
                 type: "error",
-                message: "Не вдалося оновити дані.",
+                message: "Не вдалося оновити обов'язок.",
+            });
+        }
+        setTimeout(() => setNotification({ message: "", type: "" }), 3000);
+    };
+
+    const saveName = async (id, firstName, lastName) => {
+        const data = { firstName: firstName, lastName: lastName };
+        try {
+            await updateUserName(id, data, axiosPrivate);
+            setNotification({
+                type: "success",
+                message: "Ім'я успішно оновлено.",
+            });
+        } catch {
+            setNotification({
+                type: "error",
+                message: "Не вдалося оновити ім'я.",
             });
         }
         setTimeout(() => setNotification({ message: "", type: "" }), 3000);
@@ -75,6 +97,7 @@ function TeacherSchool({ userRole }) {
             </section>
         );
     }
+
     return (
         <section id="Teacher" className={styles.teacher}>
             <h2 className={styles.header}>Наші вчителі</h2>
@@ -90,32 +113,48 @@ function TeacherSchool({ userRole }) {
                     <div key={teacher.id} className={styles.teacherItem}>
                         <img
                             src={teacher.profileImage}
-                            alt={teacher.firstName + " " + teacher.secondName}
+                            alt={teacher.firstName + " " + teacher.lastName}
                             className={styles.teacherImage}
                         />
-                        <p className={styles.teacherName}>
-                            {teacher.firstName} {teacher.secondName}
-                        </p>
+                        {userRole === "SCHOOL_ADMIN" ? (
+                            <div className={styles.nameEdit}>
+                                <input
+                                    type="text"
+                                    value={teacher.firstName}
+                                    onChange={(e) => handleNameChange(teacher.id, "firstName", e.target.value)}
+                                    className={styles.nameInput}
+                                />
+                                <input
+                                    type="text"
+                                    value={teacher.lastName}
+                                    onChange={(e) => handleNameChange(teacher.id, "lastName", e.target.value)}
+                                    className={styles.nameInput}
+                                />
+                                <button
+                                    onClick={() => saveName(teacher.id, teacher.firstName, teacher.lastName)}
+                                    className={styles.saveButton}
+                                >
+                                    Зберегти ім'я
+                                </button>
+                            </div>
+                        ) : (
+                            <p className={styles.teacherName}>
+                                {teacher.firstName} {teacher.lastName}
+                            </p>
+                        )}
                         {userRole === "SCHOOL_ADMIN" ? (
                             <div className={styles.dutyEdit}>
                                 <input
                                     type="text"
                                     value={teacher.duty}
-                                    onChange={(e) =>
-                                        handleDutyChange(
-                                            teacher.id,
-                                            e.target.value
-                                        )
-                                    }
+                                    onChange={(e) => handleDutyChange(teacher.id, e.target.value)}
                                     className={styles.dutyInput}
                                 />
                                 <button
-                                    onClick={() =>
-                                        saveDuty(teacher.id, teacher.duty)
-                                    }
+                                    onClick={() => saveDuty(teacher.id, teacher.duty)}
                                     className={styles.saveButton}
                                 >
-                                    Зберегти
+                                    Зберегти обов'язок
                                 </button>
                             </div>
                         ) : (

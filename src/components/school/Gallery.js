@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./GallerySchool.module.css";
-import {
-    getSchoolGallery,
-    createSchoolFoto,
-    deleteSchoolFoto,
-} from "../../api/school";
+import { getSchoolGallery, createSchoolFoto, deleteSchoolFoto } from "../../api/school";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 import { Loading } from "../basic/LoadingAnimation";
@@ -23,12 +19,11 @@ function GallerySchool({ userRole }) {
         async function fetchPhotos() {
             try {
                 const response = await getSchoolGallery(axiosPrivate);
-                setPhotos(response);
+                const sortedresponse = response.sort((a, b) => b.id - a.id);
+                setPhotos(sortedresponse);
             } catch (error) {
                 console.error("Помилка при завантаженні галереї:", error);
-                setError(
-                    error.message || "Сталася помилка під час завантаження."
-                );
+                setError(error.message || "Сталася помилка під час завантаження.");
             } finally {
                 setLoading(false);
             }
@@ -46,10 +41,11 @@ function GallerySchool({ userRole }) {
         try {
             await createSchoolFoto(formData, axiosPrivate);
             const updatedPhotos = await getSchoolGallery(axiosPrivate);
-            setPhotos(updatedPhotos);
+            const sortedresponse = updatedPhotos.sort((a, b) => b.id - a.id);
+            setPhotos(sortedresponse);
             setNotification({ type: "success", message: "Додано нове фото" });
             setNewPhoto(null);
-            setPreview(null); // Clear the preview after upload
+            setPreview(null);
         } catch (error) {
             console.error("Помилка при додаванні фото:", error);
             setNotification({
@@ -65,11 +61,7 @@ function GallerySchool({ userRole }) {
         try {
             await deleteSchoolFoto(galleryImage, axiosPrivate);
             setNotification({ type: "success", message: "Фото видалено" });
-            setPhotos((prevPhotos) =>
-                prevPhotos.filter(
-                    (photo) => photo.galleryImage !== galleryImage
-                )
-            );
+            setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.galleryImage !== galleryImage));
         } catch (error) {
             console.error("Помилка при видаленні фото:", error);
             setNotification({
@@ -83,9 +75,9 @@ function GallerySchool({ userRole }) {
     const handlePhotoChange = (file) => {
         setNewPhoto(file);
         if (file) {
-            setPreview(URL.createObjectURL(file)); // Generate preview URL
+            setPreview(URL.createObjectURL(file));
         } else {
-            setPreview(null); // Clear preview if no file is selected
+            setPreview(null);
         }
     };
 
@@ -117,23 +109,12 @@ function GallerySchool({ userRole }) {
                 <ul ref={sliderRef} className={styles.galleryList}>
                     {firstList.length > 0 ? (
                         firstList.map((photo) => (
-                            <li
-                                key={photo.galleryImage}
-                                className={styles.galleryItem}
-                            >
-                                <img
-                                    src={photo.galleryImage}
-                                    alt="Фото школи"
-                                    className={styles.galleryPhoto}
-                                />
+                            <li key={photo.galleryImage} className={styles.galleryItem}>
+                                <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
                                 {userRole === "SCHOOL_ADMIN" && (
                                     <button
                                         className={styles.deleteButton}
-                                        onClick={() =>
-                                            handleDeletePhoto(
-                                                photo.galleryImage
-                                            )
-                                        }
+                                        onClick={() => handleDeletePhoto(photo.galleryImage)}
                                     >
                                         ❌
                                     </button>
@@ -148,23 +129,12 @@ function GallerySchool({ userRole }) {
                 <ul className={styles.galleryList}>
                     {secondList.length > 0 ? (
                         secondList.map((photo) => (
-                            <li
-                                key={photo.galleryImage}
-                                className={styles.galleryItem}
-                            >
-                                <img
-                                    src={photo.galleryImage}
-                                    alt="Фото школи"
-                                    className={styles.galleryPhoto}
-                                />
+                            <li key={photo.galleryImage} className={styles.galleryItem}>
+                                <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
                                 {userRole === "SCHOOL_ADMIN" && (
                                     <button
                                         className={styles.deleteButton}
-                                        onClick={() =>
-                                            handleDeletePhoto(
-                                                photo.galleryImage
-                                            )
-                                        }
+                                        onClick={() => handleDeletePhoto(photo.galleryImage)}
                                     >
                                         ❌
                                     </button>
@@ -177,10 +147,7 @@ function GallerySchool({ userRole }) {
                 </ul>
                 {userRole === "SCHOOL_ADMIN" && (
                     <div className={styles.adminControls}>
-                        <label
-                            htmlFor="fileInput"
-                            className={styles.iconButton}
-                        >
+                        <label htmlFor="fileInput" className={styles.iconButton}>
                             <span className={styles.icon}></span>
                         </label>
 
@@ -189,16 +156,10 @@ function GallerySchool({ userRole }) {
                             className={styles.hiddenInput}
                             type="file"
                             accept="image/*"
-                            onChange={(e) =>
-                                handlePhotoChange(e.target.files[0])
-                            }
+                            onChange={(e) => handlePhotoChange(e.target.files[0])}
                         />
 
-                        <button
-                            className={styles.saveButton}
-                            onClick={handleAddPhoto}
-                            disabled={!newPhoto}
-                        >
+                        <button className={styles.saveButton} onClick={handleAddPhoto} disabled={!newPhoto}>
                             Додати фото
                         </button>
                     </div>
@@ -207,20 +168,13 @@ function GallerySchool({ userRole }) {
                 {preview && (
                     <section className={styles.preview}>
                         <div className={styles.previewContainer}>
-                            <img
-                                src={preview}
-                                alt="Прев'ю вибраного фото"
-                                className={styles.previewImage}
-                            />
+                            <img src={preview} alt="Прев'ю вибраного фото" className={styles.previewImage} />
                         </div>
                     </section>
                 )}
             </div>
 
-            <Notification
-                message={notification.message}
-                type={notification.type}
-            />
+            <Notification message={notification.message} type={notification.type} />
         </section>
     );
 }

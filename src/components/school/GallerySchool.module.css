@@ -13,7 +13,7 @@
     padding: 30px 20px;
     background-color: #fff3f3;
     border-radius: 25px;
-    width: 95%;
+    width: 100%;
     max-width: 1350px;
     user-select: none;
     display: flex;
@@ -92,6 +92,9 @@
 }
 
 .galleryLists {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     width: 100%;
 }
 
@@ -161,7 +164,7 @@
 }
 
 .previewImage {
-    max-width: 200px;
+    width: 250px;
     height: 200px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -196,7 +199,7 @@
         width: 25px;
     }
     .previewImage {
-        max-width: 125px;
+        max-width: 150px;
         max-height: 125px;
     }
 }
@@ -273,12 +276,18 @@
         padding: 3px 6px;
     }
     .previewImage {
-        max-width: 50px;
+        max-width: 75px;
         max-height: 50px;
     }
 }
 
 @media (max-width: 480px) {
+    .galleryLists {
+        gap: 0;
+    }
+    .galleryTitle {
+        font-size: 16px;
+    }
     .galleryList {
         height: 50px;
         gap: 2px;
@@ -310,8 +319,11 @@
         font-size: 6px;
         padding: 2.5px 5px;
     }
+    .previewContainer {
+        margin-top: 0;
+    }
     .previewImage {
-        max-width: 35px;
+        max-width: 50px;
         max-height: 35px;
     }
 }
