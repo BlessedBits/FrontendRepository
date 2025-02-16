@@ -55,7 +55,7 @@ function Schedule({ userRole }) {
             try {
                 const id = await getUserId(axiosPrivate);
                 const userInfo = await getBaseInfo(id, axiosPrivate);
-                const schoolClasses = await getAllClassesSchool(userInfo, axiosPrivate);
+                const schoolClasses = await getAllClassesSchool(userInfo.schoolId, axiosPrivate);
                 const userCourses = await getUserCourses(userInfo, userRole, axiosPrivate);
 
                 setClasses(schoolClasses);

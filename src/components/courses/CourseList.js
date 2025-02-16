@@ -2,17 +2,12 @@ import React, { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import CourseItem from "./CourseItem";
 import { Loading } from "../basic/LoadingAnimation";
-import { getUserCourses } from "../../api/course";
+import { getUserCourses, updateCourse } from "../../api/course";
 import styles from "./CourseList.module.css";
 import NewCourseModal from "./NewCourseModal";
 import Notification from "../basic/Notification";
 import { getUserId, getBaseInfo } from "../../api/user";
-import {
-    getAllClassesSchool,
-    getAllClassesCourses,
-    getAllClassesStudents,
-    getAllClassesSchedule,
-} from "../../api/class";
+import { getAllClassesSchool } from "../../api/class";
 
 function CourseList({ userRole }) {
     const [courses, setCourses] = useState([]);
@@ -30,10 +25,12 @@ function CourseList({ userRole }) {
                 const id = await getUserId(axiosPrivate);
                 const data = await getBaseInfo(id, axiosPrivate);
                 setBaseInfo(data);
-                //await getAllClassesSchool(data, axiosPrivate);
-                //await getAllClassesStudents(data, axiosPrivate);
                 const response = await getUserCourses(data, userRole, axiosPrivate);
                 setCourses(response);
+                if (["TEACHER", "SCHOOL_ADMIN"].includes(userRole)) {
+                    const response2 = await getAllClassesSchool(data.schoolId, axiosPrivate);
+                    setSchoolClasses(response2);
+                }
             } catch (err) {
                 console.error(err.message);
                 setError("Не вдалося завантажити курси. Спробуйте пізніше.");
@@ -68,6 +65,12 @@ function CourseList({ userRole }) {
         setCourses((prevCourses) => prevCourses.filter((course) => course.id !== deletedCourseId));
     };
 
+    const handleCourseUpdated = async (courseId, newName) => {
+        setCourses((prevCourses) =>
+            prevCourses.map((course) => (course.id === courseId ? { ...course, name: newName } : course))
+        );
+    };
+
     if (loading) return <Loading />;
     if (error) return <p className={styles.error}>{error}</p>;
 
@@ -86,8 +89,9 @@ function CourseList({ userRole }) {
                         course={course}
                         userRole={userRole}
                         onCourseDeleted={handleCourseDeleted}
+                        onCourseUpdated={handleCourseUpdated}
                         data={base}
-                        classes={classes}
+                        ClassesSchool={classes}
                     />
                 ))}
             </ul>

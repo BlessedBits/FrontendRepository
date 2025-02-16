@@ -4,8 +4,8 @@ export const getAllClasses = async (axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get("/classes"), 200, "Success");
 };
 
-export const getAllClassesSchool = async (data, axiosPrivateInstance) => {
-    return executeRequest(() => axiosPrivateInstance.get(`/schools/${data.schoolId}/classes`), 200, "Success");
+export const getAllClassesSchool = async (schoolId, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/${schoolId}/classes`), 200, "Success");
 };
 
 export const getAllClassesStudents = async (data, axiosPrivateInstance) => {

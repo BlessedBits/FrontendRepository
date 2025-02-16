@@ -2,14 +2,18 @@ import { executeRequest } from "../utils/apiUtils";
 
 export const getUserCourses = async (data, userRole, axiosPrivateInstance) => {
     const url = ["TEACHER", "SCHOOL_ADMIN"].includes(userRole)
-        ? `schools/${data.schoolId}/courses?include=modules`
-        : `classes/${data.userClassId}/courses?include=modules`;
+        ? `schools/${data.schoolId}/courses`
+        : `classes/${data.userClassId}/courses`;
 
     return executeRequest(() => axiosPrivateInstance.get(url), 200);
 };
 
-export const getCourses = async (id, axiosPrivateInstance) => {
-    return executeRequest(() => axiosPrivateInstance.get(`/courses/${id}`), 200, "Course found");
+export const getCourseInfo = async (id, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.get(`/courses/${id}/modules?include=materials,assignments    `),
+        200,
+        "Course found"
+    );
 };
 
 export const getModules = async (id, axiosPrivateInstance) => {
@@ -43,31 +47,35 @@ export const createCourse = async (schoolId, teacherId, courseName, axiosPrivate
     );
 };
 
-export const createModule = async (courseId, moduleName, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.post("/courses/modules", { name: moduleName }, { params: { courseId } }),
-        201,
-        "Module created"
-    );
-};
-
-export const createMaterial = async (courseId, moduleId, material, axiosPrivateInstance) => {
+export const connectCourseClass = async (classesId, courseId, axiosPrivateInstance) => {
     return executeRequest(
         () =>
-            axiosPrivateInstance.post("/courses/modules/materials", material, {
-                params: { courseId, moduleId },
+            axiosPrivateInstance.post(`/classes/${classesId}/courses`, {
+                courseId: courseId,
             }),
-        201,
-        "Material created"
+        200,
+        "Connection created"
     );
 };
 
-export const createAssignment = async (courseId, moduleId, assignment, axiosPrivateInstance) => {
+export const delConnectCourseClass = async (classesId, courseId, axiosPrivateInstance) => {
     return executeRequest(
-        () => axiosPrivateInstance.post("/courses/modules/assignments", assignment, { params: { courseId, moduleId } }),
-        201,
-        "Assignment created"
+        () => axiosPrivateInstance.delete(`/classes/${classesId}/courses/${courseId}`),
+        200,
+        "Connection delete"
     );
+};
+
+export const createModule = async (data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.post("/modules", data), 201, "Module created");
+};
+
+export const createMaterial = async (data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.post("/materials", data), 201, "Material created");
+};
+
+export const createAssignment = async (data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.post("/assignments", data), 201, "Assignment created");
 };
 
 export const createSubmission = async (courseId, moduleId, assignmentId, submissionUrl, axiosPrivateInstance) => {
@@ -91,6 +99,42 @@ export const gradeSubmission = async (submissionId, grade, axiosPrivateInstance)
     );
 };
 
+export const updateCourse = async (id, data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.put(`/courses/${id}`, data), 200, "Courses updated");
+};
+
 export const deleteCourse = async (id, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.delete(`/courses/${id}`), 200, "No content");
+};
+
+export const updateModule = async (id, data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.put(`/modules/${id}`, data), 200, "Module updated");
+};
+
+export const deleteModule = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.delete(`/modules/${id}`), 200, "Module deleted");
+};
+
+export const updateMaterial = async (id, data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.put(`/materials/${id}`, data), 200, "Material updated");
+};
+
+export const deleteMaterial = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.delete(`/materials/${id}`), 200, "Material deleted");
+};
+
+export const updateAssignment = async (id, data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.put(`/assignments/${id}`, data), 200, "Assignment updated");
+};
+
+export const deleteAssignment = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.delete(`/assignments/${id}`), 200, "Assignment deleted");
+};
+
+export const updateSubmission = async (id, data, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.put(`/submissions/${id}`, data), 200, "Submission updated");
+};
+
+export const deleteSubmission = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.delete(`/submissions/${id}`), 200, "Submission deleted");
 };

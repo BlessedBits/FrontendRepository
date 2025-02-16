@@ -8,6 +8,10 @@
     transition: all 0.3s ease-in-out;
 }
 
+.moduleName {
+    flex-grow: 1;
+}
+
 .header {
     display: flex;
     align-items: center;
@@ -30,13 +34,6 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    color: #007bff;
-    transition: transform 0.2s;
-}
-
-.toggleButton:hover {
-    color: #0056b3;
-    transform: scale(1.1);
 }
 
 .themes {
@@ -51,17 +48,11 @@
     transition: background 0.3s;
 }
 
-.themes li:hover {
-    background: #f1f5f9;
+.iconBtn {
+    background: none;
+    opacity: 0.7;
 }
 
-.themes li:last-child {
-    border-bottom: none;
-}
-
-.notification {
-    color: red;
-    font-size: 14px;
-    padding: 10px;
-    text-align: center;
+.iconBtn:hover {
+    opacity: 1;
 }

@@ -6,6 +6,35 @@
     width: auto;
 }
 
+.courseBtn {
+    display: flex;
+    width: 100%;
+    background: none;
+    padding: 15px 10px;
+    font-size: 24px;
+}
+
+.moduleEditContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.editContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.iconBtn {
+    background: none;
+    opacity: 0.7;
+}
+
+.iconBtn:hover {
+    opacity: 1;
+}
+
 .toggleButton {
     background: none;
     padding: 15px 10px;
@@ -51,14 +80,15 @@
     width: 100%;
 }
 
-.deleteButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: red;
-    border-radius: 4px;
-    color: white;
+.deleteClassButton {
+    background: none;
+    border: none;
+    color: red;
     font-size: 16px;
     cursor: pointer;
-    z-index: 10;
+    margin-left: 10px;
+}
+
+.deleteClassButton:hover {
+    color: darkred;
 }

@@ -11,9 +11,6 @@ import PrivateRoute from "./context/PrivateRoute";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import { LoadingPage } from "./components/basic/LoadingAnimation";
 import { SchAdminPanel, PlfAdminPanel } from "./pages/AdminPanel";
-import UnauthorizedPage from "./pages/UnauthorizedPage";
-import { LoadingPage } from "./components/basic/LoadingAnimation";
-import { SchAdminPanel, PlfAdminPanel } from "./pages/AdminPanel";
 
 function App() {
     return (
@@ -22,7 +19,7 @@ function App() {
                 {/* Головна сторінка - доступна всім */}
                 <Route path="/" element={<HomePage />} />
 
-                {/* Сторінка "Школа"*/}
+                {/* Сторінка "Школа" */}
                 <Route
                     path="/school/"
                     element={
@@ -41,7 +38,7 @@ function App() {
                     }
                 />
 
-                {/* Профіль*/}
+                {/* Профіль */}
                 <Route
                     path="/profile/"
                     element={
@@ -52,7 +49,7 @@ function App() {
                     }
                 />
 
-                {/* Профіль іншого користувача*/}
+                {/* Профіль іншого користувача */}
                 <Route
                     path="/profile/:id/"
                     element={
@@ -80,19 +77,19 @@ function App() {
                 {/* Журнал */}
                 <Route path="/journal/" element={<LoadingPage />} />
 
-                {/* шкільна адмін панель */}
+                {/* Шкільна адмін панель */}
                 <Route
                     path="/sch-admin-panel/"
                     element={<PrivateRoute allowedRoles={["SCHOOL_ADMIN"]} element={<SchAdminPanel />} />}
                 />
 
-                {/* адмін панель */}
+                {/* Адмін панель платформи */}
                 <Route
                     path="/admin-panel/"
                     element={<PrivateRoute allowedRoles={["PLATFORM_ADMIN"]} element={<PlfAdminPanel />} />}
                 />
 
-                {/* Вихід  */}
+                {/* Вихід */}
                 <Route
                     path="/logout/"
                     element={
@@ -104,7 +101,6 @@ function App() {
                 />
 
                 {/* Сторінка для неавторизованих або без доступу */}
-                <Route path="/unauthorized/" element={<UnauthorizedPage />} />
                 <Route path="/unauthorized/" element={<UnauthorizedPage />} />
             </Routes>
         </Router>

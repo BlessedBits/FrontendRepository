@@ -16,14 +16,12 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
         const fetchProfileData = async () => {
             try {
                 const response = await getRole(axiosPrivate);
-                const role = response.length > 0 ? response[0].name : null;
-                setUserRole(role);
+                setUserRole(response);
 
-                if (role === "PLATFORM_ADMIN" && location.pathname === "/school/") {
+                if (response === "PLATFORM_ADMIN" && location.pathname === "/school/") {
                     setRedirectPath("/admin-panel/");
                 }
             } catch (err) {
-                console.error(err);
                 setError("Не вдалося завантажити інформацію профілю.");
             } finally {
                 setLoading(false);
