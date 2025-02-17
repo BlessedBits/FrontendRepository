@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "./Schedule.module.css";
 
 const TimetableCell = ({ data, isAdmin, day, time, onCreate, onUpdate, onDelete, courses }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -45,13 +46,23 @@ const TimetableCell = ({ data, isAdmin, day, time, onCreate, onUpdate, onDelete,
                     {data.room && data.room !== "0" && <div>Кабінет {data.room}</div>}
                     {isAdmin && (
                         <div className="admin-actions">
-                            <button onClick={() => setIsEditing(true)}>Редагувати</button>
-                            <button onClick={() => onDelete(data.id)}>Видалити</button>
+                            <button className={styles.iconBtn} onClick={() => setIsEditing(true)}>
+                                ✏️ Редагувати
+                            </button>
+                            <button className={styles.iconBtn} onClick={() => onDelete(data.id)}>
+                                🗑️ Видалити
+                            </button>
                         </div>
                     )}
                 </>
             ) : (
-                <>{isAdmin && <button onClick={() => onCreate(day, time)}>Додати</button>}</>
+                <>
+                    {isAdmin && (
+                        <button className={styles.iconBtn} onClick={() => onCreate(day, time)}>
+                            ➕ Додати заннятя
+                        </button>
+                    )}
+                </>
             )}
         </div>
     );
