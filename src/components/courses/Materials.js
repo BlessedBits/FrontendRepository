@@ -71,7 +71,6 @@ function Materials({ materials, userRole, onMaterialUpdated, onMaterialDeleted }
                                         onChange={(e) =>
                                             setUpdatedMaterial({ ...updatedMaterial, title: e.target.value })
                                         }
-                                        onBlur={() => handleUpdate(material.id)}
                                         onKeyDown={(e) => e.key === "Enter" && handleUpdate(material.id)}
                                         autoFocus
                                     />
@@ -112,8 +111,15 @@ function Materials({ materials, userRole, onMaterialUpdated, onMaterialDeleted }
 
                                     {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                                         <div className={styles.actions}>
-                                            <button onClick={() => handleEdit(material)}>Редагувати</button>
-                                            <button onClick={() => handleDelete(material.id)}>Видалити</button>
+                                            <button className={styles.iconBtn} onClick={() => handleEdit(material)}>
+                                                ✏️ Редагувати
+                                            </button>
+                                            <button
+                                                className={styles.iconBtn}
+                                                onClick={() => handleDelete(material.id)}
+                                            >
+                                                🗑️ Видалити
+                                            </button>
                                         </div>
                                     )}
                                 </>

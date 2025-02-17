@@ -96,21 +96,21 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
 
     const handleCreateModule = async () => {
         if (!newModule.name.trim()) {
-            setNotification({ type: "error", message: "Назва модуля не може бути порожньою" });
+            setNotification({ type: "error", message: "Назва теми не може бути порожньою" });
             return;
         }
 
-        setNotification({ type: "loading", message: "Створення модуля..." });
+        setNotification({ type: "loading", message: "Створення теми..." });
 
         try {
             await createModule(newModule, axiosPrivate);
             await fetchCourseDetails();
-            setNotification({ type: "success", message: "Модуль створено успішно" });
+            setNotification({ type: "success", message: "Тема створено успішно" });
             setNewModule({ name: "", courseId: course.id });
             setIsCreatingModule(false);
         } catch (error) {
-            console.error("Помилка при створенні модуля:", error);
-            setNotification({ type: "error", message: "Не вдалося створити модуль" });
+            console.error("Помилка при створенні теми:", error);
+            setNotification({ type: "error", message: "Не вдалося створити теми" });
         }
     };
 
@@ -215,6 +215,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                         <p>Завантаження інформації про курс...</p>
                     ) : (
                         <div className={styles.moduleContainer}>
+                            <h4 className={styles.h4}>Список тем</h4>
                             <ul className={styles.modules}>
                                 {courseDetails?.length > 0 ? (
                                     courseDetails.map((module) => (
@@ -226,7 +227,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                         />
                                     ))
                                 ) : (
-                                    <p>Модулі відсутні</p>
+                                    <p>Теми відсутні</p>
                                 )}
                             </ul>
                             {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
@@ -235,13 +236,13 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                         <>
                                             <input
                                                 type="text"
-                                                placeholder="Назва модуля"
+                                                placeholder="Назва теми"
                                                 value={newModule.name}
                                                 onChange={(e) => setNewModule({ ...newModule, name: e.target.value })}
                                                 className={styles.moduleInput}
                                             />
                                             <button className={styles.createBtn} onClick={handleCreateModule}>
-                                                Додати модуль
+                                                Додати тему
                                             </button>
                                             <button
                                                 className={styles.cancelButton}
@@ -254,8 +255,8 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                             </button>
                                         </>
                                     ) : (
-                                        <button className={styles.iconBtn} onClick={() => setIsCreatingModule(true)}>
-                                            ➕ Додати модуль
+                                        <button className={styles.addBtn} onClick={() => setIsCreatingModule(true)}>
+                                            ➕ Додати тему
                                         </button>
                                     )}
                                 </div>
@@ -265,7 +266,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
 
                     {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                         <div className={styles.classesContainer}>
-                            <h4>Класи в яких є даний предмет:</h4>
+                            <h4 className={styles.h5}>Класи в яких є даний предмет:</h4>
                             {loadingClasses ? (
                                 <p>Завантаження класів...</p>
                             ) : classes.length > 0 ? (

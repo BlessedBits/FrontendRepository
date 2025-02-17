@@ -75,7 +75,6 @@ function Assignment({ assignments, userRole, onAssignmentUpdated, onAssignmentDe
                                     onChange={(e) =>
                                         setUpdatedAssignment({ ...updatedAssignment, title: e.target.value })
                                     }
-                                    onBlur={() => handleUpdate(assignment.id)}
                                     onKeyDown={(e) => e.key === "Enter" && handleUpdate(assignment.id)}
                                     autoFocus
                                 />
@@ -128,8 +127,12 @@ function Assignment({ assignments, userRole, onAssignmentUpdated, onAssignmentDe
 
                                 {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                                     <div className={styles.actions}>
-                                        <button onClick={() => handleEdit(assignment)}>Редагувати</button>
-                                        <button onClick={() => handleDelete(assignment.id)}>Видалити</button>
+                                        <button className={styles.iconBtn} onClick={() => handleEdit(assignment)}>
+                                            ✏️ Редагувати
+                                        </button>
+                                        <button className={styles.iconBtn} onClick={() => handleDelete(assignment.id)}>
+                                            🗑️ Видалити
+                                        </button>
                                     </div>
                                 )}
                             </>

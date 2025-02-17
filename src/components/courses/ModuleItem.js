@@ -122,21 +122,21 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
 
             {expanded && (
                 <>
-                    {/* Матеріали модуля */}
                     {module.materials.length > 0 && (
                         <ul className={styles.themes}>
                             <Materials materials={module.materials} userRole={userRole} />
                         </ul>
                     )}
 
-                    {/* Завдання до модуля */}
                     <div className={styles.assignmentsContainer}>
                         <h4 className={styles.assignmentsHeader}>Завдання до теми</h4>
                         <Assignment assignments={module.assignments} userRole={userRole} />
-                        {/* Додавання завдання */}
                         {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                             <>
-                                <button onClick={() => setShowMaterialForm(!showMaterialForm)}>
+                                <button
+                                    className={styles.addButton}
+                                    onClick={() => setShowMaterialForm(!showMaterialForm)}
+                                >
                                     {showMaterialForm ? "Сховати форму додавання матеріалу" : "Додати матеріал"}
                                 </button>
                                 {showMaterialForm && (
@@ -153,7 +153,7 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
                                             onChange={(e) =>
                                                 setNewMaterial({ ...newMaterial, description: e.target.value })
                                             }
-                                            placeholder="Опис (необов'язково)"
+                                            placeholder="Додатковий опис (необов'язково)"
                                         />
                                         <input
                                             type="text"
@@ -161,7 +161,9 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
                                             onChange={(e) => setNewMaterial({ ...newMaterial, url: e.target.value })}
                                             placeholder="Посилання (необов'язково)"
                                         />
-                                        <button onClick={handleAddMaterial}>Додати матеріал</button>
+                                        <button className={styles.addButton} onClick={handleAddMaterial}>
+                                            Додати матеріал
+                                        </button>
                                     </div>
                                 )}
                             </>
@@ -169,7 +171,10 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
 
                         {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                             <>
-                                <button onClick={() => setShowAssignmentForm(!showAssignmentForm)}>
+                                <button
+                                    className={styles.addButton}
+                                    onClick={() => setShowAssignmentForm(!showAssignmentForm)}
+                                >
                                     {showAssignmentForm ? "Сховати форму додавання завдання" : "Додати завдання"}
                                 </button>
                                 {showAssignmentForm && (
@@ -206,7 +211,9 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
                                             }
                                             placeholder="Дедлайн (необов'язково)"
                                         />
-                                        <button onClick={handleAddAssignment}>Додати завдання</button>
+                                        <button className={styles.addButton} onClick={handleAddAssignment}>
+                                            Додати завдання
+                                        </button>
                                     </div>
                                 )}
                             </>
