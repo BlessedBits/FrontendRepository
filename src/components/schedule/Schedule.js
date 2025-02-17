@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { createSchedule, updateScheduleById, daleteScheduleById } from "../../api/schedule";
-import "./Schedule.css";
+import styles from "./Schedule.module.css";
 import TimetableCell from "./TimetableCell";
 import { Loading } from "../basic/LoadingAnimation";
 import Notification from "../basic/Notification";
@@ -192,9 +192,9 @@ function Schedule({ userRole }) {
 
     if (!timetableData.length) {
         return (
-            <div className="no-data">
+            <div className={styles.app}>
                 {notification && <Notification type={notification.type} message={notification.message} />}
-                <div className="class-selector">
+                <div className={styles.classSelector}>
                     <label htmlFor="class-select">Виберіть клас: </label>
                     <select id="class-select" value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
                         {classes.map((classItem) => (
@@ -204,35 +204,42 @@ function Schedule({ userRole }) {
                         ))}
                     </select>
                 </div>
-                {isAddingNewTime ? (
-                    <div className="new-time-form">
-                        <input
-                            type="time"
-                            value={newTime.start}
-                            onChange={(e) => setNewTime({ ...newTime, start: e.target.value })}
-                            placeholder="Час початку"
-                        />
-                        <input
-                            type="time"
-                            value={newTime.end}
-                            onChange={(e) => setNewTime({ ...newTime, end: e.target.value })}
-                            placeholder="Час закінчення"
-                        />
-                        <button onClick={handleCreateNewTime}>Зберегти</button>
-                        <button onClick={() => setIsAddingNewTime(false)}>Скасувати</button>
-                    </div>
-                ) : (
-                    <button onClick={() => setIsAddingNewTime(true)}>Додати новий час</button>
+                <p className={styles.description}>Розкладу для дано класу ще немає</p>
+                {userRole === "SCHOOL_ADMIN" && (
+                    <>
+                        {isAddingNewTime ? (
+                            <div className="new-time-form">
+                                <input
+                                    type="time"
+                                    value={newTime.start}
+                                    onChange={(e) => setNewTime({ ...newTime, start: e.target.value })}
+                                    placeholder="Час початку"
+                                />
+                                <input
+                                    type="time"
+                                    value={newTime.end}
+                                    onChange={(e) => setNewTime({ ...newTime, end: e.target.value })}
+                                    placeholder="Час закінчення"
+                                />
+                                <button onClick={handleCreateNewTime}>Зберегти</button>
+                                <button onClick={() => setIsAddingNewTime(false)}>Скасувати</button>
+                            </div>
+                        ) : (
+                            <button className={styles.addButton} onClick={() => setIsAddingNewTime(true)}>
+                                Додати розклад
+                            </button>
+                        )}
+                    </>
                 )}
             </div>
         );
     }
 
     return (
-        <div className="app">
+        <div className={styles.app}>
             {notification && <Notification type={notification.type} message={notification.message} />}
 
-            <div className="class-selector">
+            <div className={styles.classSelector}>
                 <label htmlFor="class-select">Виберіть клас: </label>
                 <select id="class-select" value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
                     {classes.map((classItem) => (
@@ -243,11 +250,11 @@ function Schedule({ userRole }) {
                 </select>
             </div>
 
-            <div className="timetable-container">
-                <table className="timetable">
+            <div className={styles.timetableContainer}>
+                <table className={styles.timetable}>
                     <thead>
                         <tr>
-                            <th></th>
+                            <th className={styles.timeColumn}>Час</th>
                             <th>Понеділок</th>
                             <th>Вівторок</th>
                             <th>Середа</th>
@@ -268,7 +275,7 @@ function Schedule({ userRole }) {
                                     </div>
                                 </td>
                                 {["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"].map((day) => (
-                                    <td key={day}>
+                                    <td key={day} className={styles.dayCell}>
                                         <TimetableCell
                                             data={row[day]}
                                             isAdmin={userRole === "SCHOOL_ADMIN"}
@@ -283,29 +290,38 @@ function Schedule({ userRole }) {
                                 ))}
                             </tr>
                         ))}
+                        {userRole === "SCHOOL_ADMIN" && (
+                            <tr>
+                                <td className={styles.timeCell}>
+                                    {isAddingNewTime ? (
+                                        <div className={styles.newTimeForm}>
+                                            <input
+                                                type="time"
+                                                value={newTime.start}
+                                                onChange={(e) => setNewTime({ ...newTime, start: e.target.value })}
+                                                placeholder="Час початку"
+                                            />
+                                            <input
+                                                type="time"
+                                                value={newTime.end}
+                                                onChange={(e) => setNewTime({ ...newTime, end: e.target.value })}
+                                                placeholder="Час закінчення"
+                                            />
+                                            <button onClick={handleCreateNewTime}>Зберегти</button>
+                                            <button onClick={() => setIsAddingNewTime(false)}>Скасувати</button>
+                                        </div>
+                                    ) : (
+                                        <button className={styles.addButton} onClick={() => setIsAddingNewTime(true)}>
+                                            Додати новий час
+                                        </button>
+                                    )}
+                                </td>
+                                <td colSpan="6"></td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>
-            {isAddingNewTime ? (
-                <div className="new-time-form">
-                    <input
-                        type="time"
-                        value={newTime.start}
-                        onChange={(e) => setNewTime({ ...newTime, start: e.target.value })}
-                        placeholder="Час початку"
-                    />
-                    <input
-                        type="time"
-                        value={newTime.end}
-                        onChange={(e) => setNewTime({ ...newTime, end: e.target.value })}
-                        placeholder="Час закінчення"
-                    />
-                    <button onClick={handleCreateNewTime}>Зберегти</button>
-                    <button onClick={() => setIsAddingNewTime(false)}>Скасувати</button>
-                </div>
-            ) : (
-                <button onClick={() => setIsAddingNewTime(true)}>Додати новий час</button>
-            )}
         </div>
     );
 }
