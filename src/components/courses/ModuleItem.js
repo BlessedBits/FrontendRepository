@@ -6,7 +6,7 @@ import { createAssignment, createMaterial, deleteModule, updateModule } from "..
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 
-function ModuleItem({ module, userRole, onModuleDeleted }) {
+function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
     const [expanded, setExpanded] = useState(false);
     const axiosPrivate = useAxiosPrivate();
 
@@ -55,9 +55,14 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
             await createMaterial(materialData, axiosPrivate);
             setNotification({ type: "success", message: "Матеріал додано!" });
             setNewMaterial({ title: "", description: "", url: "" });
+            if (updateSome) updateSome();
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при додаванні матеріалу" });
         }
+    };
+
+    const handleUpdateSome = async () => {
+        if (updateSome) updateSome();
     };
 
     // Додавання завдання
@@ -73,7 +78,8 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
         try {
             await createAssignment(assignmentData, axiosPrivate);
             setNotification({ type: "success", message: "Завдання додано!" });
-            setNewAssignment({ title: "", description: "", url: "", dueDate: "" }); // Очистити форму
+            setNewAssignment({ title: "", description: "", url: "", dueDate: "" });
+            if (updateSome) updateSome();
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при додаванні завдання" });
         }
@@ -124,13 +130,23 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
                 <>
                     {module.materials.length > 0 && (
                         <ul className={styles.themes}>
-                            <Materials materials={module.materials} userRole={userRole} />
+                            <Materials
+                                materials={module.materials}
+                                userRole={userRole}
+                                onMaterialUpdated={handleUpdateSome}
+                                onMaterialDeleted={handleUpdateSome}
+                            />
                         </ul>
                     )}
 
                     <div className={styles.assignmentsContainer}>
                         <h4 className={styles.assignmentsHeader}>Завдання до теми</h4>
-                        <Assignment assignments={module.assignments} userRole={userRole} />
+                        <Assignment
+                            assignments={module.assignments}
+                            userRole={userRole}
+                            onAssignmentUpdated={handleUpdateSome}
+                            onAssignmentDeleted={handleUpdateSome}
+                        />
                         {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                             <>
                                 <button

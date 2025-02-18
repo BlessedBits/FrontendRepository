@@ -7,6 +7,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { getProfileInfo, getProfileInfoById } from "../api/profile";
 import { getUserId } from "../api/user";
 import { Loading } from "../components/basic/LoadingAnimation";
+import { handleError } from "../utils/apiUtils";
 
 const ProfilePage = ({ userRole }) => {
     const { id } = useParams();
@@ -17,6 +18,10 @@ const ProfilePage = ({ userRole }) => {
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
+
+    const handleUpdateName = async () => {
+        fetchProfileData();
+    };
 
     const fetchProfileData = async () => {
         try {
@@ -29,9 +34,7 @@ const ProfilePage = ({ userRole }) => {
                 return;
             }
 
-            const data = id
-                ? await getProfileInfoById(id, axiosPrivate)
-                : await getProfileInfo(axiosPrivate);
+            const data = id ? await getProfileInfoById(id, axiosPrivate) : await getProfileInfo(axiosPrivate);
             setProfileData(data);
         } catch (err) {
             const errorMessage =
@@ -52,9 +55,7 @@ const ProfilePage = ({ userRole }) => {
                 <Sidebar role={userRole} />
                 <main>
                     <section data-content="true" className="content">
-                        <div className="profile-page">
-                            {error ? <p>{error}</p> : <Loading />}
-                        </div>
+                        <div className="profile-page">{error ? <p>{error}</p> : <Loading />}</div>
                     </section>
                 </main>
             </>
@@ -73,6 +74,8 @@ const ProfilePage = ({ userRole }) => {
                             profileData={profileData}
                             isOwnProfile={isOwnProfile}
                             userId={userId}
+                            userRole={userRole}
+                            updateInfo={handleUpdateName}
                         />
                         <InfoProfile profileData={profileData} />
                     </div>

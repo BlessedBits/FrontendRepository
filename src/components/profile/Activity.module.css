@@ -3,7 +3,6 @@
 .profileContainer {
     display: flex;
     gap: 20px;
-
 }
 
 .profileSidebar {
@@ -87,4 +86,13 @@
 
 .closeButton:hover {
     background-color: #5a6268;
+}
+
+.iconBtn {
+    background: none;
+    opacity: 0.7;
+}
+
+.iconBtn:hover {
+    opacity: 1;
 }

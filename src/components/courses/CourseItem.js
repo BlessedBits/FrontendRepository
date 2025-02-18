@@ -63,6 +63,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                 }
             }
         }
+        setExpanded(true);
     };
 
     // Видалення курсу
@@ -79,6 +80,12 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
             console.error("Помилка при видаленні курсу:", error);
             setNotification({ type: "error", message: "Помилка. Спробуйте пізніше" });
         }
+    };
+
+    const handleUpdateSome = async () => {
+        const prevExpanded = expanded;
+        await fetchCourseDetails();
+        setExpanded(prevExpanded);
     };
 
     const handleUpdateCourse = async (id, newName) => {
@@ -157,7 +164,6 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
         }
     };
 
-    // Функція, яка викликається у ModuleItem після видалення модуля
     const handleModuleDeleted = (moduleId) => {
         setCourseDetails((prevModules) => prevModules.filter((module) => module.id !== moduleId));
     };
@@ -224,6 +230,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                             module={module}
                                             userRole={userRole}
                                             onModuleDeleted={handleModuleDeleted}
+                                            updateSome={handleUpdateSome}
                                         />
                                     ))
                                 ) : (

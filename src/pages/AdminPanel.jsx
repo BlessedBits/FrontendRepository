@@ -1,13 +1,16 @@
 import React from "react";
 import Sidebar from "../components/basic/Sidebar";
-import AdminPanel from "../components/admin/AdminPanel";
+import AdminPanel from "../components/admin/fergef";
+import AdminPanelSchool from "../components/admin/AdminPanelSchol";
 
 export const SchAdminPanel = ({ userRole }) => {
     return (
         <>
             <Sidebar role={userRole} />
             <main>
-                <section data-content="true" className="content"></section>
+                <section data-content="true" className="content">
+                    <AdminPanelSchool userRole={userRole} />
+                </section>
             </main>
         </>
     );

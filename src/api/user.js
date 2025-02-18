@@ -3,6 +3,9 @@ import { executeRequest } from "../utils/apiUtils";
 export const getRole = async (axiosPrivateInstance) =>
     executeRequest(() => axiosPrivateInstance.get(`/users/role`), 200, "Role");
 
+export const updateRole = async (id, data, axiosPrivateInstance) =>
+    executeRequest(() => axiosPrivateInstance.put(`/users/${id}/role`, data), 200, "Role");
+
 export const getUserId = async (axiosPrivateInstance) =>
     executeRequest(() => axiosPrivateInstance.get(`/users/my-id`), 200, "ID");
 

@@ -40,10 +40,7 @@ function EditableField({ fieldName, value, isAdmin, onSave }) {
                 <>
                     {value || "Немає даних"}
                     {isAdmin && (
-                        <button
-                            className={styles.editIcon}
-                            onClick={startEditing}
-                        >
+                        <button className={styles.editIcon} onClick={startEditing}>
                             ✏️
                         </button>
                     )}
@@ -70,11 +67,7 @@ function InfoSchool({ userRole }) {
             });
             try {
                 const schoolId = await getUserSchool(axiosPrivate);
-                await updateSchoolInfo(
-                    schoolId,
-                    { [fieldName]: newValue },
-                    axiosPrivate
-                );
+                await updateSchoolInfo(schoolId, { [fieldName]: newValue }, axiosPrivate);
                 setSchoolInfo((prev) => ({ ...prev, [fieldName]: newValue }));
                 setNotification({
                     message: "Інформація оновлена!",
@@ -98,9 +91,7 @@ function InfoSchool({ userRole }) {
                 const infoResponse = await getSchoolInfo(axiosPrivate);
                 setSchoolInfo(infoResponse);
             } catch (err) {
-                setError(
-                    err.response?.data?.message || "Помилка завантаження даних"
-                );
+                setError(err.response?.data?.message || "Помилка завантаження даних");
             } finally {
                 setLoading(false);
             }
@@ -125,20 +116,10 @@ function InfoSchool({ userRole }) {
     return (
         <section id="school-info" className={styles.schoolInfo}>
             <h1 className={styles.h1}>
-                <EditableField
-                    fieldName="name"
-                    value={schoolInfo.name}
-                    isAdmin={isAdmin}
-                    onSave={saveField}
-                />
+                <EditableField fieldName="name" value={schoolInfo.name} isAdmin={isAdmin} onSave={saveField} />
             </h1>
             <p>
-                <EditableField
-                    fieldName="phrase"
-                    value={schoolInfo.phrase}
-                    isAdmin={isAdmin}
-                    onSave={saveField}
-                />
+                <EditableField fieldName="phrase" value={schoolInfo.phrase} isAdmin={isAdmin} onSave={saveField} />
             </p>
 
             <table className={styles.infoTable}>
@@ -148,11 +129,7 @@ function InfoSchool({ userRole }) {
                         <td>
                             <EditableField
                                 fieldName="year"
-                                value={
-                                    schoolInfo.year
-                                        ? `${schoolInfo.year} рік`
-                                        : ""
-                                }
+                                value={schoolInfo.year ? `${schoolInfo.year} рік` : ""}
                                 isAdmin={isAdmin}
                                 onSave={saveField}
                             />
@@ -179,10 +156,7 @@ function InfoSchool({ userRole }) {
                     </tr>
                 </tbody>
             </table>
-            <Notification
-                message={notification.message}
-                type={notification.type}
-            />
+            <Notification message={notification.message} type={notification.type} />
         </section>
     );
 }

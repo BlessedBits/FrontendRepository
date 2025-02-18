@@ -17,7 +17,7 @@ function TeacherSchool({ userRole }) {
     useEffect(() => {
         async function fetchTeachers() {
             try {
-                const data = await getSchoolTeachers(axiosPrivate);
+                const data = await getSchoolTeachers(0, axiosPrivate);
                 setTeachers(data);
             } catch (error) {
                 setError("Не вдалося завантажити вчителів.");
