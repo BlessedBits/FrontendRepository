@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAllClasses } from "../../api/class";
-import {
-    getAllSchools,
-    createSchool,
-    updateSchoolInfo,
-} from "../../api/school";
+import { getAllSchools, createSchool, updateSchoolInfo } from "../../api/school";
 import { getAllSchedules } from "../../api/schedule";
 import Notification from "../basic/Notification";
 import { Loading } from "../basic/LoadingAnimation";
@@ -25,22 +21,22 @@ const AdminPanel = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        const fetchData = async () => {
+        async function fetchData() {
             try {
                 const schoolsData = await getAllSchools(axiosPrivate);
                 const classesData = await getAllClasses(axiosPrivate);
-                //const schedulesData = await getAllSchedules(axiosPrivate);
+                const schedulesData = await getAllSchedules(axiosPrivate);
 
                 setSchools(schoolsData);
                 setClasses(classesData);
-                //setSchedules(schedulesData);
+                setSchedules(schedulesData);
             } catch (err) {
                 console.error("Помилка завантаження даних:", err);
                 setError("Не вдалося завантажити дані");
             } finally {
                 setLoading(false);
             }
-        };
+        }
 
         fetchData();
     }, [axiosPrivate]);
@@ -80,17 +76,13 @@ const AdminPanel = () => {
                 <input
                     type="text"
                     value={newSchool.name}
-                    onChange={(e) =>
-                        setNewSchool({ ...newSchool, name: e.target.value })
-                    }
+                    onChange={(e) => setNewSchool({ ...newSchool, name: e.target.value })}
                     placeholder="Назва школи"
                 />
                 <input
                     type="text"
                     value={newSchool.address}
-                    onChange={(e) =>
-                        setNewSchool({ ...newSchool, address: e.target.value })
-                    }
+                    onChange={(e) => setNewSchool({ ...newSchool, address: e.target.value })}
                     placeholder="Адреса"
                 />
                 <input

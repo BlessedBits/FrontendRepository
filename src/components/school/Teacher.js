@@ -7,7 +7,7 @@ import Notification from "../basic/Notification";
 import { setUserDuty } from "../../api/profile";
 import { updateUserName } from "../../api/user";
 
-function TeacherSchool({ userRole }) {
+function TeacherSchool({ baseInfo }) {
     const [teachers, setTeachers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ function TeacherSchool({ userRole }) {
     useEffect(() => {
         async function fetchTeachers() {
             try {
-                const data = await getSchoolTeachers(axiosPrivate);
+                const data = await getSchoolTeachers(0, axiosPrivate);
                 setTeachers(data);
             } catch (error) {
                 setError("Не вдалося завантажити вчителів.");
@@ -116,7 +116,7 @@ function TeacherSchool({ userRole }) {
                             alt={teacher.firstName + " " + teacher.lastName}
                             className={styles.teacherImage}
                         />
-                        {userRole === "SCHOOL_ADMIN" ? (
+                        {baseInfo.role === "SCHOOL_ADMIN" ? (
                             <div className={styles.nameEdit}>
                                 <input
                                     type="text"
@@ -142,7 +142,7 @@ function TeacherSchool({ userRole }) {
                                 {teacher.firstName} {teacher.lastName}
                             </p>
                         )}
-                        {userRole === "SCHOOL_ADMIN" ? (
+                        {baseInfo.role === "SCHOOL_ADMIN" ? (
                             <div className={styles.dutyEdit}>
                                 <input
                                     type="text"

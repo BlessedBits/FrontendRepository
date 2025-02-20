@@ -2,13 +2,13 @@ import React from "react";
 import Schedule from "../components/schedule/Schedule.js";
 import Sidebar from "../components/basic/Sidebar";
 
-const SchedulePage = ({ userRole }) => {
+const SchedulePage = ({ baseInfo }) => {
     return (
         <>
-            <Sidebar role={userRole} />
+            <Sidebar role={baseInfo.role} />
             <main>
                 <section data-content="true" className="content">
-                    <Schedule userRole={userRole} />
+                    <Schedule baseInfo={baseInfo} />
                 </section>
             </main>
         </>

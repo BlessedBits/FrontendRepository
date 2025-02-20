@@ -10,7 +10,9 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
     const [expanded, setExpanded] = useState(false);
     const axiosPrivate = useAxiosPrivate();
 
-    // Стейти для форм
+    const [assignments, setAssignments] = useState(module.assignments);
+    const [materials, setMaterials] = useState(module.materials);
+
     const [showMaterialForm, setShowMaterialForm] = useState(false);
     const [showAssignmentForm, setShowAssignmentForm] = useState(false);
     const [newMaterial, setNewMaterial] = useState({ title: "", description: "", url: "" });
@@ -19,7 +21,6 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
     const [isEditing, setIsEditing] = useState(false);
     const [moduleName, setModuleName] = useState(module.name);
 
-    // Видалення модуля
     const handleDeleteModule = async () => {
         setNotification({ type: "loading", message: "Видаляємо модуль..." });
         try {
@@ -31,7 +32,6 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
         }
     };
 
-    // Оновлення модуля
     const handleUpdateModule = async () => {
         setNotification({ type: "loading", message: "Оновлення модуля..." });
         try {
@@ -52,15 +52,15 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
         };
 
         try {
-            await createMaterial(materialData, axiosPrivate);
+            const createdMaterial = await createMaterial(materialData, axiosPrivate);
             setNotification({ type: "success", message: "Матеріал додано!" });
+            setMaterials([...materials, createdMaterial]);
             setNewMaterial({ title: "", description: "", url: "" });
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при додаванні матеріалу" });
         }
     };
 
-    // Додавання завдання
     const handleAddAssignment = async () => {
         const assignmentData = {
             title: newAssignment.title || "Нове завдання",
@@ -71,9 +71,10 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
         };
 
         try {
-            await createAssignment(assignmentData, axiosPrivate);
+            const createdAssignment = await createAssignment(assignmentData, axiosPrivate);
             setNotification({ type: "success", message: "Завдання додано!" });
-            setNewAssignment({ title: "", description: "", url: "", dueDate: "" }); // Очистити форму
+            setAssignments([...assignments, createdAssignment]);
+            setNewAssignment({ title: "", description: "", url: "", dueDate: "" });
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при додаванні завдання" });
         }
@@ -81,11 +82,9 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
 
     return (
         <li className={styles.moduleItem}>
-            {/* Заголовок модуля */}
             <div className={styles.header}>
                 <button className={styles.toggleButton} onClick={() => setExpanded(!expanded)} aria-label="Перемкнути">
-                    {expanded ? "🔽" : "▶️"}
-                    {moduleName}
+                    {expanded ? "🔽" : "▶️"} {moduleName}
                 </button>
                 {isEditing && (
                     <div className={styles.editContainer}>
@@ -107,7 +106,6 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
                     </div>
                 )}
 
-                {/* Кнопки керування (доступні лише для викладача або адміністратора) */}
                 {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                     <div className={styles.actions}>
                         <button className={styles.iconBtn} onClick={() => setIsEditing(true)}>
@@ -122,15 +120,15 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
 
             {expanded && (
                 <>
-                    {module.materials.length > 0 && (
+                    {materials.length > 0 && (
                         <ul className={styles.themes}>
-                            <Materials materials={module.materials} userRole={userRole} />
+                            <Materials materials={materials} userRole={userRole} setMaterials={setMaterials} />
                         </ul>
                     )}
 
                     <div className={styles.assignmentsContainer}>
                         <h4 className={styles.assignmentsHeader}>Завдання до теми</h4>
-                        <Assignment assignments={module.assignments} userRole={userRole} />
+                        <Assignment assignments={assignments} userRole={userRole} setAssignments={setAssignments} />
                         {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                             <>
                                 <button
@@ -222,7 +220,6 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
                 </>
             )}
 
-            {/* Сповіщення */}
             {notification && <Notification type={notification.type} message={notification.message} />}
         </li>
     );

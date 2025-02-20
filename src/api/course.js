@@ -1,8 +1,8 @@
 import { executeRequest } from "../utils/apiUtils";
 
-export const getUserCourses = async (data, userRole, axiosPrivateInstance) => {
-    const url = ["TEACHER", "SCHOOL_ADMIN"].includes(userRole)
-        ? `schools/${data.schoolId}/courses`
+export const getUserCourses = async (data, axiosPrivateInstance) => {
+    const url = ["TEACHER", "SCHOOL_ADMIN"].includes(data.role)
+        ? `schools/${data.schoolId}/courses?include=classes`
         : `classes/${data.userClassId}/courses`;
 
     return executeRequest(() => axiosPrivateInstance.get(url), 200);

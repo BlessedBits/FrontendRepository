@@ -6,10 +6,9 @@ import TimetableCell from "./TimetableCell";
 import { Loading } from "../basic/LoadingAnimation";
 import Notification from "../basic/Notification";
 import { getAllClassesSchool, getClassesSchedule } from "../../api/class";
-import { getBaseInfo, getUserId } from "../../api/user";
 import { getUserCourses } from "../../api/course";
 
-function Schedule({ userRole }) {
+function Schedule({ baseInfo }) {
     const [selectedClass, setSelectedClass] = useState("");
     const [classes, setClasses] = useState([]);
     const [timetableData, setTimetableData] = useState([]);
@@ -53,16 +52,14 @@ function Schedule({ userRole }) {
         async function fetchAllData() {
             setLoading(true);
             try {
-                const id = await getUserId(axiosPrivate);
-                const userInfo = await getBaseInfo(id, axiosPrivate);
-                const schoolClasses = await getAllClassesSchool(userInfo.schoolId, axiosPrivate);
-                const userCourses = await getUserCourses(userInfo, userRole, axiosPrivate);
+                const schoolClasses = await getAllClassesSchool(baseInfo.schoolId, axiosPrivate);
+                const userCourses = await getUserCourses(baseInfo, axiosPrivate);
 
                 setClasses(schoolClasses);
                 setAvailableCourses(userCourses);
 
-                if (userInfo.class_id) {
-                    setSelectedClass(userInfo.class_id);
+                if (baseInfo.class_id) {
+                    setSelectedClass(baseInfo.class_id);
                 } else if (schoolClasses.length > 0) {
                     setSelectedClass(schoolClasses[0].id);
                 }
@@ -205,7 +202,7 @@ function Schedule({ userRole }) {
                     </select>
                 </div>
                 <p className={styles.description}>Розкладу для дано класу ще немає</p>
-                {userRole === "SCHOOL_ADMIN" && (
+                {baseInfo.role === "SCHOOL_ADMIN" && (
                     <>
                         {isAddingNewTime ? (
                             <div className="new-time-form">
@@ -278,7 +275,7 @@ function Schedule({ userRole }) {
                                     <td key={day} className={styles.dayCell}>
                                         <TimetableCell
                                             data={row[day]}
-                                            isAdmin={userRole === "SCHOOL_ADMIN"}
+                                            isAdmin={baseInfo.role === "SCHOOL_ADMIN"}
                                             day={day.toUpperCase()}
                                             time={row.time}
                                             courses={availableCourses}
@@ -290,7 +287,7 @@ function Schedule({ userRole }) {
                                 ))}
                             </tr>
                         ))}
-                        {userRole === "SCHOOL_ADMIN" && (
+                        {baseInfo.role === "SCHOOL_ADMIN" && (
                             <tr>
                                 <td className={styles.timeCell}>
                                     {isAddingNewTime ? (

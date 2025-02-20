@@ -9,18 +9,12 @@ function EditableInput({ label, name, value, onChange }) {
     return (
         <div className={styles.formGroup}>
             <label>{label}</label>
-            <input
-                type="text"
-                name={name}
-                value={value || ""}
-                onChange={onChange}
-                className={styles.inputField}
-            />
+            <input type="text" name={name} value={value || ""} onChange={onChange} className={styles.inputField} />
         </div>
     );
 }
 
-function ContactSchool({ userRole }) {
+function ContactSchool({ baseInfo }) {
     const [schoolData, setSchoolData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -52,10 +46,7 @@ function ContactSchool({ userRole }) {
     const handleSave = useCallback(async () => {
         setNotification({ message: "Оновлення даних...", type: "loading" });
         try {
-            const updated = await updateSchoolContacts(
-                updatedData,
-                axiosPrivate
-            );
+            const updated = await updateSchoolContacts(updatedData, axiosPrivate);
             setSchoolData(updated);
             setNotification({ message: "Дані оновлено!", type: "success" });
             setEditMode(false);
@@ -108,23 +99,13 @@ function ContactSchool({ userRole }) {
                                 (platform) =>
                                     schoolData[`${platform}Link`] && (
                                         <li key={platform}>
-                                            <img
-                                                src={`/icons/${platform}.png`}
-                                                alt={platform}
-                                            />
+                                            <img src={`/icons/${platform}.png`} alt={platform} />
                                             <a
-                                                href={
-                                                    schoolData[
-                                                        `${platform}Link`
-                                                    ]
-                                                }
+                                                href={schoolData[`${platform}Link`]}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                             >
-                                                {platform
-                                                    .charAt(0)
-                                                    .toUpperCase() +
-                                                    platform.slice(1)}
+                                                {platform.charAt(0).toUpperCase() + platform.slice(1)}
                                             </a>
                                         </li>
                                     )
@@ -132,11 +113,8 @@ function ContactSchool({ userRole }) {
                         </ul>
                     </div>
 
-                    {userRole === "SCHOOL_ADMIN" && (
-                        <button
-                            className={styles.editButton}
-                            onClick={() => setEditMode(true)}
-                        >
+                    {baseInfo.role === "SCHOOL_ADMIN" && (
+                        <button className={styles.editButton} onClick={() => setEditMode(true)}>
                             Редагувати
                         </button>
                     )}
@@ -151,49 +129,30 @@ function ContactSchool({ userRole }) {
                         value={updatedData.phoneNumber}
                         onChange={handleInputChange}
                     />
-                    <EditableInput
-                        label="Email"
-                        name="email"
-                        value={updatedData.email}
-                        onChange={handleInputChange}
-                    />
+                    <EditableInput label="Email" name="email" value={updatedData.email} onChange={handleInputChange} />
 
-                    {["youtube", "facebook", "instagram", "tiktok"].map(
-                        (platform) => (
-                            <EditableInput
-                                key={platform}
-                                label={
-                                    platform.charAt(0).toUpperCase() +
-                                    platform.slice(1)
-                                }
-                                name={`${platform}Link`}
-                                value={updatedData[`${platform}Link`]}
-                                onChange={handleInputChange}
-                            />
-                        )
-                    )}
+                    {["youtube", "facebook", "instagram", "tiktok"].map((platform) => (
+                        <EditableInput
+                            key={platform}
+                            label={platform.charAt(0).toUpperCase() + platform.slice(1)}
+                            name={`${platform}Link`}
+                            value={updatedData[`${platform}Link`]}
+                            onChange={handleInputChange}
+                        />
+                    ))}
 
                     <div className={styles.buttonGroup}>
-                        <button
-                            className={styles.saveButton}
-                            onClick={handleSave}
-                        >
+                        <button className={styles.saveButton} onClick={handleSave}>
                             Зберегти
                         </button>
-                        <button
-                            className={styles.cancelButton}
-                            onClick={() => setEditMode(false)}
-                        >
+                        <button className={styles.cancelButton} onClick={() => setEditMode(false)}>
                             Скасувати
                         </button>
                     </div>
                 </div>
             )}
 
-            <Notification
-                message={notification.message}
-                type={notification.type}
-            />
+            <Notification message={notification.message} type={notification.type} />
         </section>
     );
 }

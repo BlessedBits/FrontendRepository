@@ -1,59 +1,31 @@
 import { executeRequest } from "../utils/apiUtils";
 
 export const getAllSchools = async (axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get(`/schools`),
-        200,
-        "Info found"
-    );
+    return executeRequest(() => axiosPrivateInstance.get(`/schools`), 200, "Info found");
 };
 
 export const getSchoolInfo = async (axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/school`),
-        200,
-        "Info found"
-    );
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/school`), 200, "Info found");
 };
 
 export const getSchoolAchievements = async (axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/achievements`),
-        200,
-        "Info found"
-    );
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/achievements`), 200, "Info found");
 };
 
 export const getSchoolGallery = async (axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/all-gallery-images`),
-        200,
-        "Gallery load"
-    );
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/all-gallery-images`), 200, "Gallery load");
 };
 
-export const getSchoolTeachers = async (axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/teachers`),
-        200,
-        "DATA load"
-    );
+export const getSchoolTeachers = async (id = 0, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/${id}/teachers`), 200, "DATA load");
 };
 
 export const getSchoolContacts = async (axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.get(`/schools/contacts`),
-        200,
-        "Profile info in json"
-    );
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/contacts`), 200, "Profile info in json");
 };
 
 export const createSchool = async (data, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.post(`/schools`, data),
-        201,
-        "School object"
-    );
+    return executeRequest(() => axiosPrivateInstance.post(`/schools`, data), 201, "School object");
 };
 
 export const createSchoolAchievements = async (data, axiosPrivateInstance) => {
@@ -65,18 +37,10 @@ export const createSchoolAchievements = async (data, axiosPrivateInstance) => {
 };
 
 export const createSchoolFoto = async (data, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.post(`/schools/add-gallery-image`, data),
-        201,
-        "Foto add"
-    );
+    return executeRequest(() => axiosPrivateInstance.post(`/schools/add-gallery-image`, data), 201, "Foto add");
 };
 
-export const updateSchoolAchievements = async (
-    id,
-    data,
-    axiosPrivateInstance
-) => {
+export const updateSchoolAchievements = async (id, data, axiosPrivateInstance) => {
     return executeRequest(
         () => axiosPrivateInstance.put(`/schools/achievements/${id}`, data),
         200,
@@ -85,27 +49,15 @@ export const updateSchoolAchievements = async (
 };
 
 export const updateSchoolInfo = async (id, data, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.put(`/schools/${id}/info`, data),
-        200,
-        "Data updated!"
-    );
+    return executeRequest(() => axiosPrivateInstance.put(`/schools/${id}/info`, data), 200, "Data updated!");
 };
 
 export const updateSchoolContacts = async (data, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.put(`/schools/update-contacts`, data),
-        200,
-        "Contacts updated!"
-    );
+    return executeRequest(() => axiosPrivateInstance.put(`/schools/update-contacts`, data), 200, "Contacts updated!");
 };
 
 export const deleteSchoolAchievements = async (id, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.delete(`/schools/achievements/${id}`),
-        204,
-        "No content"
-    );
+    return executeRequest(() => axiosPrivateInstance.delete(`/schools/achievements/${id}`), 204, "No content");
 };
 
 export const deleteSchoolFoto = async (image, axiosPrivateInstance) => {

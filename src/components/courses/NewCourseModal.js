@@ -5,7 +5,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 import { getSchoolTeachers } from "../../api/school";
 
-function NewCourseModal({ onClose, onCourseCreated, data, userRole }) {
+function NewCourseModal({ onClose, onCourseCreated, data }) {
     const [courseData, setCourseData] = useState({ name: "", teacherIds: [] });
     const [notification, setNotification] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ function NewCourseModal({ onClose, onCourseCreated, data, userRole }) {
         // Fetch teachers when the modal opens
         const fetchTeachers = async () => {
             try {
-                const teacherList = await getSchoolTeachers(axiosPrivate);
+                const teacherList = await getSchoolTeachers(0, axiosPrivate);
                 setTeachers(teacherList);
             } catch (err) {
                 console.error("Error fetching teachers:", err);
@@ -27,10 +27,10 @@ function NewCourseModal({ onClose, onCourseCreated, data, userRole }) {
             }
         };
 
-        if (userRole === "SCHOOL_ADMIN") {
+        if (data.role === "SCHOOL_ADMIN") {
             fetchTeachers();
         }
-    }, [axiosPrivate, userRole]);
+    }, [axiosPrivate, data.role]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -97,20 +97,18 @@ function NewCourseModal({ onClose, onCourseCreated, data, userRole }) {
                     />
 
                     {/* Teacher Selection for SCHOOL_ADMIN */}
-                    {userRole === "SCHOOL_ADMIN" && (
+                    {data.role === "SCHOOL_ADMIN" && (
                         <div className={style.teachersContainer}>
-                            <h4>Виберіть вчителів:</h4>
+                            <h4 className={style.h4}>Виберіть вчителів:</h4>
                             <ul className={style.teachersList}>
                                 {teachers.map((teacher) => (
                                     <li key={teacher.id} className={style.teacherItem}>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                value={teacher.id}
-                                                onChange={() => handleTeacherSelection(teacher.id)}
-                                            />
-                                            {teacher.firstName} {teacher.secondName}
-                                        </label>
+                                        <input
+                                            type="checkbox"
+                                            value={teacher.id}
+                                            onChange={() => handleTeacherSelection(teacher.id)}
+                                        />
+                                        {teacher.firstName} {teacher.secondName}
                                     </li>
                                 ))}
                             </ul>

@@ -8,15 +8,15 @@ import Footer from "../components/basic/Footer";
 
 const HomePage = () => {
     const [isAuthModalOpen, setAuthModalOpen] = useState(false);
-    const [isRegistering, setIsRegistering] = useState(false); // Стан для визначення режиму
+    const [isRegistering, setIsRegistering] = useState(false);
 
     const openLoginModal = () => {
-        setIsRegistering(false); // Вхід
+        setIsRegistering(false);
         setAuthModalOpen(true);
     };
 
     const openRegisterModal = () => {
-        setIsRegistering(true); // Реєстрація
+        setIsRegistering(true);
         setAuthModalOpen(true);
     };
 
@@ -34,11 +34,7 @@ const HomePage = () => {
             <Header onLoginClick={openLoginModal} />
             <About onRegisterClick={openRegisterModal} />
             {isAuthModalOpen && (
-                <AuthModal
-                    isOpen={isAuthModalOpen}
-                    onClose={closeModal}
-                    initialIsRegistering={isRegistering}
-                />
+                <AuthModal isOpen={isAuthModalOpen} onClose={closeModal} initialIsRegistering={isRegistering} />
             )}
 
             <main className="homepage-main">

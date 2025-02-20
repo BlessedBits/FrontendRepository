@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import CourseItem from "./CourseItem";
 import { Loading } from "../basic/LoadingAnimation";
-import { getUserCourses, updateCourse } from "../../api/course";
+import { getUserCourses } from "../../api/course";
 import styles from "./CourseList.module.css";
 import NewCourseModal from "./NewCourseModal";
 import Notification from "../basic/Notification";
-import { getUserId, getBaseInfo } from "../../api/user";
 import { getAllClassesSchool } from "../../api/class";
 
-function CourseList({ userRole }) {
+function CourseList({ baseInfo }) {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -22,13 +21,11 @@ function CourseList({ userRole }) {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const id = await getUserId(axiosPrivate);
-                const data = await getBaseInfo(id, axiosPrivate);
-                setBaseInfo(data);
-                const response = await getUserCourses(data, userRole, axiosPrivate);
+                setBaseInfo(baseInfo);
+                const response = await getUserCourses(baseInfo, axiosPrivate);
                 setCourses(response);
-                if (["TEACHER", "SCHOOL_ADMIN"].includes(userRole)) {
-                    const response2 = await getAllClassesSchool(data.schoolId, axiosPrivate);
+                if (["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role)) {
+                    const response2 = await getAllClassesSchool(baseInfo.schoolId, axiosPrivate);
                     setSchoolClasses(response2);
                 }
             } catch (err) {
@@ -47,7 +44,7 @@ function CourseList({ userRole }) {
                 type: "loading",
                 text: "Оновлюємо список курсів...",
             });
-            const updatedCourses = await getUserCourses(base, userRole, axiosPrivate);
+            const updatedCourses = await getUserCourses(base, axiosPrivate);
             setCourses(updatedCourses);
             setNotification({
                 type: "success",
@@ -76,7 +73,7 @@ function CourseList({ userRole }) {
 
     return (
         <div className={styles.courses}>
-            {userRole === "SCHOOL_ADMIN" ? (
+            {base.role === "SCHOOL_ADMIN" ? (
                 <h1 className={styles.title}> Курси школи</h1>
             ) : (
                 <h1 className={styles.title}> Мої курси </h1>
@@ -87,7 +84,6 @@ function CourseList({ userRole }) {
                     <CourseItem
                         key={course.id}
                         course={course}
-                        userRole={userRole}
                         onCourseDeleted={handleCourseDeleted}
                         onCourseUpdated={handleCourseUpdated}
                         data={base}
@@ -96,7 +92,7 @@ function CourseList({ userRole }) {
                 ))}
             </ul>
 
-            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+            {["TEACHER", "SCHOOL_ADMIN"].includes(base.role) && (
                 <button
                     className={`${styles["createButton"]} ${styles.createButton27}`}
                     onClick={() => setIsModalOpen(true)}
@@ -110,7 +106,6 @@ function CourseList({ userRole }) {
                     onClose={() => setIsModalOpen(false)}
                     onCourseCreated={handleCourseCreated}
                     data={base}
-                    userRole={userRole}
                 />
             )}
 

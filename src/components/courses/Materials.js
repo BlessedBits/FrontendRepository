@@ -4,7 +4,7 @@ import { updateMaterial, deleteMaterial } from "../../api/course";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 
-function Materials({ materials, userRole, onMaterialUpdated, onMaterialDeleted }) {
+function Materials({ materials, userRole, setMaterials }) {
     const axiosPrivate = useAxiosPrivate();
     const [editingMaterial, setEditingMaterial] = useState(null);
     const [updatedMaterial, setUpdatedMaterial] = useState({ title: "", description: "", url: "" });
@@ -36,9 +36,9 @@ function Materials({ materials, userRole, onMaterialUpdated, onMaterialDeleted }
 
         try {
             await updateMaterial(id, updatedMaterial, axiosPrivate);
+            setMaterials((prev) => prev.map((a) => (a.id === id ? { ...a, ...updatedMaterial } : a)));
             setNotification({ type: "success", message: "Матеріал оновлено!" });
             setEditingMaterial(null);
-            if (onMaterialUpdated) onMaterialUpdated();
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при оновленні матеріалу" });
         }
@@ -48,8 +48,8 @@ function Materials({ materials, userRole, onMaterialUpdated, onMaterialDeleted }
         if (!window.confirm("Ви впевнені, що хочете видалити цей матеріал?")) return;
         try {
             await deleteMaterial(id, axiosPrivate);
+            setMaterials((prev) => prev.filter((a) => a.id !== id));
             setNotification({ type: "success", message: "Матеріал видалено!" });
-            if (onMaterialDeleted) onMaterialDeleted(id);
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при видаленні матеріалу" });
         }

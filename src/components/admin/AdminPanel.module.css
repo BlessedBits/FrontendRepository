@@ -1,0 +1,62 @@
+.adminPanel {
+    padding: 20px;
+    width: 100%;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.addClass {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.addClass input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.addClass button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #0078d7;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.classList,
+.studentList,
+.teacherList {
+    list-style: none;
+    padding: 0;
+}
+
+.classList li,
+.studentList li,
+.teacherList li {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.classList button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.classList button:hover {
+    background-color: #c82333;
+}
