@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { getRole } from "../api/user";
+import { getBaseInfo } from "../api/user";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { LoadingPage } from "../components/basic/LoadingAnimation";
 
 const PrivateRoute = ({ element: Component, allowedRoles }) => {
     const axiosPrivate = useAxiosPrivate();
     const location = useLocation();
-    const [userRole, setUserRole] = useState(null);
+    const [baseInfo, setBaseInfo] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [redirectPath, setRedirectPath] = useState(null);
@@ -15,10 +15,10 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const response = await getRole(axiosPrivate);
-                setUserRole(response);
+                const response = await getBaseInfo(0, axiosPrivate);
+                setBaseInfo(response);
 
-                if (response === "PLATFORM_ADMIN" && location.pathname === "/school/") {
+                if (response.role === "PLATFORM_ADMIN" && location.pathname === "/school/") {
                     setRedirectPath("/admin-panel/");
                 }
             } catch (err) {
@@ -40,12 +40,12 @@ const PrivateRoute = ({ element: Component, allowedRoles }) => {
     }
 
     if (redirectPath) {
-        return <Navigate to={redirectPath} replace state={{ userRole }} />;
+        return <Navigate to={redirectPath} replace state={{ baseInfo }} />;
     }
 
-    if (!userRole || !allowedRoles.includes(userRole)) {
+    if (!baseInfo || !allowedRoles.includes(baseInfo.role)) {
         return <Navigate to="/unauthorized" replace />;
     }
-    return React.cloneElement(Component, { userRole });
+    return React.cloneElement(Component, { baseInfo });
 };
 export default PrivateRoute;

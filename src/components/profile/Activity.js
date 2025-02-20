@@ -4,7 +4,7 @@ import styles from "./Activity.module.css";
 import { updateUserName } from "../../api/user";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-const ActivityProfile = ({ profileData, isOwnProfile, userId, userRole, updateInfo }) => {
+const ActivityProfile = ({ profileData, isOwnProfile, updateInfo }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editingName, setEditingName] = useState(false);
     const [newName, setNewName] = useState({
@@ -17,7 +17,7 @@ const ActivityProfile = ({ profileData, isOwnProfile, userId, userRole, updateIn
 
     const handleEditName = async () => {
         try {
-            await updateUserName(userId, newName, axiosPrivate);
+            await updateUserName(profileData.id, newName, axiosPrivate);
             setEditingName(false);
             if (updateInfo) {
                 updateInfo(newName);
@@ -56,7 +56,7 @@ const ActivityProfile = ({ profileData, isOwnProfile, userId, userRole, updateIn
                         <>
                             <strong>{profileData?.firstName}</strong>
                             <strong> {profileData?.lastName}</strong>
-                            {isOwnProfile && userRole === "SCHOOL_ADMIN" && (
+                            {isOwnProfile && profileData.role === "SCHOOL_ADMIN" && (
                                 <button className={styles.iconBtn} onClick={() => setEditingName(true)}>
                                     ✏️
                                 </button>
@@ -72,7 +72,9 @@ const ActivityProfile = ({ profileData, isOwnProfile, userId, userRole, updateIn
                 )}
             </div>
 
-            {isEditing && <ProfileModal isOpen={isEditing} onClose={() => setIsEditing(false)} userId={userId} />}
+            {isEditing && (
+                <ProfileModal isOpen={isEditing} onClose={() => setIsEditing(false)} userId={profileData.id} />
+            )}
         </section>
     );
 };

@@ -13,7 +13,7 @@ import { getProfileInfoById, changePassword } from "../../api/profile";
 import { updateUserName, updateRole, getUserSchool } from "../../api/user";
 import { getSchoolTeachers } from "../../api/school";
 
-const AdminPanelSchool = () => {
+const AdminPanelSchool = (baseInfo) => {
     const axiosPrivate = useAxiosPrivate();
     const [classes, setClasses] = useState([]);
     const [teachers, setTeachers] = useState([]);
@@ -27,9 +27,8 @@ const AdminPanelSchool = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const id = await getUserSchool(axiosPrivate);
-                setUserSchoolId(id);
-                const classesResponse = await getAllClassesSchool(id, axiosPrivate);
+                setUserSchoolId(baseInfo.schoolId);
+                const classesResponse = await getAllClassesSchool(baseInfo.schoolId, axiosPrivate);
                 setClasses(classesResponse);
 
                 const teachersResponse = await getSchoolTeachers(0, axiosPrivate);

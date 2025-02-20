@@ -5,9 +5,8 @@ import { deleteCourse, getCourseInfo, createModule, updateCourse } from "../../a
 import { connectCourseClass, delConnectCourseClass } from "../../api/course";
 import Notification from "../basic/Notification";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { getAllClassesCourses } from "../../api/class";
 
-function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, ClassesSchool }) {
+function CourseItem({ course, data, onCourseDeleted, onCourseUpdated, ClassesSchool }) {
     const [expanded, setExpanded] = useState(false);
     const [classes, setClasses] = useState([]);
     const [availableClasses, setAvailableClasses] = useState([]);
@@ -39,29 +38,21 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
     };
 
     const handleToggleExpand = async () => {
-        setExpanded(!expanded);
+        const newExpandedState = !expanded;
+        setExpanded(newExpandedState);
 
-        if (!expanded) {
-            if (!courseDetails) {
-                await fetchCourseDetails();
-            }
+        if (!newExpandedState) return;
 
-            if (["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && classes.length === 0) {
-                setLoadingClasses(true);
-                try {
-                    const response = await getAllClassesCourses(course.id, axiosPrivate);
-                    setClasses(response.classes);
-                    const filteredClasses = ClassesSchool.filter(
-                        (classItem) => !response.classes.some((c) => c.id === classItem.id)
-                    );
-                    setAvailableClasses(filteredClasses);
-                } catch (err) {
-                    console.error(err.message);
-                    setNotification({ type: "error", message: "Помилка при завантаженні класів" });
-                } finally {
-                    setLoadingClasses(false);
-                }
-            }
+        if (!courseDetails) {
+            await fetchCourseDetails();
+        }
+
+        if (["TEACHER", "SCHOOL_ADMIN"].includes(data.role) && classes.length === 0) {
+            setClasses(course.classes);
+            const filteredClasses = ClassesSchool.filter(
+                (classItem) => !course.classes.some((c) => c.id === classItem.id)
+            );
+            setAvailableClasses(filteredClasses);
         }
     };
 
@@ -167,7 +158,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                 <button className={styles.courseBtn} onClick={handleToggleExpand}>
                     {expanded ? "🔽" : "▶️"} {course.name}
                 </button>
-                {expanded && ["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                {expanded && ["TEACHER", "SCHOOL_ADMIN"].includes(data.role) && (
                     <div className={styles.editContainer}>
                         {isEditingCourse ? (
                             <>
@@ -221,7 +212,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                         <ModuleItem
                                             key={module.id}
                                             module={module}
-                                            userRole={userRole}
+                                            userRole={data.role}
                                             onModuleDeleted={handleModuleDeleted}
                                         />
                                     ))
@@ -229,7 +220,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                     <p>Теми відсутні</p>
                                 )}
                             </ul>
-                            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                            {["TEACHER", "SCHOOL_ADMIN"].includes(data.role) && (
                                 <div className={styles.createModuleContainer}>
                                     {isCreatingModule ? (
                                         <>
@@ -263,7 +254,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                         </div>
                     )}
 
-                    {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                    {["TEACHER", "SCHOOL_ADMIN"].includes(data.role) && (
                         <div className={styles.classesContainer}>
                             <h4 className={styles.h5}>Класи в яких є даний предмет:</h4>
                             {loadingClasses ? (
@@ -273,7 +264,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                     {classes.map((classItem) => (
                                         <li key={classItem.id} className={styles.classItem}>
                                             {classItem.name}
-                                            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                                            {["TEACHER", "SCHOOL_ADMIN"].includes(data.role) && (
                                                 <button
                                                     className={styles.deleteClassButton}
                                                     onClick={() => handleDeleteConnectionClass(classItem.id)}
@@ -288,7 +279,7 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                 <p>Відсутні</p>
                             )}
 
-                            {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && availableClasses.length > 0 && (
+                            {["TEACHER", "SCHOOL_ADMIN"].includes(data.role) && availableClasses.length > 0 && (
                                 <div className={styles.addClassContainer}>
                                     <select value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
                                         <option value="">Виберіть клас</option>

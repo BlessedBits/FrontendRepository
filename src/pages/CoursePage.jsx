@@ -2,13 +2,13 @@ import React from "react";
 import CourseList from "../components/courses/CourseList";
 import Sidebar from "../components/basic/Sidebar";
 
-const CoursePage = ({ userRole }) => {
+const CoursePage = ({ baseInfo }) => {
     return (
         <>
-            <Sidebar role={userRole} />
+            <Sidebar role={baseInfo.role} />
             <main>
                 <section data-content="true" className="content">
-                    <CourseList userRole={userRole} />
+                    <CourseList baseInfo={baseInfo} />
                 </section>
             </main>
         </>

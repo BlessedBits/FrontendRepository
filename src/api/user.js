@@ -6,8 +6,9 @@ export const getRole = async (axiosPrivateInstance) =>
 export const updateRole = async (id, data, axiosPrivateInstance) =>
     executeRequest(() => axiosPrivateInstance.put(`/users/${id}/role`, data), 200, "Role");
 
-export const getUserId = async (axiosPrivateInstance) =>
-    executeRequest(() => axiosPrivateInstance.get(`/users/my-id`), 200, "ID");
+export const getUserInfo = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/users/${id}?include=school`), 200);
+};
 
 export const getUserSchool = async (axiosPrivateInstance) =>
     executeRequest(() => axiosPrivateInstance.get(`/users/school-id`), 200, "School found");
@@ -18,12 +19,12 @@ export const updateUserName = async (id, data, axiosPrivateInstance) => {
     }
 
     return executeRequest(
-        () => axiosPrivateInstance.put(`/users/update-name/${id}`, data),
+        () => axiosPrivateInstance.put(`/users/${id}/name`, data),
         200,
         "User name was updated successfully!"
     );
 };
 
-export const getBaseInfo = async (userId, axiosPrivateInstance) => {
+export const getBaseInfo = async (userId = 0, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/users/${userId}`), 200);
 };

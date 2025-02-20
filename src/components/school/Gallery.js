@@ -5,7 +5,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 import { Loading } from "../basic/LoadingAnimation";
 
-function GallerySchool({ userRole }) {
+function GallerySchool({ baseInfo }) {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -111,7 +111,7 @@ function GallerySchool({ userRole }) {
                         firstList.map((photo) => (
                             <li key={photo.galleryImage} className={styles.galleryItem}>
                                 <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
-                                {userRole === "SCHOOL_ADMIN" && (
+                                {baseInfo.role === "SCHOOL_ADMIN" && (
                                     <button
                                         className={styles.deleteButton}
                                         onClick={() => handleDeletePhoto(photo.galleryImage)}
@@ -131,7 +131,7 @@ function GallerySchool({ userRole }) {
                         secondList.map((photo) => (
                             <li key={photo.galleryImage} className={styles.galleryItem}>
                                 <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
-                                {userRole === "SCHOOL_ADMIN" && (
+                                {baseInfo.role === "SCHOOL_ADMIN" && (
                                     <button
                                         className={styles.deleteButton}
                                         onClick={() => handleDeletePhoto(photo.galleryImage)}
@@ -145,7 +145,7 @@ function GallerySchool({ userRole }) {
                         <p>Немає доступних фото.</p>
                     )}
                 </ul>
-                {userRole === "SCHOOL_ADMIN" && (
+                {baseInfo.role === "SCHOOL_ADMIN" && (
                     <div className={styles.adminControls}>
                         <label htmlFor="fileInput" className={styles.iconButton}>
                             <span className={styles.icon}></span>

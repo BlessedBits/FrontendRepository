@@ -50,14 +50,14 @@ function EditableField({ fieldName, value, isAdmin, onSave }) {
     );
 }
 
-function InfoSchool({ userRole }) {
+function InfoSchool({ baseInfo }) {
     const [schoolInfo, setSchoolInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [notification, setNotification] = useState({ message: "", type: "" });
 
     const axiosPrivate = useAxiosPrivate();
-    const isAdmin = userRole === "SCHOOL_ADMIN";
+    const isAdmin = baseInfo.role === "SCHOOL_ADMIN";
 
     const saveField = useCallback(
         async (fieldName, newValue) => {
@@ -66,8 +66,7 @@ function InfoSchool({ userRole }) {
                 type: "loading",
             });
             try {
-                const schoolId = await getUserSchool(axiosPrivate);
-                await updateSchoolInfo(schoolId, { [fieldName]: newValue }, axiosPrivate);
+                await updateSchoolInfo(baseInfo.schoolId, { [fieldName]: newValue }, axiosPrivate);
                 setSchoolInfo((prev) => ({ ...prev, [fieldName]: newValue }));
                 setNotification({
                     message: "Інформація оновлена!",
