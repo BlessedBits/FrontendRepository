@@ -9,7 +9,7 @@ import DiaryPage from "./pages/DiaryPage";
 import LogoutPage from "./pages/LogoutPage";
 import PrivateRoute from "./context/PrivateRoute";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
-import { LoadingPage } from "./components/basic/LoadingAnimation";
+import { Loading, LoadingPage } from "./components/basic/LoadingAnimation";
 import { SchAdminPanel, PlfAdminPanel } from "./pages/AdminPanel";
 
 function App() {
@@ -76,6 +76,7 @@ function App() {
 
                 {/* Журнал */}
                 <Route path="/journal/" element={<LoadingPage />} />
+                <Route path="/reports/" element={<Loading />} />
 
                 {/* Шкільна адмін панель */}
                 <Route

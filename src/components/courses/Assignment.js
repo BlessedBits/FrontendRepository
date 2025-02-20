@@ -4,7 +4,7 @@ import { updateAssignment, deleteAssignment } from "../../api/course";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 
-function Assignment({ assignments, userRole, onAssignmentUpdated, onAssignmentDeleted }) {
+function Assignment({ assignments, userRole, setAssignments }) {
     const axiosPrivate = useAxiosPrivate();
     const [editingAssignment, setEditingAssignment] = useState(null);
     const [updatedAssignment, setUpdatedAssignment] = useState({ title: "", description: "", url: "", dueDate: "" });
@@ -14,8 +14,8 @@ function Assignment({ assignments, userRole, onAssignmentUpdated, onAssignmentDe
         setEditingAssignment(assignment.id);
         setUpdatedAssignment({
             title: assignment.title,
-            description: assignment.description,
-            url: assignment.url,
+            description: assignment.description || "",
+            url: assignment.url || "",
             dueDate: assignment.dueDate ? assignment.dueDate.slice(0, 16) : "",
         });
     };
@@ -39,9 +39,12 @@ function Assignment({ assignments, userRole, onAssignmentUpdated, onAssignmentDe
 
         try {
             await updateAssignment(id, updatedAssignment, axiosPrivate);
+
+            // Оновлення локального стану
+            setAssignments((prev) => prev.map((a) => (a.id === id ? { ...a, ...updatedAssignment } : a)));
+
             setNotification({ type: "success", message: "Завдання оновлено!" });
             setEditingAssignment(null);
-            if (onAssignmentUpdated) onAssignmentUpdated();
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при оновленні завдання" });
         }
@@ -49,10 +52,14 @@ function Assignment({ assignments, userRole, onAssignmentUpdated, onAssignmentDe
 
     const handleDelete = async (id) => {
         if (!window.confirm("Ви впевнені, що хочете видалити це завдання?")) return;
+
         try {
             await deleteAssignment(id, axiosPrivate);
+
+            // Локальне видалення завдання
+            setAssignments((prev) => prev.filter((a) => a.id !== id));
+
             setNotification({ type: "success", message: "Завдання видалено!" });
-            if (onAssignmentDeleted) onAssignmentDeleted(id);
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при видаленні завдання" });
         }
@@ -75,8 +82,6 @@ function Assignment({ assignments, userRole, onAssignmentUpdated, onAssignmentDe
                                     onChange={(e) =>
                                         setUpdatedAssignment({ ...updatedAssignment, title: e.target.value })
                                     }
-                                    onKeyDown={(e) => e.key === "Enter" && handleUpdate(assignment.id)}
-                                    autoFocus
                                 />
                                 <textarea
                                     value={updatedAssignment.description}

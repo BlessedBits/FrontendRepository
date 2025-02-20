@@ -10,7 +10,19 @@ export const LoadingPage = () => {
 export const Loading = () => {
     return (
         <div className={style.loading}>
-            Завантаження<span>.</span>
+            <span>З</span>
+            <span>а</span>
+            <span>в</span>
+            <span>а</span>
+            <span>н</span>
+            <span>т</span>
+            <span>а</span>
+            <span>ж</span>
+            <span>е</span>
+            <span>н</span>
+            <span>н</span>
+            <span>я</span>
+            <span>.</span>
             <span>.</span>
             <span>.</span>
         </div>

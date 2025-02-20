@@ -20,7 +20,7 @@ const ActivityProfile = ({ profileData, isOwnProfile, userId, userRole, updateIn
             await updateUserName(userId, newName, axiosPrivate);
             setEditingName(false);
             if (updateInfo) {
-                updateInfo();
+                updateInfo(newName);
             }
         } catch (error) {
             console.error("Помилка оновлення імені:", error);

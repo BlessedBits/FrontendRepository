@@ -3,7 +3,6 @@
     margin: 0 auto;
     text-align: left;
     background-color: rgba(255, 255, 255, 0.75);
-    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     animation: fadeIn 1s ease-in-out;
 }
@@ -39,8 +38,8 @@
 }
 
 .headerLink:hover {
-    background-color: rgba(0, 150, 255, 0.2); 
-    border-color: #0096ff; 
+    background-color: rgba(0, 150, 255, 0.2);
+    border-color: #0096ff;
 }
 
 .headerLink.active {
@@ -72,33 +71,33 @@
 
 @keyframes fadeIn {
     from {
-      opacity: 0;
-      transform: translateY(20px);
+        opacity: 0;
+        transform: translateY(20px);
     }
     to {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
-  
+}
+
 @media (max-width: 576px) {
     .features {
-        padding: 5% 10%; 
+        padding: 5% 10%;
         text-align: center;
     }
 
     .features h2 {
-        font-size: 28px; 
+        font-size: 28px;
         margin-bottom: 15px;
     }
 
     .features h3 {
-        font-size: 20px; 
+        font-size: 20px;
         margin-bottom: 8px;
     }
 
     .linksContainer {
-        flex-direction: column; 
+        flex-direction: column;
         align-items: center;
         gap: 8px;
     }
@@ -106,35 +105,35 @@
     .headerLink {
         font-size: 16px;
         padding: 6px 10px;
-        width: 100%; 
+        width: 100%;
         text-align: center;
     }
 
     .description {
-        font-size: 16px; 
+        font-size: 16px;
         padding: 8px;
-        max-height: 150px; 
+        max-height: 150px;
     }
 }
 
 @media (min-width: 576px) and (max-width: 768px) {
     .features {
-        padding: 4% 15%; 
-        text-align: left; 
+        padding: 4% 15%;
+        text-align: left;
     }
 
     .features h2 {
-        font-size: 32px; 
+        font-size: 32px;
         margin-bottom: 18px;
     }
 
     .features h3 {
-        font-size: 22px; 
+        font-size: 22px;
         margin-bottom: 10px;
     }
 
     .linksContainer {
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
         gap: 8px;
         justify-content: center;
     }

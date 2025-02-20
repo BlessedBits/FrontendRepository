@@ -7,7 +7,6 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { getProfileInfo, getProfileInfoById } from "../api/profile";
 import { getUserId } from "../api/user";
 import { Loading } from "../components/basic/LoadingAnimation";
-import { handleError } from "../utils/apiUtils";
 
 const ProfilePage = ({ userRole }) => {
     const { id } = useParams();
@@ -19,8 +18,9 @@ const ProfilePage = ({ userRole }) => {
     const [userId, setUserId] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
 
-    const handleUpdateName = async () => {
-        fetchProfileData();
+    const handleUpdateName = async (newName) => {
+        profileData.firstName = newName.firstName;
+        profileData.lastName = newName.lastName;
     };
 
     const fetchProfileData = async () => {

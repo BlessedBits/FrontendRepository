@@ -6,11 +6,13 @@ import { createAssignment, createMaterial, deleteModule, updateModule } from "..
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 
-function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
+function ModuleItem({ module, userRole, onModuleDeleted }) {
     const [expanded, setExpanded] = useState(false);
     const axiosPrivate = useAxiosPrivate();
 
-    // Стейти для форм
+    const [assignments, setAssignments] = useState(module.assignments);
+    const [materials, setMaterials] = useState(module.materials);
+
     const [showMaterialForm, setShowMaterialForm] = useState(false);
     const [showAssignmentForm, setShowAssignmentForm] = useState(false);
     const [newMaterial, setNewMaterial] = useState({ title: "", description: "", url: "" });
@@ -19,7 +21,6 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
     const [isEditing, setIsEditing] = useState(false);
     const [moduleName, setModuleName] = useState(module.name);
 
-    // Видалення модуля
     const handleDeleteModule = async () => {
         setNotification({ type: "loading", message: "Видаляємо модуль..." });
         try {
@@ -31,7 +32,6 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
         }
     };
 
-    // Оновлення модуля
     const handleUpdateModule = async () => {
         setNotification({ type: "loading", message: "Оновлення модуля..." });
         try {
@@ -52,20 +52,15 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
         };
 
         try {
-            await createMaterial(materialData, axiosPrivate);
+            const createdMaterial = await createMaterial(materialData, axiosPrivate);
             setNotification({ type: "success", message: "Матеріал додано!" });
+            setMaterials([...materials, createdMaterial]);
             setNewMaterial({ title: "", description: "", url: "" });
-            if (updateSome) updateSome();
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при додаванні матеріалу" });
         }
     };
 
-    const handleUpdateSome = async () => {
-        if (updateSome) updateSome();
-    };
-
-    // Додавання завдання
     const handleAddAssignment = async () => {
         const assignmentData = {
             title: newAssignment.title || "Нове завдання",
@@ -76,10 +71,10 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
         };
 
         try {
-            await createAssignment(assignmentData, axiosPrivate);
+            const createdAssignment = await createAssignment(assignmentData, axiosPrivate);
             setNotification({ type: "success", message: "Завдання додано!" });
+            setAssignments([...assignments, createdAssignment]);
             setNewAssignment({ title: "", description: "", url: "", dueDate: "" });
-            if (updateSome) updateSome();
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при додаванні завдання" });
         }
@@ -87,11 +82,9 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
 
     return (
         <li className={styles.moduleItem}>
-            {/* Заголовок модуля */}
             <div className={styles.header}>
                 <button className={styles.toggleButton} onClick={() => setExpanded(!expanded)} aria-label="Перемкнути">
-                    {expanded ? "🔽" : "▶️"}
-                    {moduleName}
+                    {expanded ? "🔽" : "▶️"} {moduleName}
                 </button>
                 {isEditing && (
                     <div className={styles.editContainer}>
@@ -113,7 +106,6 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
                     </div>
                 )}
 
-                {/* Кнопки керування (доступні лише для викладача або адміністратора) */}
                 {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                     <div className={styles.actions}>
                         <button className={styles.iconBtn} onClick={() => setIsEditing(true)}>
@@ -128,25 +120,15 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
 
             {expanded && (
                 <>
-                    {module.materials.length > 0 && (
+                    {materials.length > 0 && (
                         <ul className={styles.themes}>
-                            <Materials
-                                materials={module.materials}
-                                userRole={userRole}
-                                onMaterialUpdated={handleUpdateSome}
-                                onMaterialDeleted={handleUpdateSome}
-                            />
+                            <Materials materials={materials} userRole={userRole} setMaterials={setMaterials} />
                         </ul>
                     )}
 
                     <div className={styles.assignmentsContainer}>
                         <h4 className={styles.assignmentsHeader}>Завдання до теми</h4>
-                        <Assignment
-                            assignments={module.assignments}
-                            userRole={userRole}
-                            onAssignmentUpdated={handleUpdateSome}
-                            onAssignmentDeleted={handleUpdateSome}
-                        />
+                        <Assignment assignments={assignments} userRole={userRole} setAssignments={setAssignments} />
                         {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                             <>
                                 <button
@@ -238,7 +220,6 @@ function ModuleItem({ module, userRole, onModuleDeleted, updateSome }) {
                 </>
             )}
 
-            {/* Сповіщення */}
             {notification && <Notification type={notification.type} message={notification.message} />}
         </li>
     );

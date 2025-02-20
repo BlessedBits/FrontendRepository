@@ -63,7 +63,6 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                 }
             }
         }
-        setExpanded(true);
     };
 
     // Видалення курсу
@@ -80,12 +79,6 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
             console.error("Помилка при видаленні курсу:", error);
             setNotification({ type: "error", message: "Помилка. Спробуйте пізніше" });
         }
-    };
-
-    const handleUpdateSome = async () => {
-        const prevExpanded = expanded;
-        await fetchCourseDetails();
-        setExpanded(prevExpanded);
     };
 
     const handleUpdateCourse = async (id, newName) => {
@@ -110,8 +103,8 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
         setNotification({ type: "loading", message: "Створення теми..." });
 
         try {
-            await createModule(newModule, axiosPrivate);
-            await fetchCourseDetails();
+            const response = await createModule(newModule, axiosPrivate);
+            setCourseDetails([...courseDetails, response]);
             setNotification({ type: "success", message: "Тема створено успішно" });
             setNewModule({ name: "", courseId: course.id });
             setIsCreatingModule(false);
@@ -230,7 +223,6 @@ function CourseItem({ course, userRole, onCourseDeleted, onCourseUpdated, Classe
                                             module={module}
                                             userRole={userRole}
                                             onModuleDeleted={handleModuleDeleted}
-                                            updateSome={handleUpdateSome}
                                         />
                                     ))
                                 ) : (

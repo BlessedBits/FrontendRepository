@@ -5,7 +5,7 @@ const Notification = ({ message, type, onClose }) => {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
-        if (!message) return;
+        if (!message || type === "loading") return;
 
         const timeout = setTimeout(() => {
             setVisible(false);
