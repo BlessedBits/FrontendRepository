@@ -8,8 +8,8 @@ import SchedulePage from "./pages/SchedulePage";
 import DiaryPage from "./pages/DiaryPage";
 import LogoutPage from "./pages/LogoutPage";
 import PrivateRoute from "./context/PrivateRoute";
-import UnauthorizedPage from "./pages/UnauthorizedPage"; 
-import { LoadingPage } from "./components/basic/LoadingAnimation";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
+import ClassRegisterPage from "./pages/ClassRegisterPage";
 
 function App() {
     return (
@@ -46,8 +46,11 @@ function App() {
                 {/* Щоденник */}
                 <Route path="/diary/" element={
                     <PrivateRoute allowedRoles={['STUDENT']} element={<DiaryPage />} />
-                }/> 
-                <Route path="/journal/" element={<LoadingPage />} />   
+                }/>
+                {/* Журнал */}
+                <Route path="/journal/" element={
+                    <PrivateRoute allowedRoles={['TEACHER', 'SCHOOL_ADMIN']} element={<ClassRegisterPage />} />
+                }/>
 
                 {/* Вихід  */}
                 <Route path="/logout/" element={
