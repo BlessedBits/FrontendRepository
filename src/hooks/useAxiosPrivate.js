@@ -10,7 +10,7 @@ const useAxiosPrivate = () => {
     useEffect(() => {
         const requestIntercept = axiosPrivate.interceptors.request.use(
             (config) => {
-                console.log("Request interceptor triggered");
+                // console.log("Request interceptor triggered");
                 if (!config.headers.authorization) {
                     config.headers.authorization = `Bearer ${auth?.accessToken}`;
                 }
@@ -24,11 +24,11 @@ const useAxiosPrivate = () => {
         const responseIntercept = axiosPrivate.interceptors.response.use(
             (response) => response,
             async (error) => {
-                console.log("Response interceptor triggered");
-                console.log(error);
+                // console.log("Response interceptor triggered");
+                // console.log(error);
                 const prevRequest = error?.config;
-                console.log(prevRequest);
-                console.log(prevRequest.sent);
+                // console.log(prevRequest);
+                // console.log(prevRequest.sent);
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
