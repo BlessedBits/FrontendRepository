@@ -47,7 +47,7 @@ const AdminPanelSchool = ({ baseInfo }) => {
             await deleteClasses(axiosPrivate, classId);
             setClasses(classes.filter((cls) => cls.id !== classId));
             setNotification({ message: "Клас видалено!", type: "success" });
-        } catch {
+        } catch (error) {
             setNotification({ message: "Не вдалося видалити клас", type: "error" });
         }
     };
