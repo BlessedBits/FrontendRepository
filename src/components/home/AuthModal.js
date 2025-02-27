@@ -23,7 +23,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
     const [regions, setRegions] = useState([]);
     const [educationDepartments, setEducationDepartments] = useState([]);
     const [schools, setSchools] = useState([]);
-    const [notification, setNotification] = useState(null);
+    const [notification, setNotification] = useState({ message: "", type: "" });
     const [createCustomSchool, setCreateCustomSchool] = useState(false);
     const navigate = useNavigate();
 
@@ -91,17 +91,25 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
                           }
                 );
             } else {
+                setNotification({ message: "Виконується вхід", type: "loading" });
                 await login(formData.username, formData.password, rememberMe, setAuth);
                 navigate("/school/");
             }
             onClose();
-        } catch (err) {}
+        } catch (err) {
+            console.log(err.message);
+            if (err.message === "User") setNotification({ message: "Неправильний логін або пароль", type: "error" });
+            else if (err.message === "Server")
+                setNotification({ message: "Сайт не працює, спробуйте пізніше", type: "error" });
+            else setNotification({ message: "Виникла помилка, спробуйте пізніше", type: "error" });
+        }
     };
 
     if (!isOpen) return null;
 
     return (
         <dialog className={styles.modalOverlay}>
+            {notification.message && <Notification message={notification.message} type={notification.type} />}
             <div className={styles.authModal}>
                 <button className={styles.closeModalBtn} onClick={onClose}>
                     &times;

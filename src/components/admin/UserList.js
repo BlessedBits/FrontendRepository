@@ -4,7 +4,7 @@ import { updateUserName, changePasswordAdmin } from "../../api/user";
 import Notification from "../basic/Notification";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-const UserList = ({ schoolId, classes, users }) => {
+const UserList = ({ classes, users }) => {
     const axiosPrivate = useAxiosPrivate();
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filter, setFilter] = useState("allTeachers");
@@ -13,7 +13,6 @@ const UserList = ({ schoolId, classes, users }) => {
     const [notification, setNotification] = useState({ message: "", type: "" });
 
     useEffect(() => {
-        // Фільтруємо користувачів кожного разу, коли змінюється filter або users
         let filtered = [];
         if (filter === "all") {
             filtered = users;
@@ -25,7 +24,7 @@ const UserList = ({ schoolId, classes, users }) => {
             filtered = users.filter((u) => u.role === "STUDENT" && String(u.userClassId) === String(filter));
         }
         setFilteredUsers(filtered);
-    }, [filter, users]); // Ефект спрацьовує лише коли filter або users змінюються
+    }, [filter, users]);
 
     const handleFilterChange = (e) => {
         const selectedFilter = e.target.value;
