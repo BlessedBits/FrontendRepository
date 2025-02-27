@@ -26,8 +26,8 @@ export const login = async (username, password, rememberMe, setAuth) => {
     }
 };
 
-export const register = async (username, password, email = null) => {
-    const response = await axios.post(`/auth/register`, { username, password, email });
+export const register = async (firstName, lastName, username, password, email = null) => {
+    const response = await axios.post(`/auth/register`, { firstName, lastName, username, password, email });
     if (response.status !== 201) {
         throw new Error(response.statusText);
     }

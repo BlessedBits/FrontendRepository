@@ -4,6 +4,10 @@ export const getAllSchools = async (axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/schools`), 200, "Info found");
 };
 
+export const getAllUserSchools = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/${id}?include=users`), 200, "Users found");
+};
+
 export const getSchoolInfo = async (axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/schools/school`), 200, "Info found");
 };

@@ -28,7 +28,6 @@
     border-radius: 5px;
     cursor: pointer;
 }
-
 .classList,
 .studentList,
 .teacherList {
@@ -39,6 +38,8 @@
 .classList li,
 .studentList li,
 .teacherList li {
+    width: fit-content;
+    gap: 10px;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -59,4 +60,8 @@
 
 .classList button:hover {
     background-color: #c82333;
+}
+
+.addClass {
+    width: fit-content;
 }

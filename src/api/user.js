@@ -1,7 +1,8 @@
 import { executeRequest } from "../utils/apiUtils";
 
-export const getRole = async (axiosPrivateInstance) =>
-    executeRequest(() => axiosPrivateInstance.get(`/users/role`), 200, "Role");
+export const addUser = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/users/${id}?include=school`), 200);
+};
 
 export const updateRole = async (id, data, axiosPrivateInstance) =>
     executeRequest(() => axiosPrivateInstance.put(`/users/${id}/role`, data), 200, "Role");
@@ -9,9 +10,6 @@ export const updateRole = async (id, data, axiosPrivateInstance) =>
 export const getUserInfo = async (id, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/users/${id}?include=school`), 200);
 };
-
-export const getUserSchool = async (axiosPrivateInstance) =>
-    executeRequest(() => axiosPrivateInstance.get(`/users/school-id`), 200, "School found");
 
 export const updateUserName = async (id, data, axiosPrivateInstance) => {
     if (!data.firstName || !data.lastName) {
@@ -27,4 +25,12 @@ export const updateUserName = async (id, data, axiosPrivateInstance) => {
 
 export const getBaseInfo = async (userId = 0, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/users/${userId}`), 200);
+};
+
+export const changePasswordAdmin = async (userId, data, axiosPrivateInstance) => {
+    return executeRequest(
+        () => axiosPrivateInstance.get(`/users/${userId}`, data),
+        200,
+        "Password changed successfully."
+    );
 };
