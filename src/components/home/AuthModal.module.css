@@ -19,14 +19,12 @@
     border-radius: 50%;
 }
 
-.LogoTitleContainer{
+.LogoTitleContainer {
     user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
 }
-
 
 .authModal {
     background-color: rgba(255, 250, 236, 0.8);
@@ -38,22 +36,21 @@
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
-    animation: fadeIn 0.5s ease-in-out; 
+    animation: fadeIn 0.5s ease-in-out;
 }
-
 
 .schoolText {
     font-size: 36px;
     font-weight: bold;
-    color: black; 
-    text-shadow:0 3px 6px rgb(0, 0, 0, 0.75);
-  }
-  
+    color: black;
+    text-shadow: 0 3px 6px rgb(0, 0, 0, 0.75);
+}
+
 .hubText {
     font-size: 36px;
     font-weight: bold;
-    color: rgb(255, 149, 0); 
-    text-shadow:0 3px 6px rgb(255, 149, 0, 0.75);
+    color: rgb(255, 149, 0);
+    text-shadow: 0 3px 6px rgb(255, 149, 0, 0.75);
 }
 
 .closeModalBtn {
@@ -70,48 +67,22 @@
 
 .closeModalBtn:hover {
     color: #ff0202;
-    background: none; 
+    background: none;
 }
 
 .closeModalBtn:focus {
     color: #ff0202;
-    background: none; 
-}
-
-
-.authTabs {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.authTab {
-    flex: 1;
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
     background: none;
-    color: #6f6f6f;
-    border: none;
-    text-transform: uppercase;
-    border-bottom: 2px solid transparent;
-    transition: color 0.3s, border-color 0.3s;
-}
-
-.authTab.active {
-    color: #fff;
-    background: linear-gradient(90deg, #ff7e5f, #feb47b);
-    border-radius: 15px;
 }
 
 .authForm {
+    margin: 5%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-.authForm input {
+.authForm input,
+.authForm select {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 12px;
@@ -120,6 +91,11 @@
     border-radius: 20px;
     outline: none;
     font-size: 16px;
+}
+
+.authForm select option {
+    width: 10%;
+    display: flex;
 }
 
 .submitButton {
@@ -133,8 +109,8 @@
     font-weight: bold;
     cursor: pointer;
     margin-top: 10px;
-  }
-  
+}
+
 .submitButton:hover {
     background-color: #555;
 }
@@ -154,20 +130,22 @@
 .rememberMeContainer label {
     transform: translateY(10%);
     font-size: 14px;
+    user-select: none;
+    cursor: pointer;
     color: #555;
 }
 
 .passwordContainer {
     position: relative;
     width: 100%;
-  }
-  
-  .passwordContainer input {
+}
+
+.passwordContainer input {
     width: 100%;
-    padding-right: 40px; 
-  }
-  
-  .showPasswordButton {
+    padding-right: 40px;
+}
+
+.showPasswordButton {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -176,54 +154,48 @@
     border: none;
     cursor: pointer;
     font-size: 16px;
-    color: #6f6f6f; 
-    padding: 0; 
-    appearance: none; 
-    outline: none; 
-  }
-  
-  .showPasswordButton:hover {
-    background: none; 
-  }
-  
-  .showPasswordButton:focus {
-    outline: none; 
-  }
+    color: #6f6f6f;
+    padding: 0;
+    appearance: none;
+    outline: none;
+}
 
+.showPasswordButton:hover {
+    background: none;
+}
 
-  .bn632-hover {
+.showPasswordButton:focus {
+    outline: none;
+}
+
+.bn632-hover {
     width: 100%;
     font-size: 16px;
     font-weight: 600;
     color: #fff;
     cursor: pointer;
-    margin:20px 0px;
+    margin: 20px 0px;
     height: 50px;
     text-align: center;
     border: none;
     background-size: 300% 100%;
     border-radius: 50px;
     transition: all 0.4s ease-in-out;
-  }
-  
-  .bn632-hover:hover {
+}
+
+.bn632-hover:hover {
     background-position: 100% 0;
-  }
-  
-  .bn632-hover:focus {
+}
+
+.bn632-hover:focus {
     outline: none;
-  }
-  
-  .bn25 {
-    background-image: linear-gradient(
-      to right,
-      #29323c,
-      #485563,
-      #2b5876,
-      #4e4376
-    );
+}
+
+.bn25 {
+    user-select: none;
+    background-image: linear-gradient(to right, #29323c, #485563, #2b5876, #4e4376);
     box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
-  }
+}
 
 .regselector {
     margin-top: 10px;
