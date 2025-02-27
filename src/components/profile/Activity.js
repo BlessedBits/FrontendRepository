@@ -1,60 +1,82 @@
 import React, { useState } from "react";
-import Modal from "./ProfileModal";
+import ProfileModal from "./ProfileModal";
 import styles from "./Activity.module.css";
+import { updateUserName } from "../../api/user";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-const ActivityProfile = ({ profileData, isOwnProfile }) => {
+const ActivityProfile = ({ profileData, isOwnProfile, updateInfo }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [editingName, setEditingName] = useState(false);
+    const [newName, setNewName] = useState({
+        firstName: profileData?.firstName || "",
+        lastName: profileData?.lastName || "",
+    });
+    const axiosPrivate = useAxiosPrivate();
 
-    const handleEditClick = () => {
-        setIsEditing(true);
+    if (!profileData) return null;
+
+    const handleEditName = async () => {
+        try {
+            await updateUserName(profileData.id, newName, axiosPrivate);
+            setEditingName(false);
+            if (updateInfo) {
+                updateInfo(newName);
+            }
+        } catch (error) {
+            console.error("Помилка оновлення імені:", error);
+        }
     };
-
-    const handleClose = () => {
-        setIsEditing(false);
-    };
-
-    if (!profileData) return
 
     return (
         <section className={styles.profileContainer}>
-        <div className={styles.profileSidebar}>
-            <img src={profileData?.profileImage || "/ava.png" } alt="Profile" />
-            <p className={styles.firstName}>
-            <strong>{profileData?.firstName}</strong>
-            <strong>{profileData?.secondName}</strong>
-            </p>
-            {isOwnProfile && (
-                <button className={styles.editButton} onClick={handleEditClick}>
-                    Редагувати
-                </button>
+            <div className={styles.profileSidebar}>
+                <img src={profileData?.profileImage || "/ava.png"} alt="Profile" />
+
+                <p className={styles.firstName}>
+                    {editingName ? (
+                        <>
+                            <input
+                                type="text"
+                                value={newName.firstName}
+                                onChange={(e) => setNewName({ ...newName, firstName: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                value={newName.lastName}
+                                onChange={(e) => setNewName({ ...newName, lastName: e.target.value })}
+                            />
+                            <button className={styles.iconBtn} onClick={handleEditName}>
+                                ✅
+                            </button>
+                            <button className={styles.iconBtn} onClick={() => setEditingName(false)}>
+                                ❌
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <strong>{profileData?.firstName}</strong>
+                            <strong> {profileData?.lastName}</strong>
+                            {isOwnProfile && profileData.role === "SCHOOL_ADMIN" && (
+                                <button className={styles.iconBtn} onClick={() => setEditingName(true)}>
+                                    ✏️
+                                </button>
+                            )}
+                        </>
+                    )}
+                </p>
+
+                {isOwnProfile && (
+                    <button className={styles.editButton} onClick={() => setIsEditing(true)}>
+                        Редагувати
+                    </button>
+                )}
+            </div>
+
+            {isEditing && (
+                <ProfileModal isOpen={isEditing} onClose={() => setIsEditing(false)} userId={profileData.id} />
             )}
-        </div>
-        {isEditing && (
-            <SettingsProfile
-            onClose={handleClose}
-            onChangePassword={() => alert("Зміна паролю")}
-            />
-        )}
         </section>
     );
-};
-
-const SettingsProfile = ({ onClose, onChangePassword }) => {
-    return (
-        <Modal isOpen={true} onClose={onClose} title="Налаштування профілю">
-        <div className={styles.settingsMenu}>
-            <button className={styles.actionButton} onClick={onChangePassword}>
-            Змінити пароль
-            </button>
-            <button className={styles.actionButton} onClick={() => alert("Змінити Gmail")}>
-            Змінити Gmail
-            </button>
-            <button className={styles.closeButton} onClick={onClose}>
-            Закрити
-            </button>
-        </div>
-        </Modal>
-  );
 };
 
 export default ActivityProfile;

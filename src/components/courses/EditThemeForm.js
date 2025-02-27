@@ -1,87 +1,84 @@
-import React from "react";
-import style from "./EditThemeForm.module.css";
+import React, { useState } from "react";
+import { updateTheme } from "../../api/theme";
+import styles from "./EditThemeForm.module.css";
+import Notification from "../basic/Notification";
 
-function EditThemeForm({
-  courseId,
-  theme,
-  themeEditData,
-  setEditThemeId,
-  setThemeEditData,
-  setCourseList,
-}) {
-  const saveEditedTheme = async () => {
-    const updatedTheme = {
-      ...themeEditData,
-      links: themeEditData.links.split(",").map((link) => link.trim()),
+function EditThemeForm({ theme, courseId, onCancel, onSave, setCourseList }) {
+    const [formData, setFormData] = useState({
+        name: theme.name || "",
+        description: theme.description || "",
+        homework: theme.homework || "",
+        links: theme.links ? theme.links.join(", ") : "",
+    });
+    const [notification, setNotification] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    try {
-      const response = await fetch(`/api/courses/${courseId}/themes/${theme.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedTheme),
-      });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setNotification(null);
 
-      if (!response.ok) throw new Error("Не вдалося оновити тему");
+        const updatedTheme = {
+            ...formData,
+            links: formData.links.split(",").map((link) => link.trim()), // Розділяємо посилання
+        };
 
-      setCourseList((prev) =>
-        prev.map((course) =>
-          course.id === courseId
-            ? {
-                ...course,
-                themes: course.themes.map((t) =>
-                  t.id === theme.id ? { ...t, ...updatedTheme } : t
-                ),
-              }
-            : course
-        )
-      );
-      setEditThemeId(null);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+        try {
+            setLoading(true);
+            const response = await updateTheme(courseId, theme.id, updatedTheme); // API-запит
+            setNotification({ type: "success", text: "Тему успішно оновлено!" });
 
-  return (
-    <div className={style.editForm}>
-      <input
-        type="text"
-        value={themeEditData.name}
-        onChange={(e) =>
-          setThemeEditData((prev) => ({ ...prev, name: e.target.value }))
+            onSave(response); // Оновлюємо дані у батьківському компоненті
+            setTimeout(() => {
+                setNotification(null);
+            }, 1500);
+        } catch (error) {
+            setNotification({
+                type: "error",
+                text: "Щось пішло не так. Перевірте дані та спробуйте знову.",
+            });
+        } finally {
+            setLoading(false);
         }
-        placeholder="Назва теми"
-      />
-      <textarea
-        value={themeEditData.description}
-        onChange={(e) =>
-          setThemeEditData((prev) => ({ ...prev, description: e.target.value }))
-        }
-        placeholder="Опис"
-      />
-      <textarea
-        value={themeEditData.homework}
-        onChange={(e) =>
-          setThemeEditData((prev) => ({ ...prev, homework: e.target.value }))
-        }
-        placeholder="Домашнє завдання"
-      />
-      <input
-        type="text"
-        value={themeEditData.links}
-        onChange={(e) =>
-          setThemeEditData((prev) => ({ ...prev, links: e.target.value }))
-        }
-        placeholder="Посилання (через кому)"
-      />
-      <button className={style.saveButton} onClick={saveEditedTheme}>
-        Зберегти
-      </button>
-      <button className={style.cancelButton} onClick={() => setEditThemeId(null)}>
-        Скасувати
-      </button>
-    </div>
-  );
+    };
+
+    return (
+        <div className={styles.editForm}>
+            <Notification message={notification?.text} type={notification?.type} />
+
+            <h3>Редагувати тему</h3>
+            <form onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                    <label>Назва:</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Опис:</label>
+                    <textarea name="description" value={formData.description} onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Домашнє завдання:</label>
+                    <textarea name="homework" value={formData.homework} onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Посилання (через кому):</label>
+                    <textarea name="links" value={formData.links} onChange={handleChange} />
+                </div>
+                <div className={styles.actions}>
+                    <button type="submit" disabled={loading} className={styles.saveButton}>
+                        {loading ? "Збереження..." : "Зберегти"}
+                    </button>
+                    <button type="button" onClick={onCancel} className={styles.cancelButton}>
+                        Скасувати
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
 }
 
 export default EditThemeForm;

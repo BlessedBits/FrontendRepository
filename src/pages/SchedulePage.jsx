@@ -2,17 +2,17 @@ import React from "react";
 import Schedule from "../components/schedule/Schedule.js";
 import Sidebar from "../components/basic/Sidebar";
 
-const SchedulePage = (userRole) => {
+const SchedulePage = ({ baseInfo }) => {
     return (
-      <>
-        <Sidebar role={userRole} />
-        <main>
-            <section data-content="true" className="content">
-                <Schedule/>
-            </section>
-        </main>
-      </>
+        <>
+            <Sidebar role={baseInfo.role} />
+            <main>
+                <section data-content="true" className="content">
+                    <Schedule baseInfo={baseInfo} />
+                </section>
+            </main>
+        </>
     );
-  };
-  
-  export default SchedulePage;
+};
+
+export default SchedulePage;

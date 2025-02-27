@@ -6,31 +6,31 @@ import { useNavigate } from "react-router-dom";
 import Notification from "../basic/Notification";
 
 const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    email: "",
-    region: "",
-    educationDepartment: "",
-    school: "",
-    customSchoolName: "",
-    customSchoolDescription: ""
-  });
-  const [rememberMe, setRememberMe] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(initialIsRegistering);
-  const [error, setError] = useState(null);
-  const { setAuth } = useContext(AuthContext);
-  const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        username: "",
+        password: "",
+        email: "",
+        region: "",
+        educationDepartment: "",
+        school: "",
+        customSchoolName: "",
+        customSchoolDescription: "",
+    });
+    const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(initialIsRegistering);
+    const { setAuth } = useContext(AuthContext);
+    const [notification, setNotification] = useState(null);
+    const navigate = useNavigate();
 
-  const [regions, setRegions] = useState([]);
-  const [educationDepartments, setEducationDepartments] = useState([]);
-  const [schools, setSchools] = useState([]);
-  const [createCustomSchool, setCreateCustomSchool] = useState(false);
+    const [regions, setRegions] = useState([]);
+    const [educationDepartments, setEducationDepartments] = useState([]);
+    const [schools, setSchools] = useState([]);
+    const [createCustomSchool, setCreateCustomSchool] = useState(false);
 
-  useEffect(() => {
-    setIsRegistering(initialIsRegistering);
-  }, [initialIsRegistering]);
+    useEffect(() => {
+        setIsRegistering(initialIsRegistering);
+    }, [initialIsRegistering]);
 
   useEffect(() => {
     if (isRegistering && !createCustomSchool) {
@@ -94,24 +94,28 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
     });
   };
 
-  const handleRememberMeChange = (e) => {
-    setRememberMe(e.target.checked);
-  };
+    const handleRememberMeChange = (e) => {
+        setRememberMe(e.target.checked);
+    };
 
-  const toggleShowPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
+    const toggleShowPassword = () => {
+        setShowPassword((prev) => !prev);
+    };
 
-  const handleCreateCustomSchoolChange = (e) => {
-    setCreateCustomSchool(e.target.checked);
-    if (e.target.checked) {
-      setFormData((prev) => ({ ...prev, region: "", educationDepartment: "", school: "" }));
-    }
-  };
+    const handleCreateCustomSchoolChange = (e) => {
+        setCreateCustomSchool(e.target.checked);
+        if (e.target.checked) {
+            setFormData((prev) => ({
+                ...prev,
+                region: "",
+                educationDepartment: "",
+                school: "",
+            }));
+        }
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
     try {
       if (isRegistering) {
@@ -134,7 +138,7 @@ const AuthModal = ({ isOpen, onClose, initialIsRegistering = false }) => {
     }
   };
 
-  if (!isOpen) return null;
+    if (!isOpen) return null;
 
   return (
       <dialog className={styles.modalOverlay}>

@@ -5,12 +5,12 @@ import {
     getSchoolAchievements,
     createSchoolAchievements,
     updateSchoolAchievements,
-    deleteSchoolAchievements
+    deleteSchoolAchievements,
 } from "../../api/school";
 import { Loading } from "../basic/LoadingAnimation";
 import Notification from "../basic/Notification";
 
-function AchievementsSchool({ userRole }) {
+function AchievementsSchool({ baseInfo }) {
     const [achievements, setAchievements] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -50,8 +50,9 @@ function AchievementsSchool({ userRole }) {
         return () => window.removeEventListener("resize", updateVisibleCards);
     }, []);
 
-    const handlePrev = () => setCurrentIndex(prev => Math.max(prev - visibleCards, 0));
-    const handleNext = () => setCurrentIndex(prev => Math.min(prev + visibleCards, achievements.length - visibleCards));
+    const handlePrev = () => setCurrentIndex((prev) => Math.max(prev - visibleCards, 0));
+    const handleNext = () =>
+        setCurrentIndex((prev) => Math.min(prev + visibleCards, achievements.length - visibleCards));
 
     const handleAddOrEditAchievement = async () => {
         if (!newAchievement.title || !newAchievement.description || (!isEditing && !newAchievement.image)) {
@@ -59,7 +60,10 @@ function AchievementsSchool({ userRole }) {
             return;
         }
 
-        setNotification({ message: isEditing ? "Оновлюється досягнення..." : "Додається досягнення...", type: "loading" });
+        setNotification({
+            message: isEditing ? "Оновлюється досягнення..." : "Додається досягнення...",
+            type: "loading",
+        });
 
         try {
             const formData = new FormData();
@@ -72,13 +76,11 @@ function AchievementsSchool({ userRole }) {
             let response;
             if (isEditing) {
                 response = await updateSchoolAchievements(newAchievement.id, formData, axiosPrivate);
-                setAchievements(prev =>
-                    prev.map(ach => (ach.id === newAchievement.id ? response : ach))
-                );
+                setAchievements((prev) => prev.map((ach) => (ach.id === newAchievement.id ? response : ach)));
                 setNotification({ message: "Досягнення оновлено!", type: "success" });
             } else {
                 response = await createSchoolAchievements(formData, axiosPrivate);
-                setAchievements(prev => [response, ...prev]);
+                setAchievements((prev) => [response, ...prev]);
                 setCurrentIndex(0);
                 setNotification({ message: "Досягнення додано!", type: "success" });
             }
@@ -99,7 +101,7 @@ function AchievementsSchool({ userRole }) {
 
         try {
             await deleteSchoolAchievements(id, axiosPrivate);
-            setAchievements(prev => prev.filter(ach => ach.id !== id));
+            setAchievements((prev) => prev.filter((ach) => ach.id !== id));
             setNotification({ message: "Досягнення видалено!", type: "success" });
         } catch (error) {
             console.error("Помилка видалення:", error);
@@ -120,51 +122,69 @@ function AchievementsSchool({ userRole }) {
     };
 
     const toggleForm = () => {
-        setShowForm(prev => !prev);
+        setShowForm((prev) => !prev);
         setIsEditing(false);
         setNewAchievement({ id: null, title: "", description: "", image: null });
     };
 
     if (loading) {
-        return(
+        return (
             <section id="achievements" className={styles.achievementsComponent}>
-                <Loading/>
+                <Loading />
             </section>
-        ) 
+        );
     }
 
     if (error) {
-        return(
+        return (
             <section id="achievements" className={styles.achievementsComponent}>
                 <p>Помилка завантаження {error}</p>
             </section>
-        )
+        );
     }
 
     return (
         <section id="achievements" className={styles.achievementsComponent}>
             <span className={styles.headH2}>Коротко про наші досягнення</span>
             <div className={styles.galleryContainer} ref={galleryRef}>
-                <button className={styles.navButton} onClick={handlePrev} disabled={currentIndex === 0}>←</button>
+                <button className={styles.navButton} onClick={handlePrev} disabled={currentIndex === 0}>
+                    ←
+                </button>
                 <div className={styles.gallery}>
-                    {achievements.slice(currentIndex, currentIndex + visibleCards).map(achievement => (
+                    {achievements.slice(currentIndex, currentIndex + visibleCards).map((achievement) => (
                         <div key={achievement.id} className={styles.achievementCard}>
                             <img src={achievement.image} alt={achievement.title} className={styles.achievementImage} />
                             <p>{achievement.title}</p>
                             <p className={styles.achievementDescription}>{achievement.description}</p>
-                            {userRole === "SCHOOL_ADMIN" && (
+                            {baseInfo.role === "SCHOOL_ADMIN" && (
                                 <div className={styles.adminActions}>
-                                    <button className={styles.editButton} onClick={() => handleEditAchievement(achievement)}>✏️</button>
-                                    <button className={styles.deleteButton} onClick={() => handleDeleteAchievement(achievement.id)}>🗑️</button>
+                                    <button
+                                        className={styles.editButton}
+                                        onClick={() => handleEditAchievement(achievement)}
+                                    >
+                                        ✏️
+                                    </button>
+                                    <button
+                                        className={styles.deleteButton}
+                                        onClick={() => handleDeleteAchievement(achievement.id)}
+                                    >
+                                        🗑️
+                                    </button>
                                 </div>
                             )}
                         </div>
                     ))}
                 </div>
-                <button className={styles.navButton} onClick={handleNext} disabled={currentIndex + visibleCards >= achievements.length}>→</button>
+                <button
+                    className={styles.navButton}
+                    onClick={handleNext}
+                    disabled={currentIndex + visibleCards >= achievements.length}
+                >
+                    →
+                </button>
             </div>
 
-            {userRole === "SCHOOL_ADMIN" && (
+            {baseInfo.role === "SCHOOL_ADMIN" && (
                 <>
                     <button className={`${styles["toggleButton-hover"]} ${styles.bn25}`} onClick={toggleForm}>
                         <span>{showForm ? "❌" : "➕"}</span>
@@ -193,7 +213,9 @@ function AchievementsSchool({ userRole }) {
                                     className={styles.textareaField}
                                     placeholder=" "
                                     value={newAchievement.description}
-                                    onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
+                                    onChange={(e) =>
+                                        setNewAchievement({ ...newAchievement, description: e.target.value })
+                                    }
                                 />
                                 <label className={styles.inputLabel}>Опис</label>
                             </div>

@@ -1,42 +1,83 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TeacherSchool.module.css";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { getSchoolTeachers } from "../../api/school";
+import { Loading } from "../basic/LoadingAnimation";
+import Notification from "../basic/Notification";
+import { setUserDuty } from "../../api/profile";
+import { updateUserName } from "../../api/user";
 
-function TeacherSchool({ schoolId }) {
-    const [Teacher, setTeacher] = useState(null);
+function TeacherSchool({ baseInfo }) {
+    const [teachers, setTeachers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [notification, setNotification] = useState(null);
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
-        async function fetchTeacher() {
+        async function fetchTeachers() {
             try {
-                const response = await fetch(`/api/schools/${schoolId}/Teacher`);
-                if (!response.ok) {
-                    throw new Error('Директор не знайдений');
-                }
-                const data = await response.json();
-                setTeacher(data);
+                const data = await getSchoolTeachers(0, axiosPrivate);
+                setTeachers(data);
             } catch (error) {
-                setError(error.message);
+                setError("Не вдалося завантажити вчителів.");
             } finally {
                 setLoading(false);
             }
         }
 
-        if (schoolId) {
-            fetchTeacher();
+        fetchTeachers();
+    }, [axiosPrivate]);
+
+    const handleDutyChange = (id, newDuty) => {
+        setTeachers((prevTeachers) =>
+            prevTeachers.map((teacher) => (teacher.id === id ? { ...teacher, duty: newDuty } : teacher))
+        );
+    };
+
+    const handleNameChange = (id, field, newValue) => {
+        setTeachers((prevTeachers) =>
+            prevTeachers.map((teacher) => (teacher.id === id ? { ...teacher, [field]: newValue } : teacher))
+        );
+    };
+
+    const saveDuty = async (id, duty) => {
+        try {
+            await setUserDuty(id, duty, axiosPrivate);
+            setNotification({
+                type: "success",
+                message: "Обов'язок успішно оновлено.",
+            });
+        } catch {
+            setNotification({
+                type: "error",
+                message: "Не вдалося оновити обов'язок.",
+            });
         }
-    }, [schoolId]);
+        setTimeout(() => setNotification({ message: "", type: "" }), 3000);
+    };
+
+    const saveName = async (id, firstName, lastName) => {
+        const data = { firstName: firstName, lastName: lastName };
+        try {
+            await updateUserName(id, data, axiosPrivate);
+            setNotification({
+                type: "success",
+                message: "Ім'я успішно оновлено.",
+            });
+        } catch {
+            setNotification({
+                type: "error",
+                message: "Не вдалося оновити ім'я.",
+            });
+        }
+        setTimeout(() => setNotification({ message: "", type: "" }), 3000);
+    };
 
     if (loading) {
         return (
             <section id="Teacher" className={styles.teacher}>
-                <h2>Наш директор</h2>
-                <div className={styles.teacherCard}>
-                    <img src="/school_test/director.jpg" alt="Teacher" className={styles.teacherImage} />
-                    <p>
-                        Біографія: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut gravida tellus ac ipsum porta mollis. Etiam vulputate fermentum augue at varius. Nullam euismod felis sed risus mattis pulvinar.
-                    </p>
-                </div>
+                <Loading />
             </section>
         );
     }
@@ -44,28 +85,83 @@ function TeacherSchool({ schoolId }) {
     if (error) {
         return (
             <section id="Teacher" className={styles.teacher}>
-                <h2>Наш директор</h2>
-                <div className={styles.teacherCard}>
-                    <img src="/school_test/Teacher.jpg" alt="Teacher" className={styles.teacherImage} />
-                    <p>
-                        Біографія: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut gravida tellus ac ipsum porta mollis. Etiam vulputate fermentum augue at varius. Nullam euismod felis sed risus mattis pulvinar.
-                    </p>
-                </div>
+                <p>Помилка завантаження даних: {error}</p>
             </section>
         );
     }
 
-    if (!Teacher) {
-        return <p>Інформація про директора відсутня.</p>;
+    if (teachers.length === 0) {
+        return (
+            <section id="Teacher" className={styles.teacher}>
+                <p>Дані відсутні</p>
+            </section>
+        );
     }
 
     return (
         <section id="Teacher" className={styles.teacher}>
-            <h2>Наш директор</h2>
+            <h2 className={styles.header}>Наші вчителі</h2>
+            {notification && (
+                <Notification
+                    type={notification.type}
+                    message={notification.message}
+                    onClose={() => setNotification(null)}
+                />
+            )}
             <div className={styles.teacherCard}>
-                <img src={Teacher.photo_url} alt={Teacher.name} className={styles.teacherImage} />
-                <p><strong>Ім'я:</strong> {Teacher.name}</p>
-                <p>{Teacher.bio}</p>
+                {teachers.map((teacher) => (
+                    <div key={teacher.id} className={styles.teacherItem}>
+                        <img
+                            src={teacher.profileImage}
+                            alt={teacher.firstName + " " + teacher.lastName}
+                            className={styles.teacherImage}
+                        />
+                        {baseInfo.role === "SCHOOL_ADMIN" ? (
+                            <div className={styles.nameEdit}>
+                                <input
+                                    type="text"
+                                    value={teacher.firstName}
+                                    onChange={(e) => handleNameChange(teacher.id, "firstName", e.target.value)}
+                                    className={styles.nameInput}
+                                />
+                                <input
+                                    type="text"
+                                    value={teacher.lastName}
+                                    onChange={(e) => handleNameChange(teacher.id, "lastName", e.target.value)}
+                                    className={styles.nameInput}
+                                />
+                                <button
+                                    onClick={() => saveName(teacher.id, teacher.firstName, teacher.lastName)}
+                                    className={styles.saveButton}
+                                >
+                                    Зберегти ім'я
+                                </button>
+                            </div>
+                        ) : (
+                            <p className={styles.teacherName}>
+                                {teacher.firstName} {teacher.lastName}
+                            </p>
+                        )}
+                        {baseInfo.role === "SCHOOL_ADMIN" ? (
+                            <div className={styles.dutyEdit}>
+                                <input
+                                    type="text"
+                                    value={teacher.duty}
+                                    onChange={(e) => handleDutyChange(teacher.id, e.target.value)}
+                                    className={styles.dutyInput}
+                                />
+                                <button
+                                    onClick={() => saveDuty(teacher.id, teacher.duty)}
+                                    className={styles.saveButton}
+                                >
+                                    Зберегти обов'язок
+                                </button>
+                            </div>
+                        ) : (
+                            <p className={styles.teacherFun}>{teacher.duty}</p>
+                        )}
+                    </div>
+                ))}
             </div>
         </section>
     );

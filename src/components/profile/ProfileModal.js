@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ChangePasswordForm from "./ChangePasswordForm";
 import GmailForm from "./GmailForm";
 import PhotoUpload from "./PhotoUpload";
 import styles from "./ProfileModal.module.css"; 
 
-const Modal = ({ isOpen, onClose }) => {
-    const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
-    const [isGmailModalOpen, setGmailModalOpen] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-
+const ProfileModal = ({ isOpen, onClose, userId }) => {
+    const [activeForm, setActiveForm] = useState(null); 
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
@@ -17,8 +14,7 @@ const Modal = ({ isOpen, onClose }) => {
 
         const handleKeyDown = (event) => {
             if (event.key === "Escape") {
-                setChangePasswordOpen(false);
-                setGmailModalOpen(false);
+                setActiveForm(null); 
                 onClose();
             }
         };
@@ -29,39 +25,58 @@ const Modal = ({ isOpen, onClose }) => {
 
     if (!isOpen) return null;
 
+    const renderActiveForm = () => {
+        switch (activeForm) {
+            case "changePassword":
+                return (
+                    <ChangePasswordForm
+                        axiosPrivate={axiosPrivate}
+                        onClose={() => setActiveForm(null)}
+                    />
+                );
+            case "gmail":
+                return (
+                    <GmailForm
+                        axiosPrivate={axiosPrivate}
+                        onClose={() => setActiveForm(null)}
+                    />
+                );
+            case "photoUpload":
+                return (
+                    <PhotoUpload
+                        axiosPrivate={axiosPrivate}
+                        userId={userId}
+                        onClose={() => setActiveForm(null)}
+                    />
+                );
+            default:
+                return (
+                    <>
+                        <h1>Налаштування</h1>
+                        <div className={styles.formButtons}>
+                            <button onClick={() => setActiveForm("changePassword")} className={styles.actionButton}>
+                                Змінити пароль
+                            </button>
+                            <button onClick={() => setActiveForm("gmail")} className={styles.actionButton}>
+                                Прив'язати Gmail
+                            </button>
+                            <button onClick={() => setActiveForm("photoUpload")} className={styles.actionButton}>
+                                Завантажити фото
+                            </button>
+                        </div>
+                    </>
+                );
+        }
+    };
+
     return (
         <dialog className={styles.modal} onClick={onClose}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <span className={styles.closeBtn} onClick={onClose}>&times;</span>
-
-                {isChangePasswordOpen ? (
-                    <ChangePasswordForm 
-                        axiosPrivate={axiosPrivate}
-                        onClose={() => setChangePasswordOpen(false)}
-                    />
-                ) : isGmailModalOpen ? (
-                    <GmailForm
-                        axiosPrivate={axiosPrivate}
-                        onClose={() => setGmailModalOpen(false)}
-                    />
-                ) : (
-                    <>
-                        <h1>Налаштування</h1>
-                        <div className={styles.formButtons}>
-                            <button onClick={() => setChangePasswordOpen(true)} className={styles.actionButton}>
-                                Змінити пароль
-                            </button>
-                            <button onClick={() => setGmailModalOpen(true)} className={styles.actionButton}>
-                                Прив'язати Gmail
-                            </button>
-                            <PhotoUpload axiosPrivate={axiosPrivate}/>
-                            {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-                        </div>
-                    </>
-                )}
+                {renderActiveForm()}
             </div>
         </dialog>
     );
 };
 
-export default Modal;
+export default ProfileModal;

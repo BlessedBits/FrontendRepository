@@ -8,44 +8,44 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .modalContent {
+}
+
+.modalContent {
     background: white;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 300px;
     text-align: center;
-  }
+}
 
-  .modalContent h3 {
+.modalContent h3 {
     font-size: 26px;
     margin-bottom: 15px;
     color: #333;
-  }
-  
-  .input {
+}
+
+.input {
     width: 80%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     transition: border-color 0.3s ease;
-  }
-  
-  .input:focus {
+}
+
+.input:focus {
     border-color: #4caf50;
     outline: none;
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-  }
-  
-  
-  .modalActions {
+}
+
+.modalActions {
     display: flex;
     justify-content: space-between;
-  }
+}
 
-  .saveButton, .cancelButton {
+.saveButton,
+.cancelButton {
     margin-top: 20px;
     font-size: 14px;
     color: white;
@@ -54,26 +54,44 @@
     padding: 10px;
     cursor: pointer;
     transition: transform 0.2s ease, background-color 0.3s ease;
-  }
-  
-  .saveButton:hover, .cancelButton:hover {
+}
+
+.saveButton:hover,
+.cancelButton:hover {
     transform: scale(1.05);
-  }
-  
-  
-  .saveButton {
+}
+
+.saveButton {
     background-color: #4caf50;
-  }
-  
-  .saveButton:hover {
+}
+
+.saveButton:hover {
     background-color: #45a049;
-  }
-  
-  .cancelButton {
+}
+
+.cancelButton {
     background-color: #f44336;
-  }
-  
-  .cancelButton:hover {
+}
+
+.cancelButton:hover {
     background-color: #e57373;
-  }
-  
+}
+
+.h4 {
+    margin: 12px;
+    font-size: 18px;
+}
+
+.teachersList {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    align-items: baseline;
+    gap: 15px;
+}
+
+.teacherItem {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}

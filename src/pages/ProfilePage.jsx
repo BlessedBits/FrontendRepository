@@ -4,85 +4,79 @@ import InfoProfile from "../components/profile/Info";
 import ActivityProfile from "../components/profile/Activity";
 import Sidebar from "../components/basic/Sidebar";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { getProfileInfo, getProfileInfoById } from "../api/profile";
-import { getUserId } from "../api/user";
+import { getUserInfo } from "../api/user";
+import { Loading } from "../components/basic/LoadingAnimation";
 
-const ProfilePage = ({ userRole }) => {
-  const { id } = useParams(); // Отримуємо id з URL
-  const navigate = useNavigate();
-  const axiosPrivate = useAxiosPrivate();
+const ProfilePage = ({ baseInfo }) => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const axiosPrivate = useAxiosPrivate();
 
-  const [profileData, setProfileData] = useState(null);
-  const [error, setError] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null); 
+    const [profileData, setProfileData] = useState(null);
+    const [error, setError] = useState(null);
+    const [currentUserId, setCurrentUserId] = useState(null);
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const currentUserId = await getUserId(axiosPrivate);
-        setCurrentUserId(currentUserId);
-
-        if (id && Number(id) === currentUserId) {
-          navigate("/profile/", { replace: true });
-          return;
-        }
-        
-
-        if (id) {
-          const data = await getProfileInfoById(id, axiosPrivate);
-          setProfileData(data);
-        } else {
-          const data = await getProfileInfo(axiosPrivate);
-          setProfileData(data);
-        }
-      } catch (err) {
-        
-        if (err.message === "Unhandled response status: 404") {
-            setError("Користувача не знайдено. Перевірте правильність введених даних.");
-        } else {
-            setError("Не вдалося завантажити інформацію профілю. Спробуйте пізніше.");
-        }
-    }
-    
+    const handleUpdateName = async (newName) => {
+        profileData.firstName = newName.firstName;
+        profileData.lastName = newName.lastName;
     };
 
-    fetchProfileData();
-  }, [axiosPrivate, id, navigate]);
+    const fetchProfileData = async () => {
+        try {
+            const userId = id ? Number(id) : 0;
+            if (userId === baseInfo.id && id) {
+                navigate("/profile/", { replace: true });
+                return;
+            }
 
-  if (error) {
+            const data = await getUserInfo(userId, axiosPrivate);
+            setProfileData(data);
+            setCurrentUserId(data.id);
+        } catch (err) {
+            const errorMessage =
+                err.message === "Unhandled response status: 404"
+                    ? "Користувача не знайдено. Перевірте правильність введених даних."
+                    : "Не вдалося завантажити інформацію профілю. Спробуйте пізніше.";
+            setError(errorMessage);
+        }
+    };
+
+    useEffect(() => {
+        fetchProfileData();
+    }, [axiosPrivate, id, navigate]);
+
+    if (error || !profileData) {
+        return (
+            <>
+                <Sidebar role={baseInfo.role} />
+                <main>
+                    <section data-content="true" className="content">
+                        <div className="profile-page">{error ? <p>{error}</p> : <Loading />}</div>
+                    </section>
+                </main>
+            </>
+        );
+    }
+
+    const isOwnProfile = !id || baseInfo.id === currentUserId;
+
     return (
-      <>
-        <Sidebar role={userRole} />
-        <main>
-          <section data-content="true" className="content">
-            <div className="profile-page">
-              <p>{error}</p>
-            </div>
-          </section>
-        </main>
-      </>
-    )
-  }
-
-  if (!profileData) {
-    return <p>Завантаження профілю...</p>;
-  }
-
-  const isOwnProfile = !id || id === currentUserId;
-
-  return (
-    <>
-      <Sidebar role={userRole} />
-      <main>
-        <section data-content="true" className="content">
-          <div className="profile-page">
-            <ActivityProfile profileData={profileData} isOwnProfile={isOwnProfile} />
-            <InfoProfile profileData={profileData} />
-          </div>
-        </section>
-      </main>
-    </>
-  );
+        <>
+            <Sidebar role={baseInfo.role} />
+            <main>
+                <section data-content="true" className="content">
+                    <div className="profile-page">
+                        <ActivityProfile
+                            profileData={profileData}
+                            isOwnProfile={isOwnProfile}
+                            updateInfo={handleUpdateName}
+                        />
+                        <InfoProfile profileData={profileData} />
+                    </div>
+                </section>
+            </main>
+        </>
+    );
 };
 
 export default ProfilePage;

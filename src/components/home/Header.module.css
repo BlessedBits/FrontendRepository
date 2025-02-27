@@ -121,3 +121,86 @@ header {
     }
   }
   
+@media (max-width: 576px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    .logo {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .logoImage {
+        width: 50px;
+        height: 35px;
+        margin-left: 5px;
+    }
+
+    .navHome {
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .headerLink {
+        font-size: 1.4rem;
+        line-height: 1.4rem;
+    }
+
+    .bn632-hover {
+        width: 100%;
+        max-width: 200px;
+        margin: 10px 0;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    header {
+        padding: 15px 30px;
+    }
+
+    .logo {
+        font-size: 35px;
+    }
+
+    .navHome {
+        gap: 5vh;
+        margin: 0 30px;
+    }
+
+    .headerLink {
+        font-size: 1.5rem;
+    }
+
+    .bn632-hover {
+        width: 50%;
+        max-width: 180px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+    header {
+        padding: 20px 40px;
+    }
+
+    .logo {
+        font-size: 40px;
+    }
+
+    .navHome {
+        gap: 10vh;
+    }
+
+    .headerLink {
+        font-size: 1.6rem;
+    }
+
+    .bn632-hover {
+        width: 25%;
+        max-width: 160px;
+    }
+}
