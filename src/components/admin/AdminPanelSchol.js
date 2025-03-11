@@ -13,6 +13,7 @@ const AdminPanelSchool = ({ baseInfo }) => {
     const [users, setUsers] = useState([]);
     const [teachers, setTeachers] = useState([]);
     const [notification, setNotification] = useState({ message: "", type: "" });
+    const [selectedTeacher, setSelectedTeacher] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,8 +35,8 @@ const AdminPanelSchool = ({ baseInfo }) => {
     const handleAddClass = async (name, teacherId) => {
         try {
             const data = { name, homeroomTeacher: teacherId, schoolId: baseInfo.schoolId };
-            const response = await createClasses(data, axiosPrivate);
-            setClasses([...classes, response.data]);
+            await createClasses(data, axiosPrivate);
+            setClasses([...classes, data]);
             setNotification({ message: "Клас створено!", type: "success" });
         } catch {
             setNotification({ message: "Не вдалося створити клас", type: "error" });
@@ -44,7 +45,7 @@ const AdminPanelSchool = ({ baseInfo }) => {
 
     const handleDeleteClass = async (classId) => {
         try {
-            await deleteClasses(axiosPrivate, classId);
+            await deleteClasses(classId, axiosPrivate);
             setClasses(classes.filter((cls) => cls.id !== classId));
             setNotification({ message: "Клас видалено!", type: "success" });
         } catch (error) {
@@ -57,12 +58,16 @@ const AdminPanelSchool = ({ baseInfo }) => {
             <h2>Адмін Панель</h2>
             {notification.message && <Notification message={notification.message} type={notification.type} />}
 
-            {/* <ClassList
-                classes={classes}
-                teacher={teachers}
-                onAddClass={handleAddClass}
-                onDeleteClass={handleDeleteClass}
-            /> */}
+            {classes && (
+                <ClassList
+                    classes={classes}
+                    teachers={teachers}
+                    selectedTeacher={selectedTeacher}
+                    setSelectedTeacher={setSelectedTeacher}
+                    onAddClass={handleAddClass}
+                    onDeleteClass={handleDeleteClass}
+                />
+            )}
             <UserList schoolId={baseInfo.schoolId} classes={classes} users={users} />
         </div>
     );

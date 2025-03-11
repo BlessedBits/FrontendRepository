@@ -1,13 +1,13 @@
 import axios from "./axios";
 
-export const login = async (username, password, rememberMe, setAuth) => {
+export const login = async (username, password, remember, setAuth) => {
     try {
         const response = await axios.post(
             `/auth/login`,
             { username, password },
             {
                 headers: { "Content-type": "application/json" },
-                params: { rememberMe },
+                params: { remember },
                 withCredentials: true,
             }
         );

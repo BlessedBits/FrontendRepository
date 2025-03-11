@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./GallerySchool.module.css";
 import { getSchoolGallery, createSchoolFoto, deleteSchoolFoto } from "../../api/school";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -12,7 +12,6 @@ function GallerySchool({ baseInfo }) {
     const [newPhoto, setNewPhoto] = useState(null);
     const [preview, setPreview] = useState(null); // State for preview
     const [notification, setNotification] = useState({ message: "", type: "" });
-    const sliderRef = useRef(null);
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
@@ -97,82 +96,68 @@ function GallerySchool({ baseInfo }) {
         );
     }
 
-    const midpoint = Math.ceil(photos.length / 2);
-    const firstList = photos.slice(0, midpoint);
-    const secondList = photos.slice(midpoint);
+    const columnsCount = Math.ceil(photos.length / 7); // 7 фото на колонку мінімум
+    const columns = Array.from({ length: columnsCount }, () => []);
+
+    photos.forEach((photo, index) => {
+        columns[index % columnsCount].push(photo); // Розподіл по колонках
+    });
 
     return (
         <section id="gallery" className={styles.galleryComponent}>
             <h2 className={styles.galleryTitle}>Наша школа</h2>
 
             <div className={styles.galleryLists}>
-                <ul ref={sliderRef} className={styles.galleryList}>
-                    {firstList.length > 0 ? (
-                        firstList.map((photo) => (
-                            <li key={photo.galleryImage} className={styles.galleryItem}>
-                                <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
-                                {baseInfo.role === "SCHOOL_ADMIN" && (
-                                    <button
-                                        className={styles.deleteButton}
-                                        onClick={() => handleDeletePhoto(photo.galleryImage)}
-                                    >
-                                        ❌
-                                    </button>
-                                )}
-                            </li>
-                        ))
-                    ) : (
-                        <p>Немає доступних фото.</p>
-                    )}
-                </ul>
-
-                <ul className={styles.galleryList}>
-                    {secondList.length > 0 ? (
-                        secondList.map((photo) => (
-                            <li key={photo.galleryImage} className={styles.galleryItem}>
-                                <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
-                                {baseInfo.role === "SCHOOL_ADMIN" && (
-                                    <button
-                                        className={styles.deleteButton}
-                                        onClick={() => handleDeletePhoto(photo.galleryImage)}
-                                    >
-                                        ❌
-                                    </button>
-                                )}
-                            </li>
-                        ))
-                    ) : (
-                        <p>Немає доступних фото.</p>
-                    )}
-                </ul>
-                {baseInfo.role === "SCHOOL_ADMIN" && (
-                    <div className={styles.adminControls}>
-                        <label htmlFor="fileInput" className={styles.iconButton}>
-                            <span className={styles.icon}></span>
-                        </label>
-
-                        <input
-                            id="fileInput"
-                            className={styles.hiddenInput}
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handlePhotoChange(e.target.files[0])}
-                        />
-
-                        <button className={styles.saveButton} onClick={handleAddPhoto} disabled={!newPhoto}>
-                            Додати фото
-                        </button>
-                    </div>
-                )}
-
-                {preview && (
-                    <section className={styles.preview}>
-                        <div className={styles.previewContainer}>
-                            <img src={preview} alt="Прев'ю вибраного фото" className={styles.previewImage} />
-                        </div>
-                    </section>
-                )}
+                {columns.map((column, columnIndex) => (
+                    <ul key={columnIndex} className={styles.galleryList}>
+                        {column.length > 0 ? (
+                            column.map((photo) => (
+                                <li key={photo.galleryImage} className={styles.galleryItem}>
+                                    <img src={photo.galleryImage} alt="Фото школи" className={styles.galleryPhoto} />
+                                    {baseInfo.role === "SCHOOL_ADMIN" && (
+                                        <button
+                                            className={styles.deleteButton}
+                                            onClick={() => handleDeletePhoto(photo.galleryImage)}
+                                        >
+                                            ❌
+                                        </button>
+                                    )}
+                                </li>
+                            ))
+                        ) : (
+                            <p>Немає доступних фото.</p>
+                        )}
+                    </ul>
+                ))}
             </div>
+
+            {baseInfo.role === "SCHOOL_ADMIN" && (
+                <div className={styles.adminControls}>
+                    <label htmlFor="fileInput" className={styles.iconButton}>
+                        <span className={styles.icon}></span>
+                    </label>
+
+                    <input
+                        id="fileInput"
+                        className={styles.hiddenInput}
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handlePhotoChange(e.target.files[0])}
+                    />
+
+                    <button className={styles.saveButton} onClick={handleAddPhoto} disabled={!newPhoto}>
+                        Додати фото
+                    </button>
+                </div>
+            )}
+
+            {preview && (
+                <section className={styles.preview}>
+                    <div className={styles.previewContainer}>
+                        <img src={preview} alt="Прев'ю вибраного фото" className={styles.previewImage} />
+                    </div>
+                </section>
+            )}
 
             <Notification message={notification.message} type={notification.type} />
         </section>
