@@ -8,7 +8,7 @@ export const updateRole = async (id, data, axiosPrivateInstance) =>
     executeRequest(() => axiosPrivateInstance.put(`/users/${id}/role`, data), 200, "Role");
 
 export const getUserInfo = async (id, axiosPrivateInstance) => {
-    return executeRequest(() => axiosPrivateInstance.get(`/users/${id}?include=school`), 200);
+    return executeRequest(() => axiosPrivateInstance.get(`/users/${id}?include=school,courses`), 200);
 };
 
 export const updateUserName = async (id, data, axiosPrivateInstance) => {

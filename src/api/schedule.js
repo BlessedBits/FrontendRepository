@@ -3,7 +3,7 @@ import { executeRequest } from "../utils/apiUtils";
 export const createSchedule = async (scheduleData, axiosPrivateInstance) => {
     return executeRequest(
         () =>
-            axiosPrivateInstance.post("/schedules/", {
+            axiosPrivateInstance.post("/schedules", {
                 classId: scheduleData.classId,
                 courseId: scheduleData.courseId,
                 dayOfWeek: scheduleData.dayOfWeek,

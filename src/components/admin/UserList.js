@@ -9,7 +9,9 @@ const UserList = ({ classes, users }) => {
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filter, setFilter] = useState("allTeachers");
     const [editingUserId, setEditingUserId] = useState(null);
-    const [editedData, setEditedData] = useState({ firstName: "", lastName: "", password: "" });
+    const [editingPasswordId, setEditingPasswordId] = useState(null);
+    const [editedName, setEditedName] = useState({ firstName: "", lastName: "" });
+    const [editedPassword, setEditedPassword] = useState("");
     const [notification, setNotification] = useState({ message: "", type: "" });
 
     useEffect(() => {
@@ -27,30 +29,26 @@ const UserList = ({ classes, users }) => {
     }, [filter, users]);
 
     const handleFilterChange = (e) => {
-        const selectedFilter = e.target.value;
-        setFilter(selectedFilter);
+        setFilter(e.target.value);
     };
 
-    const handleSave = async (userId) => {
+    const handleSaveName = async (userId) => {
         try {
-            if (editedData.firstName && editedData.lastName) {
-                await updateUserName(
-                    userId,
-                    { firstName: editedData.firstName, lastName: editedData.lastName },
-                    axiosPrivate
-                );
-            }
-            if (editedData.password) {
-                await changePasswordAdmin(userId, { password: editedData.password }, axiosPrivate);
-            }
-
-            const updated = users.map((user) =>
-                user.id === userId ? { ...user, firstName: editedData.firstName, lastName: editedData.lastName } : user
-            );
+            await updateUserName(userId, editedName, axiosPrivate);
             setEditingUserId(null);
-            setNotification({ message: "Дані оновлено!", type: "success" });
+            setNotification({ message: "Ім'я оновлено!", type: "success" });
         } catch {
-            setNotification({ message: "Не вдалося оновити дані", type: "error" });
+            setNotification({ message: "Не вдалося оновити ім'я", type: "error" });
+        }
+    };
+
+    const handleSavePassword = async (userId) => {
+        try {
+            await changePasswordAdmin(userId, { password: editedPassword }, axiosPrivate);
+            setEditingPasswordId(null);
+            setNotification({ message: "Пароль змінено!", type: "success" });
+        } catch {
+            setNotification({ message: "Не вдалося змінити пароль", type: "error" });
         }
     };
 
@@ -76,24 +74,34 @@ const UserList = ({ classes, users }) => {
                             {editingUserId === user.id ? (
                                 <>
                                     <input
-                                        value={editedData.firstName}
-                                        onChange={(e) => setEditedData({ ...editedData, firstName: e.target.value })}
+                                        value={editedName.firstName}
+                                        onChange={(e) => setEditedName({ ...editedName, firstName: e.target.value })}
                                         placeholder="Ім'я"
                                     />
                                     <input
-                                        value={editedData.lastName}
-                                        onChange={(e) => setEditedData({ ...editedData, lastName: e.target.value })}
+                                        value={editedName.lastName}
+                                        onChange={(e) => setEditedName({ ...editedName, lastName: e.target.value })}
                                         placeholder="Прізвище"
                                     />
-                                    <input
-                                        value={editedData.password}
-                                        onChange={(e) => setEditedData({ ...editedData, password: e.target.value })}
-                                        placeholder="Новий пароль"
-                                    />
-                                    <button className={styles.iconBtn} onClick={() => handleSave(user.id)}>
+                                    <button className={styles.iconBtn} onClick={() => handleSaveName(user.id)}>
                                         ✅
                                     </button>
                                     <button className={styles.iconBtn} onClick={() => setEditingUserId(null)}>
+                                        ❌
+                                    </button>
+                                </>
+                            ) : editingPasswordId === user.id ? (
+                                <>
+                                    <input
+                                        type="password"
+                                        value={editedPassword}
+                                        onChange={(e) => setEditedPassword(e.target.value)}
+                                        placeholder="Новий пароль"
+                                    />
+                                    <button className={styles.iconBtn} onClick={() => handleSavePassword(user.id)}>
+                                        ✅
+                                    </button>
+                                    <button className={styles.iconBtn} onClick={() => setEditingPasswordId(null)}>
                                         ❌
                                     </button>
                                 </>
@@ -104,14 +112,19 @@ const UserList = ({ classes, users }) => {
                                         className={styles.iconBtn}
                                         onClick={() => {
                                             setEditingUserId(user.id);
-                                            setEditedData({
-                                                firstName: user.firstName,
-                                                lastName: user.lastName,
-                                                password: "",
-                                            });
+                                            setEditedName({ firstName: user.firstName, lastName: user.lastName });
                                         }}
                                     >
                                         ✏️
+                                    </button>
+                                    <button
+                                        className={styles.iconBtn}
+                                        onClick={() => {
+                                            setEditingPasswordId(user.id);
+                                            setEditedPassword("");
+                                        }}
+                                    >
+                                        🔑
                                     </button>
                                 </>
                             )}
