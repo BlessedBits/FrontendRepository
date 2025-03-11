@@ -37,6 +37,7 @@ const AdminPanelSchool = ({ baseInfo }) => {
             const data = { name, homeroomTeacher: teacherId, schoolId: baseInfo.schoolId };
             await createClasses(data, axiosPrivate);
             setClasses([...classes, data]);
+
             setNotification({ message: "Клас створено!", type: "success" });
         } catch {
             setNotification({ message: "Не вдалося створити клас", type: "error" });
