@@ -9,8 +9,6 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 const AdminPanel = () => {
     const axiosPrivate = useAxiosPrivate();
     const [schools, setSchools] = useState([]);
-    const [classes, setClasses] = useState([]);
-    const [schedules, setSchedules] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [newSchool, setNewSchool] = useState({
@@ -24,12 +22,8 @@ const AdminPanel = () => {
         async function fetchData() {
             try {
                 const schoolsData = await getAllSchools(axiosPrivate);
-                const classesData = await getAllClasses(axiosPrivate);
-                const schedulesData = await getAllSchedules(axiosPrivate);
 
                 setSchools(schoolsData);
-                setClasses(classesData);
-                setSchedules(schedulesData);
             } catch (err) {
                 console.error("Помилка завантаження даних:", err);
                 setError("Не вдалося завантажити дані");
@@ -97,26 +91,6 @@ const AdminPanel = () => {
                     placeholder="Рік заснування"
                 />
                 <button onClick={handleCreateSchool}>Додати школу</button>
-            </section>
-
-            <section>
-                <h3>Класи</h3>
-                <ul>
-                    {classes.map((cls) => (
-                        <li key={cls.id}>{cls.name}</li>
-                    ))}
-                </ul>
-            </section>
-
-            <section>
-                <h3>Розклади</h3>
-                <ul>
-                    {schedules.map((schedule) => (
-                        <li key={schedule.id}>
-                            {schedule.class} - {schedule.time}
-                        </li>
-                    ))}
-                </ul>
             </section>
         </div>
     );
