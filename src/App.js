@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SchoolPage from "./pages/SchoolPage";
 import HomePage from "./pages/HomePage";
 import CoursePage from "./pages/CoursePage";
+import CourseInfoPage from "./pages/CourseInfoPage";
 import ProfilePage from "./pages/ProfilePage";
 import SchedulePage from "./pages/SchedulePage";
 import DiaryPage from "./pages/DiaryPage";
@@ -36,6 +37,15 @@ function App() {
                     path="/courses/"
                     element={
                         <PrivateRoute allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN"]} element={<CoursePage />} />
+                    }
+                />
+                <Route
+                    path="/courses/:courseId"
+                    element={
+                        <PrivateRoute
+                            allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN"]}
+                            element={<CourseInfoPage />}
+                        />
                     }
                 />
 

@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import styles from "./Notification.module.css";
 
-const Notification = ({ message, type, onClose }) => {
-    const [visible, setVisible] = useState(true);
+const Notification = memo(({ message, type, onClose }) => {
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        if (!message || type === "loading") return;
+        if (!message) return;
 
-        const timeout = setTimeout(() => {
-            setVisible(false);
-            if (onClose) onClose();
-        }, 5000);
+        setVisible(true);
 
-        return () => clearTimeout(timeout);
+        if (type !== "loading") {
+            const timeout = setTimeout(() => {
+                setVisible(false);
+                if (onClose) onClose();
+            }, 5000);
+            return () => clearTimeout(timeout);
+        }
     }, [message]);
 
     if (!message || !visible) return null;
@@ -25,6 +28,6 @@ const Notification = ({ message, type, onClose }) => {
             {message}
         </div>
     );
-};
+});
 
 export default Notification;

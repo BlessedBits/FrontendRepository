@@ -3,10 +3,12 @@ import ProfileModal from "./ProfileModal";
 import styles from "./Activity.module.css";
 import { updateUserName } from "../../api/user";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Notification from "../basic/Notification";
 
 const ActivityProfile = ({ profileData, isOwnProfile, updateInfo }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editingName, setEditingName] = useState(false);
+    const [notification, setNotification] = useState({ message: "", type: "" });
     const [newName, setNewName] = useState({
         firstName: profileData?.firstName || "",
         lastName: profileData?.lastName || "",
@@ -16,19 +18,23 @@ const ActivityProfile = ({ profileData, isOwnProfile, updateInfo }) => {
     if (!profileData) return null;
 
     const handleEditName = async () => {
+        setNotification({ message: "Оновлення імені", type: "loading" });
         try {
             await updateUserName(profileData.id, newName, axiosPrivate);
             setEditingName(false);
             if (updateInfo) {
                 updateInfo(newName);
             }
+            setNotification({ message: "Ім'я оновлено", type: "success" });
         } catch (error) {
             console.error("Помилка оновлення імені:", error);
+            setNotification({ message: "Помилка оновлення імені", type: "error" });
         }
     };
 
     return (
         <section className={styles.profileContainer}>
+            {notification.message && <Notification message={notification.message} type={notification.type} />}
             <div className={styles.profileSidebar}>
                 <img src={profileData?.profileImage || "/ava.png"} alt="Profile" />
 

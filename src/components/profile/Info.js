@@ -23,6 +23,36 @@ const InfoProfile = ({ profileData }) => {
                     <p className={styles.value}>{profileData.role}</p>
                 </div>
             </div>
+            {profileData.role === "TEACHER" && (
+                <div className={styles.profileRow}>
+                    <div className={styles.profileItem}>
+                        <p className={styles.label}>
+                            <strong>Предмети:</strong>
+                        </p>
+                        {profileData.courses.map((course) => (
+                            <p className={styles.value}>{course.name}</p>
+                        ))}
+                    </div>
+                    <div className={styles.profileItem}>
+                        <p className={styles.label}>
+                            <strong>Класи:</strong>
+                        </p>
+                        <ul className={styles.classesItem}>
+                            {[
+                                ...new Set(
+                                    profileData.courses.flatMap((course) =>
+                                        course.classes.map((classItem) => classItem.name)
+                                    )
+                                ),
+                            ].map((uniqueName, index) => (
+                                <li className={styles.value} key={index}>
+                                    {uniqueName}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            )}
             <div className={styles.profileRow}>
                 <div className={styles.profileItem}>
                     <p className={styles.label}>

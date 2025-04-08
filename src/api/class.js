@@ -4,8 +4,8 @@ export const getAllClasses = async (axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get("/classes"), 200, "Success");
 };
 
-export const getAllClassesSchool = async (schoolId, axiosPrivateInstance) => {
-    return executeRequest(() => axiosPrivateInstance.get(`/schools/${schoolId}/classes`), 200, "Success");
+export const getAllClassesSchool = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/schools/${id}/classes`), 200, "Success");
 };
 
 export const getAllClassesStudents = async (schoolId, axiosPrivateInstance) => {
@@ -25,7 +25,7 @@ export const getClassesSchedule = async (id, axiosPrivateInstance) => {
 };
 
 export const createClasses = async (data, axiosPrivateInstance) => {
-    return executeRequest(() => axiosPrivateInstance.post("/classes", data), 200, "Success");
+    return executeRequest(() => axiosPrivateInstance.post("/classes", data), 201, "Success");
 };
 
 export const deleteClasses = async (id, axiosPrivateInstance) => {
