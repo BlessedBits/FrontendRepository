@@ -7,6 +7,7 @@ import ProfilePage from "./pages/ProfilePage";
 import SchedulePage from "./pages/SchedulePage";
 import DiaryPage from "./pages/DiaryPage";
 import LogoutPage from "./pages/LogoutPage";
+import ClassRegisterPage from "./pages/ClassRegisterPage"
 import PrivateRoute from "./context/PrivateRoute";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import { Loading, LoadingPage } from "./components/basic/LoadingAnimation";
@@ -75,7 +76,19 @@ function App() {
                 <Route path="/diary/" element={<PrivateRoute allowedRoles={["STUDENT"]} element={<DiaryPage />} />} />
 
                 {/* Журнал */}
-                <Route path="/journal/" element={<LoadingPage />} />
+                <Route
+                    path="/journal/"
+                    element={
+                        <PrivateRoute
+                            allowedRoles={["TEACHER", "SCHOOL_ADMIN"]}
+                            element={<ClassRegisterPage />}
+                        />
+                    }
+                />
+
+
+
+
                 <Route path="/reports/" element={<Loading />} />
 
                 {/* Шкільна адмін панель */}

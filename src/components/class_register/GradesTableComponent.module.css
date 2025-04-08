@@ -1,0 +1,59 @@
+.tableComponent {
+    padding: 20px;
+    background-color: #fff3f3;
+    border-radius: 25px;
+    width: 100%;
+    max-width: 1350px;
+    display: flex;
+    flex-direction: column; /* Колонковий напрямок, щоб таблиця не зменшувалася */
+    align-items: center;
+    gap: 15px;
+}
+
+.headH1 {
+    padding: 20px;
+    font-size: 48px;
+    font-weight: 600;
+    color: #222;
+    display: block;
+}
+
+.gradesTable {
+    width: 100%; /* Робимо таблицю на всю ширину контейнера */
+    border-collapse: separate; /* Відокремлюємо межі комірок */
+    border-spacing: 15px; /* Відстань між комірками */
+    border-radius: 10px; /* Заокруглені кути для таблиці */
+    overflow: hidden; /* Щоб заокруглені кути не перекривалися */
+    background: linear-gradient(to right, #FFC79F, #FFA49F, #FF88A3);
+}
+
+.gradesTable th,
+.gradesTable td {
+    padding: 10px; /* Внутрішні відступи в комірках */
+    background-color: #b2b3b5; /* Колір фону комірок */
+    position: relative; /* Для створення відступу всередині комірки */
+    border-radius: 10px; /* Заокруглені кути для таблиці */
+}
+
+.gradesTable th::before,
+.gradesTable td::before {
+    content: '';
+    position: absolute;
+    top: 2px; /* Відступ зверху */
+    left: 2px; /* Відступ зліва */
+    right: 2px; /* Відступ справа */
+    bottom: 2px; /* Відступ знизу */
+    background-color: #f4f4f4; /* Фон всередині комірки */
+    border-radius: 8px; /* Заокруглені кути всередині комірки */
+    z-index: -1; /* Щоб фон був під текстом */
+}
+
+.gradesTable th,
+.gradesTable td:first-child {
+    border: 0;
+    background-color: #FFF3F3FF;
+    font-weight: bold; /* Жирний шрифт для заголовків */
+    color: #333; /* Колір тексту заголовків */
+}
+
+

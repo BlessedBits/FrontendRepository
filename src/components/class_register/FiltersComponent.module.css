@@ -1,0 +1,21 @@
+.filtersComponent {
+    padding: 20px;
+    background-color: #fff3f3;
+    border-radius: 25px;
+    width: 100%;
+    max-width: 1350px;
+    display: flex;
+    flex-direction: row; /* Змінено на рядковий напрямок */
+    justify-content: space-between; /* Рівномірний розподіл */
+    align-items: center;
+    gap: 15px; /* Додає відступи між елементами */
+}
+
+.customSelect {
+    background-color: #FFAC98;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 8px;
+    width: 30%;
+    min-width: 150px;
+}
