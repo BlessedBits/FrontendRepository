@@ -81,6 +81,7 @@ function Schedule({ baseInfo }) {
             try {
                 const response = await getClassesSchedule(selectedClass, axiosPrivate);
                 setTimetableData(transformScheduleData(response));
+                setNotification({ message: "" });
             } catch (err) {
                 setNotification({ type: "error", message: "Не вдалося завантажити розклад." });
                 console.error("Помилка завантаження розкладу:", err);
@@ -103,12 +104,12 @@ function Schedule({ baseInfo }) {
             };
 
             await createSchedule(newSchedule, axiosPrivate);
-            setNotification({ type: "success", message: "Розклад створено успішно!" });
+            setNotification({ type: "success", message: "Заняття створено успішно!" });
 
             const updatedSchedule = await getClassesSchedule(selectedClass, axiosPrivate);
             setTimetableData(transformScheduleData(updatedSchedule));
         } catch (err) {
-            setNotification({ type: "error", message: "Не вдалося створити розклад." });
+            setNotification({ type: "error", message: "Не вдалося додати заняття." });
             console.error("Помилка створення:", err);
         }
     };

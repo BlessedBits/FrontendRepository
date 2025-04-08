@@ -1,18 +1,18 @@
 import React from "react";
-import TestDiaryPage from "../components/diary/TestDiary.js";
 import Sidebar from "../components/basic/Sidebar";
+import CourseItem from "../components/courses/CourseItem";
 
-const DiaryPage = ({ baseInfo }) => {
+const CourseInfoPage = ({ baseInfo }) => {
     return (
         <>
             <Sidebar role={baseInfo.role} />
             <main>
                 <section data-content="true" className="content">
-                    <TestDiaryPage />
+                    <CourseItem baseInfo={baseInfo} />
                 </section>
             </main>
         </>
     );
 };
 
-export default DiaryPage;
+export default CourseInfoPage;

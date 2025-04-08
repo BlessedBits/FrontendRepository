@@ -40,7 +40,6 @@ function TeacherSchool({ baseInfo }) {
             prevTeachers.map((teacher) => (teacher.id === id ? { ...teacher, [field]: newValue } : teacher))
         );
     };
-
     const saveDuty = async (id, duty) => {
         try {
             await setUserDuty(id, duty, axiosPrivate);
