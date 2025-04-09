@@ -1,59 +1,129 @@
 .tableComponent {
-    padding: 20px;
-    background-color: #fff3f3;
-    border-radius: 25px;
-    width: 100%;
-    max-width: 1350px;
-    display: flex;
-    flex-direction: column; /* Колонковий напрямок, щоб таблиця не зменшувалася */
-    align-items: center;
-    gap: 15px;
+  padding: 20px;
+  background-color: #fff3f3;
+  border-radius: 25px;
+  width: 100%;
+  max-width: 1350px;
+}
+
+.tableHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
 .headH1 {
-    padding: 20px;
-    font-size: 48px;
-    font-weight: 600;
-    color: #222;
-    display: block;
+  padding: 20px;
+  font-size: 48px;
+  font-weight: 600;
+  color: #222;
+  display: block;
+}
+
+.addDateButton {
+  padding: 8px 16px;
+  background-color: #ffac98;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.addDateButton:hover {
+  background-color: #ff9b84;
+}
+
+.tableWrapper {
+  margin-top: 10px;
 }
 
 .gradesTable {
-    width: 100%; /* Робимо таблицю на всю ширину контейнера */
-    border-collapse: separate; /* Відокремлюємо межі комірок */
-    border-spacing: 15px; /* Відстань між комірками */
-    border-radius: 10px; /* Заокруглені кути для таблиці */
-    overflow: hidden; /* Щоб заокруглені кути не перекривалися */
-    background: linear-gradient(to right, #FFC79F, #FFA49F, #FF88A3);
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(to right, #ffc79f, #ffa49f, #ff88a3);
 }
 
 .gradesTable th,
 .gradesTable td {
-    padding: 10px; /* Внутрішні відступи в комірках */
-    background-color: #b2b3b5; /* Колір фону комірок */
-    position: relative; /* Для створення відступу всередині комірки */
-    border-radius: 10px; /* Заокруглені кути для таблиці */
+  padding: 10px;
+  background-color: #b2b3b5;
+  position: relative;
+  border-radius: 10px;
+  min-width: 80px;
 }
 
 .gradesTable th::before,
 .gradesTable td::before {
-    content: '';
-    position: absolute;
-    top: 2px; /* Відступ зверху */
-    left: 2px; /* Відступ зліва */
-    right: 2px; /* Відступ справа */
-    bottom: 2px; /* Відступ знизу */
-    background-color: #f4f4f4; /* Фон всередині комірки */
-    border-radius: 8px; /* Заокруглені кути всередині комірки */
-    z-index: -1; /* Щоб фон був під текстом */
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  z-index: -1;
 }
 
 .gradesTable th,
 .gradesTable td:first-child {
-    border: 0;
-    background-color: #FFF3F3FF;
-    font-weight: bold; /* Жирний шрифт для заголовків */
-    color: #333; /* Колір тексту заголовків */
+  border: 0;
+  background-color: #fff3f3;
+  font-weight: bold;
+  color: #333;
 }
 
+.gradeCell {
+  position: relative;
+  cursor: pointer;
+}
 
+.gradeCell input {
+  width: 100%;
+  padding: 4px;
+  border: 2px solid #ffac98;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.gradeCell input:focus {
+  outline: none;
+  border-color: #ff9b84;
+}
+
+.gradeCellContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.deleteGrade {
+  visibility: hidden;
+  padding: 0 4px;
+  background: #ff8888;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.gradeCell:hover .deleteGrade {
+  visibility: visible;
+}
+
+.deleteGrade:hover {
+  background: #ff6666;
+}
