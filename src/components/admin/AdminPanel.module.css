@@ -1,68 +1,183 @@
 .adminPanel {
-    padding: 20px;
-    width: 100%;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.addClass {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+.headerBox {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  padding: 25px;
+  margin-bottom: 30px;
 }
 
-.addClass input {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.mainContent {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  padding: 30px;
 }
 
-.addClass button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #0078d7;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+.navigation {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 5px;
 }
 
-.classList,
-.studentList,
-.teacherList {
-    list-style: none;
-    padding: 0;
+.navButton {
+  padding: 12px 30px;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  color: #222;
+  min-width: 140px;
+  text-align: center;
 }
 
-.classList li,
-.studentList li,
-.teacherList li {
-    width: fit-content;
-    gap: 10px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.navButton:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.classList button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: pointer;
+.navButton.active {
+  background: linear-gradient(145deg, #007bff, #0056b3);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
 }
 
-.classList button:hover {
-    background-color: #c82333;
+.scheduleSection {
+  text-align: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  margin: 20px 0;
+  font-size: 18px;
+  color: #444;
 }
 
-.addClass {
-    width: fit-content;
+/* Content sections styling */
+.contentSection {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  padding: 25px;
+  margin-top: 20px;
 }
+
+/* Form elements styling */
+.formInput {
+  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.actionButton {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #007bff, #0056b3);
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.deleteButton {
+  background: linear-gradient(145deg, #dc3545, #c82333);
+}
+
+.deleteButton:hover {
+  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+}
+
+.pageTitle {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/*.addClass {*/
+/*    display: flex;*/
+/*    gap: 10px;*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.addClass input {*/
+/*    flex: 1;*/
+/*    padding: 5px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*.addClass button {*/
+/*    padding: 5px 10px;*/
+/*    border: none;*/
+/*    background-color: #0078d7;*/
+/*    color: white;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.classList,*/
+/*.studentList,*/
+/*.teacherList {*/
+/*    list-style: none;*/
+/*    padding: 0;*/
+/*}*/
+
+/*.classList li,*/
+/*.studentList li,*/
+/*.teacherList li {*/
+/*    width: fit-content;*/
+/*    gap: 10px;*/
+/*    padding: 8px;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 5px;*/
+/*    margin-bottom: 5px;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.classList button {*/
+/*    background-color: #dc3545;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    padding: 5px;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.classList button:hover {*/
+/*    background-color: #c82333;*/
+/*}*/
+
+/*.addClass {*/
+/*    width: fit-content;*/
+/*}*/
