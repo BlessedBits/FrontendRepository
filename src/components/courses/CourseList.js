@@ -6,7 +6,6 @@ import { getUserCourses, deleteCourse, updateCourse } from "../../api/course";
 import styles from "./CourseList.module.css";
 import NewCourseModal from "./NewCourseModal";
 import Notification from "../basic/Notification";
-import { getAllClassesSchool } from "../../api/class";
 
 function CourseList({ baseInfo }) {
     const [courses, setCourses] = useState([]);
@@ -14,7 +13,6 @@ function CourseList({ baseInfo }) {
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [notification, setNotification] = useState({ message: "", type: "" });
-    const [base, setBaseInfo] = useState(null);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const [editingCourseId, setEditingCourseId] = useState(null);
@@ -23,7 +21,6 @@ function CourseList({ baseInfo }) {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                setBaseInfo(baseInfo);
                 const response = await getUserCourses(baseInfo, axiosPrivate);
                 setCourses(response);
             } catch (err) {
@@ -39,7 +36,7 @@ function CourseList({ baseInfo }) {
     const refreshCourses = async () => {
         try {
             setNotification({ type: "loading", message: "Оновлюємо список курсів..." });
-            const updatedCourses = await getUserCourses(base, axiosPrivate);
+            const updatedCourses = await getUserCourses(baseInfo, axiosPrivate);
             setCourses(updatedCourses);
             setNotification({ type: "success", message: "Список курсів оновлено!" });
         } catch (err) {
@@ -78,7 +75,7 @@ function CourseList({ baseInfo }) {
 
     return (
         <div className={styles.courses}>
-            {base?.role === "SCHOOL_ADMIN" ? (
+            {baseInfo?.role === "SCHOOL_ADMIN" ? (
                 <h1 className={styles.title}> Курси школи</h1>
             ) : (
                 <h1 className={styles.title}> Мої курси </h1>
@@ -87,20 +84,28 @@ function CourseList({ baseInfo }) {
             <ul className={styles.list}>
                 {courses.map((course) => (
                     <li key={course.id} className={styles.courseItem}>
-                        <div onDoubleClick={() => navigate(`/courses/${course.id}`)} className={styles.courseName}>
+                        <p
+                            onClick={() => {
+                                if (editingCourseId !== course.id) {
+                                    navigate(`/courses/${course.id}`);
+                                }
+                            }}
+                            className={styles.courseName}
+                        >
                             {editingCourseId === course.id ? (
                                 <input
                                     type="text"
                                     value={newCourseName}
+                                    onClick={(e) => e.stopPropagation()} // ← ось це зупиняє клік
                                     onChange={(e) => setNewCourseName(e.target.value)}
                                     className={styles.courseInput}
                                 />
                             ) : (
                                 course.name
                             )}
-                        </div>
+                        </p>
 
-                        {["TEACHER", "SCHOOL_ADMIN"].includes(base.role) && (
+                        {["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role) && (
                             <div className={styles.editContainer}>
                                 {editingCourseId === course.id ? (
                                     <>
@@ -131,11 +136,11 @@ function CourseList({ baseInfo }) {
                                             setNewCourseName(course.name);
                                         }}
                                     >
-                                        ✏️ Редагувати
+                                        ✏️
                                     </button>
                                 )}
                                 <button className={styles.iconBtn} onClick={() => handleDeleteCourse(course.id)}>
-                                    🗑️ Видалити
+                                    🗑️
                                 </button>
                             </div>
                         )}
@@ -143,7 +148,7 @@ function CourseList({ baseInfo }) {
                 ))}
             </ul>
 
-            {["TEACHER", "SCHOOL_ADMIN"].includes(base?.role) && (
+            {["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo?.role) && (
                 <button
                     className={`${styles["createButton"]} ${styles.createButton27}`}
                     onClick={() => setIsModalOpen(true)}
@@ -153,7 +158,11 @@ function CourseList({ baseInfo }) {
             )}
 
             {isModalOpen && (
-                <NewCourseModal onClose={() => setIsModalOpen(false)} onCourseCreated={refreshCourses} data={base} />
+                <NewCourseModal
+                    onClose={() => setIsModalOpen(false)}
+                    onCourseCreated={refreshCourses}
+                    data={baseInfo}
+                />
             )}
 
             <Notification message={notification?.message} type={notification?.type} />

@@ -8,7 +8,7 @@
 
 .h4 {
     padding: 20px 0px;
-    font-size: 32px;
+    font-size: 48px;
 }
 
 .courseBtn {
@@ -88,7 +88,6 @@
 
 .moduleContainer {
     width: 95%;
-    padding: 0 40px;
 }
 
 .addBtn {
@@ -107,14 +106,18 @@
     padding: 16px 40px 16px 16px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px 0px 20px 40px;
-    width: 90%;
+    margin: 20px 0px 20px 0px;
+    width: 95%;
 }
 
 .h5 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.p {
+    font-size: 16px;
 }
 
 .classesList {
@@ -172,6 +175,23 @@
     cursor: pointer;
 }
 
+.moduleInput {
+    padding: 6px 10px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.moduleInput:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
 .createBtn {
     background: #28a745;
     color: white;
@@ -185,4 +205,38 @@
 
 .createBtn:hover {
     background: #218838;
+}
+.createModuleContainer {
+    display: flex;
+    gap: 10px;
+}
+.cancelButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover {
+    background-color: #d32f2f;
+}
+
+.backLink {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #007bff;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.backLink:hover {
+    background-color: #e7f1ff;
+    color: #0056b3;
 }

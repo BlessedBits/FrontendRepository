@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ModuleItem from "./ModuleItem";
 import styles from "./CourseItem.module.css";
 import { getCourseInfo, getCourse, createModule } from "../../api/course";
@@ -10,7 +10,6 @@ import { getAllClassesSchool } from "../../api/class";
 
 function CourseItem({ baseInfo }) {
     const { courseId } = useParams();
-    const [expanded, setExpanded] = useState(false);
     const [classes, setClasses] = useState([]);
     const [modules, setModules] = useState([]);
     const [availableClasses, setAvailableClasses] = useState([]);
@@ -22,6 +21,7 @@ function CourseItem({ baseInfo }) {
     const [newModule, setNewModule] = useState({ name: "", courseId: courseId });
     const [isCreatingModule, setIsCreatingModule] = useState(false);
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
 
     // Завантажуємо деталі курсу
     useEffect(() => {
@@ -58,9 +58,8 @@ function CourseItem({ baseInfo }) {
         fetchModules();
     }, [courseDetails, courseId, axiosPrivate]);
 
-    // Завантажуємо класи
     useEffect(() => {
-        if (["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role)) {
+        if (["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role) && courseDetails && courseDetails.classes) {
             const fetchClasses = async () => {
                 setLoadingClasses(true);
                 try {
@@ -78,11 +77,7 @@ function CourseItem({ baseInfo }) {
             };
             fetchClasses();
         }
-    }, [axiosPrivate]);
-
-    const handleToggleExpand = () => {
-        setExpanded(!expanded);
-    };
+    }, [axiosPrivate, baseInfo.role, baseInfo.schoolId, courseDetails]);
 
     // Створення нового модуля
     const handleCreateModule = async () => {
@@ -93,10 +88,8 @@ function CourseItem({ baseInfo }) {
         setNotification({ type: "loading", message: "Створення теми..." });
         try {
             const response = await createModule(newModule, axiosPrivate);
-            setCourseDetails((prevDetails) => ({
-                ...prevDetails,
-                modules: [...prevDetails.modules, response], // Оновлюємо список модулів
-            }));
+            setModules((prevModules) => [...prevModules, response]);
+
             setNotification({ type: "success", message: "Тема створено успішно" });
             setNewModule({ name: "", courseId: courseId });
             setIsCreatingModule(false);
@@ -139,18 +132,30 @@ function CourseItem({ baseInfo }) {
         }
     };
 
+    const onModuleDeleted = (moduleId) => {
+        setModules((prevModules) => prevModules.filter((module) => module.id !== moduleId));
+    };
+
     return (
-        <div className={styles.courseItemExpanded}>
+        <>
             <>
                 {loadingCourseDetails ? (
                     <p>Завантаження інформації про курс...</p>
                 ) : (
                     <div className={styles.moduleContainer}>
-                        <h4 className={styles.h4}>Список тем</h4>
+                        <a className={styles.backLink} onClick={() => navigate("/courses/")}>
+                            Вернутися назад
+                        </a>
+                        {courseDetails && <h4 className={styles.h4}>{courseDetails.name}</h4>}
                         <ul className={styles.modules}>
                             {modules?.length > 0 ? (
                                 modules.map((module) => (
-                                    <ModuleItem key={module.id} module={module} userRole={baseInfo.role} />
+                                    <ModuleItem
+                                        key={module.id}
+                                        module={module}
+                                        userRole={baseInfo.role}
+                                        onModuleDeleted={onModuleDeleted}
+                                    />
                                 ))
                             ) : (
                                 <p>Теми відсутні</p>
@@ -231,7 +236,7 @@ function CourseItem({ baseInfo }) {
                 )}
             </>
             <Notification message={notification.message} type={notification.type} />
-        </div>
+        </>
     );
 }
 

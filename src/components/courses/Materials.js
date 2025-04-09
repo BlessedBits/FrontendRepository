@@ -60,7 +60,7 @@ function Materials({ materials, userRole, setMaterials }) {
             {materials.length === 0 && <p>Матеріали для цього модуля поки що не додані.</p>}
 
             {materials.length > 0 && (
-                <ul className={styles.themeList}>
+                <>
                     {materials.map((material) => (
                         <li key={material.id} className={styles.Materials}>
                             {editingMaterial === material.id ? (
@@ -95,9 +95,7 @@ function Materials({ materials, userRole, setMaterials }) {
                                 </div>
                             ) : (
                                 <>
-                                    <h4 className={styles.title} onDoubleClick={() => handleEdit(material)}>
-                                        {material.title}
-                                    </h4>
+                                    <h4 className={styles.title}>{material.title}</h4>
 
                                     {material.description && <p>Опис: {material.description}</p>}
                                     {material.url && (
@@ -126,7 +124,7 @@ function Materials({ materials, userRole, setMaterials }) {
                             )}
                         </li>
                     ))}
-                </ul>
+                </>
             )}
 
             {notification && <Notification type={notification.type} message={notification.message} />}

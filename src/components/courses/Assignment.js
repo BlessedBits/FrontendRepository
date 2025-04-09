@@ -110,9 +110,7 @@ function Assignment({ assignments, userRole, setAssignments }) {
                             </div>
                         ) : (
                             <>
-                                <h4 className={styles.title} onDoubleClick={() => handleEdit(assignment)}>
-                                    {assignment.title}
-                                </h4>
+                                <h4 className={styles.title}>{assignment.title}</h4>
                                 {assignment.description && <p>Опис: {assignment.description}</p>}
 
                                 {assignment.url && (
@@ -125,10 +123,16 @@ function Assignment({ assignments, userRole, setAssignments }) {
                                 )}
 
                                 {assignment.dueDate && new Date(assignment.dueDate).getTime() !== 0 && (
-                                    <p>Дедлайн: {new Date(assignment.dueDate).toLocaleDateString()}</p>
+                                    <p className={styles.counts}>
+                                        Дедлайн: {new Date(assignment.dueDate).toLocaleDateString()}
+                                    </p>
                                 )}
 
-                                <p>Кількість поданих робіт: {assignment.submissions?.length || 0}</p>
+                                {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
+                                    <p className={styles.counts}>
+                                        Кількість поданих робіт: {assignment.submissions?.length || 0}
+                                    </p>
+                                )}
 
                                 {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                                     <div className={styles.actions}>
