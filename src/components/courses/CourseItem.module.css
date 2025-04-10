@@ -231,9 +231,10 @@
     font-weight: 500;
     color: #007bff;
     text-decoration: none;
-    padding: 6px 12px;
+    padding: 6px 12px 6px 0px;
     border-radius: 8px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    user-select: none;
 }
 
 .backLink:hover {

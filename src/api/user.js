@@ -5,7 +5,7 @@ export const addUser = async (id, axiosPrivateInstance) => {
 };
 
 export const updateRole = async (id, data, axiosPrivateInstance) =>
-    executeRequest(() => axiosPrivateInstance.put(`/users/${id}/role`, data), 200, "Role");
+    executeRequest(() => axiosPrivateInstance.put(`/users/${id}/role`, data), 200, "Role updated successfully.");
 
 export const getUserInfo = async (id, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/users/${id}?include=school,courses`), 200);
