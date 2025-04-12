@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import styles from "./Assignment.module.css";
 import { updateAssignment, deleteAssignment } from "../../api/course";
+import { createSubmissions } from "../../api/submissions";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
+import SubmissionModal from "./SubmissionModal";
 
 function Assignment({ assignments, userRole, setAssignments }) {
     const axiosPrivate = useAxiosPrivate();
     const [editingAssignment, setEditingAssignment] = useState(null);
-    const [updatedAssignment, setUpdatedAssignment] = useState({ title: "", description: "", url: "", dueDate: "" });
+    const [updatedAssignment, setUpdatedAssignment] = useState({
+        title: "",
+        description: "",
+        url: "",
+        dueDate: "",
+    });
     const [notification, setNotification] = useState(null);
+
+    const [submissionModalAssignment, setSubmissionModalAssignment] = useState(null);
 
     const handleEdit = (assignment) => {
         setEditingAssignment(assignment.id);
@@ -40,7 +49,6 @@ function Assignment({ assignments, userRole, setAssignments }) {
         try {
             await updateAssignment(id, updatedAssignment, axiosPrivate);
 
-            // Оновлення локального стану
             setAssignments((prev) => prev.map((a) => (a.id === id ? { ...a, ...updatedAssignment } : a)));
 
             setNotification({ type: "success", message: "Завдання оновлено!" });
@@ -56,12 +64,33 @@ function Assignment({ assignments, userRole, setAssignments }) {
         try {
             await deleteAssignment(id, axiosPrivate);
 
-            // Локальне видалення завдання
             setAssignments((prev) => prev.filter((a) => a.id !== id));
 
             setNotification({ type: "success", message: "Завдання видалено!" });
         } catch (error) {
             setNotification({ type: "error", message: "Помилка при видаленні завдання" });
+        }
+    };
+
+    const openSubmissionModal = (assignment) => {
+        setSubmissionModalAssignment(assignment);
+    };
+
+    const closeSubmissionModal = () => {
+        setSubmissionModalAssignment(null);
+    };
+
+    const handleSubmitAssignment = async (assignmentId, submissionText) => {
+        const data = {
+            assignmentId: assignmentId,
+            submissionText: submissionText,
+        };
+        try {
+            await createSubmissions(data, axiosPrivate);
+            setNotification({ type: "success", message: "Завдання відправлено!" });
+            closeSubmissionModal();
+        } catch (error) {
+            setNotification({ type: "error", message: "Помилка при відправленні завдання" });
         }
     };
 
@@ -123,24 +152,38 @@ function Assignment({ assignments, userRole, setAssignments }) {
                                 )}
 
                                 {assignment.dueDate && new Date(assignment.dueDate).getTime() !== 0 && (
-                                    <p className={styles.counts}>
+                                    <p
+                                        className={`${styles.counts} ${
+                                            new Date(assignment.dueDate) < new Date() ? styles.late : ""
+                                        }`}
+                                    >
                                         Дедлайн: {new Date(assignment.dueDate).toLocaleDateString()}
                                     </p>
                                 )}
 
                                 {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
-                                    <p className={styles.counts}>
-                                        Кількість поданих робіт: {assignment.submissions?.length || 0}
-                                    </p>
+                                    <>
+                                        <p className={styles.counts}>
+                                            Кількість поданих робіт: {assignment.submissions?.length || 0}
+                                        </p>
+                                        <div className={styles.actions}>
+                                            <button className={styles.iconBtn} onClick={() => handleEdit(assignment)}>
+                                                ✏️ Редагувати
+                                            </button>
+                                            <button
+                                                className={styles.iconBtn}
+                                                onClick={() => handleDelete(assignment.id)}
+                                            >
+                                                🗑️ Видалити
+                                            </button>
+                                        </div>
+                                    </>
                                 )}
 
-                                {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
-                                    <div className={styles.actions}>
-                                        <button className={styles.iconBtn} onClick={() => handleEdit(assignment)}>
-                                            ✏️ Редагувати
-                                        </button>
-                                        <button className={styles.iconBtn} onClick={() => handleDelete(assignment.id)}>
-                                            🗑️ Видалити
+                                {userRole === "STUDENT" && (
+                                    <div className={styles.studentActions}>
+                                        <button onClick={() => openSubmissionModal(assignment)}>
+                                            Відправити завдання
                                         </button>
                                     </div>
                                 )}
@@ -151,6 +194,15 @@ function Assignment({ assignments, userRole, setAssignments }) {
             </ul>
 
             {notification && <Notification type={notification.type} message={notification.message} />}
+
+            {submissionModalAssignment && (
+                <SubmissionModal
+                    assignment={submissionModalAssignment}
+                    isOpen={true}
+                    onClose={closeSubmissionModal}
+                    onSubmit={handleSubmitAssignment}
+                />
+            )}
         </>
     );
 }

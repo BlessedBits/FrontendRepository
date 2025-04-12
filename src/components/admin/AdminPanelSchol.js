@@ -146,32 +146,29 @@ const AdminPanelSchool = ({ baseInfo }) => {
 
     return (
         <>
-            <div className={styles.adminPanel}>
-                <div className={styles.headerBox}>
-                    <h2 className={styles.pageTitle}>Адмін Панель</h2>
-                    <div className={styles.navigation}>
-                        <button
-                            className={`${styles.navButton} ${activeSection === "classes" ? styles.active : ""}`}
-                            onClick={() => setActiveSection("classes")}
-                        >
-                            Classes
-                        </button>
-                        <button
-                            className={`${styles.navButton} ${activeSection === "users" ? styles.active : ""}`}
-                            onClick={() => setActiveSection("users")}
-                        >
-                            Users
-                        </button>
-                        <button
-                            className={`${styles.navButton} ${activeSection === "schedule" ? styles.active : ""}`}
-                            onClick={() => setActiveSection("schedule")}
-                        >
-                            Schedule
-                        </button>
-                    </div>
-                    {renderContent()}
-                </div>
+            <h2 className={styles.pageTitle}>Адмін Панель</h2>
+            <div className={styles.navigation}>
+                <button
+                    className={`${styles.navButton} ${activeSection === "classes" ? styles.active : ""}`}
+                    onClick={() => setActiveSection("classes")}
+                >
+                    Classes
+                </button>
+                <button
+                    className={`${styles.navButton} ${activeSection === "users" ? styles.active : ""}`}
+                    onClick={() => setActiveSection("users")}
+                >
+                    Users
+                </button>
+                <button
+                    className={`${styles.navButton} ${activeSection === "schedule" ? styles.active : ""}`}
+                    onClick={() => setActiveSection("schedule")}
+                >
+                    Schedule
+                </button>
             </div>
+            {renderContent()}
+
             <Notification message={notification.message} type={notification.type} />
         </>
     );

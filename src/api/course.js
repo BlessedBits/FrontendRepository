@@ -82,27 +82,6 @@ export const createAssignment = async (data, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.post("/assignments", data), 201, "Assignment created");
 };
 
-export const createSubmission = async (courseId, moduleId, assignmentId, submissionUrl, axiosPrivateInstance) => {
-    return executeRequest(
-        () =>
-            axiosPrivateInstance.post(
-                "/courses/modules/assignments/submissions",
-                { url: submissionUrl },
-                { params: { courseId, moduleId, assignmentId } }
-            ),
-        201,
-        "Submission created"
-    );
-};
-
-export const gradeSubmission = async (submissionId, grade, axiosPrivateInstance) => {
-    return executeRequest(
-        () => axiosPrivateInstance.post("/courses/modules/assignments/submissions/grade", { submissionId, grade }),
-        201,
-        "Submission graded"
-    );
-};
-
 export const updateCourse = async (id, data, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.put(`/courses/${id}`, data), 200, "Courses updated");
 };
