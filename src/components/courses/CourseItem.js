@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ModuleItem from "./ModuleItem";
 import styles from "./CourseItem.module.css";
-import { getCourseInfo, getCourse, createModule } from "../../api/course";
+import { getCourseInfo, getCourse, createModule, getSubmissions } from "../../api/course";
 import { connectCourseClass, delConnectCourseClass } from "../../api/course";
 import Notification from "../basic/Notification";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -20,6 +20,7 @@ function CourseItem({ baseInfo }) {
     const [loadingCourseDetails, setLoadingCourseDetails] = useState(false);
     const [newModule, setNewModule] = useState({ name: "", courseId: courseId });
     const [isCreatingModule, setIsCreatingModule] = useState(false);
+    const [submissions, setSubmissions] = useState({});
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
 
@@ -79,6 +80,22 @@ function CourseItem({ baseInfo }) {
         }
     }, [axiosPrivate, baseInfo.role, baseInfo.schoolId, courseDetails]);
 
+    // Функція для завантаження відповідей при натисканні на модуль
+    const handleModuleClick = async (moduleId, assignmentId) => {
+        if (!["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role) || !assignmentId) return;
+        try {
+            const response = await getSubmissions(assignmentId, axiosPrivate);
+            setSubmissions((prev) => ({
+                ...prev,
+                [moduleId]: response,
+            }));
+            console.log(submissions);
+        } catch (error) {
+            console.error("Помилка при завантаженні відповідей:", error);
+            setNotification({ type: "error", message: "Не вдалося завантажити відповіді до завдання" });
+        }
+    };
+
     // Створення нового модуля
     const handleCreateModule = async () => {
         if (!newModule.name.trim()) {
@@ -134,6 +151,11 @@ function CourseItem({ baseInfo }) {
 
     const onModuleDeleted = (moduleId) => {
         setModules((prevModules) => prevModules.filter((module) => module.id !== moduleId));
+        setSubmissions((prevSubmissions) => {
+            const updatedSubmissions = { ...prevSubmissions };
+            delete updatedSubmissions[moduleId];
+            return updatedSubmissions;
+        });
     };
 
     return (
@@ -154,6 +176,8 @@ function CourseItem({ baseInfo }) {
                                         key={module.id}
                                         module={module}
                                         userRole={baseInfo.role}
+                                        submissions={submissions[module.id] || []}
+                                        onModuleClick={handleModuleClick}
                                         onModuleDeleted={onModuleDeleted}
                                     />
                                 ))

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Assignment.module.css";
 import { updateAssignment, deleteAssignment } from "../../api/course";
 import { createSubmissions } from "../../api/submissions";
@@ -6,8 +6,10 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 import SubmissionModal from "./SubmissionModal";
 
-function Assignment({ assignments, userRole, setAssignments }) {
+function Assignment({ assignments, userRole, setAssignments, submissions }) {
+    console.log(submissions);
     const axiosPrivate = useAxiosPrivate();
+    const [submissions2, setSubmissions] = useState(null);
     const [editingAssignment, setEditingAssignment] = useState(null);
     const [updatedAssignment, setUpdatedAssignment] = useState({
         title: "",
@@ -18,6 +20,10 @@ function Assignment({ assignments, userRole, setAssignments }) {
     const [notification, setNotification] = useState(null);
 
     const [submissionModalAssignment, setSubmissionModalAssignment] = useState(null);
+
+    useEffect(() => {
+        setSubmissions(submissions);
+    }, [submissions]);
 
     const handleEdit = (assignment) => {
         setEditingAssignment(assignment.id);
@@ -164,7 +170,7 @@ function Assignment({ assignments, userRole, setAssignments }) {
                                 {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                                     <>
                                         <p className={styles.counts}>
-                                            Кількість поданих робіт: {assignment.submissions?.length || 0}
+                                            Кількість поданих робіт: {submissions2?.length || 0}
                                         </p>
                                         <div className={styles.actions}>
                                             <button className={styles.iconBtn} onClick={() => handleEdit(assignment)}>

@@ -32,6 +32,10 @@ export const getAssignments = async (id, axiosPrivateInstance) => {
     return executeRequest(() => axiosPrivateInstance.get(`/modules/${id}/assignments`), 200, "Assignments found");
 };
 
+export const getSubmissions = async (id, axiosPrivateInstance) => {
+    return executeRequest(() => axiosPrivateInstance.get(`/assignments/${id}/submissions`), 200, "submissions found");
+};
+
 export const createCourse = async (schoolId, teacherId, courseName, axiosPrivateInstance) => {
     if (!courseName || !teacherId) {
         throw new Error("Назва курсу та ID викладача є обов'язковими");
