@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ModuleItem from "./ModuleItem";
 import styles from "./CourseItem.module.css";
-import { getCourseInfo, getCourse, createModule } from "../../api/course";
+import { getCourseInfo, getCourse, createModule, getSubmissions } from "../../api/course";
 import { connectCourseClass, delConnectCourseClass } from "../../api/course";
 import Notification from "../basic/Notification";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -10,7 +10,6 @@ import { getAllClassesSchool } from "../../api/class";
 
 function CourseItem({ baseInfo }) {
     const { courseId } = useParams();
-    const [expanded, setExpanded] = useState(false);
     const [classes, setClasses] = useState([]);
     const [modules, setModules] = useState([]);
     const [availableClasses, setAvailableClasses] = useState([]);
@@ -21,7 +20,9 @@ function CourseItem({ baseInfo }) {
     const [loadingCourseDetails, setLoadingCourseDetails] = useState(false);
     const [newModule, setNewModule] = useState({ name: "", courseId: courseId });
     const [isCreatingModule, setIsCreatingModule] = useState(false);
+    const [submissions, setSubmissions] = useState({});
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
 
     // Завантажуємо деталі курсу
     useEffect(() => {
@@ -58,9 +59,8 @@ function CourseItem({ baseInfo }) {
         fetchModules();
     }, [courseDetails, courseId, axiosPrivate]);
 
-    // Завантажуємо класи
     useEffect(() => {
-        if (["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role)) {
+        if (["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role) && courseDetails && courseDetails.classes) {
             const fetchClasses = async () => {
                 setLoadingClasses(true);
                 try {
@@ -78,10 +78,22 @@ function CourseItem({ baseInfo }) {
             };
             fetchClasses();
         }
-    }, [axiosPrivate]);
+    }, [axiosPrivate, baseInfo.role, baseInfo.schoolId, courseDetails]);
 
-    const handleToggleExpand = () => {
-        setExpanded(!expanded);
+    // Функція для завантаження відповідей при натисканні на модуль
+    const handleModuleClick = async (moduleId, assignmentId) => {
+        if (!["TEACHER", "SCHOOL_ADMIN"].includes(baseInfo.role) || !assignmentId) return;
+        try {
+            const response = await getSubmissions(assignmentId, axiosPrivate);
+            setSubmissions((prev) => ({
+                ...prev,
+                [moduleId]: response,
+            }));
+            console.log(submissions);
+        } catch (error) {
+            console.error("Помилка при завантаженні відповідей:", error);
+            setNotification({ type: "error", message: "Не вдалося завантажити відповіді до завдання" });
+        }
     };
 
     // Створення нового модуля
@@ -93,10 +105,8 @@ function CourseItem({ baseInfo }) {
         setNotification({ type: "loading", message: "Створення теми..." });
         try {
             const response = await createModule(newModule, axiosPrivate);
-            setCourseDetails((prevDetails) => ({
-                ...prevDetails,
-                modules: [...prevDetails.modules, response], // Оновлюємо список модулів
-            }));
+            setModules((prevModules) => [...prevModules, response]);
+
             setNotification({ type: "success", message: "Тема створено успішно" });
             setNewModule({ name: "", courseId: courseId });
             setIsCreatingModule(false);
@@ -139,18 +149,37 @@ function CourseItem({ baseInfo }) {
         }
     };
 
+    const onModuleDeleted = (moduleId) => {
+        setModules((prevModules) => prevModules.filter((module) => module.id !== moduleId));
+        setSubmissions((prevSubmissions) => {
+            const updatedSubmissions = { ...prevSubmissions };
+            delete updatedSubmissions[moduleId];
+            return updatedSubmissions;
+        });
+    };
+
     return (
-        <div className={styles.courseItemExpanded}>
+        <>
             <>
                 {loadingCourseDetails ? (
                     <p>Завантаження інформації про курс...</p>
                 ) : (
                     <div className={styles.moduleContainer}>
-                        <h4 className={styles.h4}>Список тем</h4>
+                        <a className={styles.backLink} onClick={() => navigate("/courses/")}>
+                            Вернутися назад
+                        </a>
+                        {courseDetails && <h4 className={styles.h4}>{courseDetails.name}</h4>}
                         <ul className={styles.modules}>
                             {modules?.length > 0 ? (
                                 modules.map((module) => (
-                                    <ModuleItem key={module.id} module={module} userRole={baseInfo.role} />
+                                    <ModuleItem
+                                        key={module.id}
+                                        module={module}
+                                        userRole={baseInfo.role}
+                                        submissions={submissions[module.id] || []}
+                                        onModuleClick={handleModuleClick}
+                                        onModuleDeleted={onModuleDeleted}
+                                    />
                                 ))
                             ) : (
                                 <p>Теми відсутні</p>
@@ -231,7 +260,7 @@ function CourseItem({ baseInfo }) {
                 )}
             </>
             <Notification message={notification.message} type={notification.type} />
-        </div>
+        </>
     );
 }
 

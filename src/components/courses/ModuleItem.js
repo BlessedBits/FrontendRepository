@@ -6,7 +6,7 @@ import { createAssignment, createMaterial, deleteModule, updateModule } from "..
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Notification from "../basic/Notification";
 
-function ModuleItem({ module, userRole, onModuleDeleted }) {
+function ModuleItem({ module, userRole, onModuleDeleted, onModuleClick, submissions }) {
     const [expanded, setExpanded] = useState(false);
     const axiosPrivate = useAxiosPrivate();
 
@@ -20,6 +20,16 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
     const [notification, setNotification] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [moduleName, setModuleName] = useState(module.name);
+
+    const handleModuleClick = () => {
+        setExpanded(!expanded);
+        if (["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && module.assignments.length > 0) {
+            // Завантажуємо відповіді для всіх завдань у модулі
+            module.assignments.forEach((assignment) => {
+                onModuleClick(module.id, assignment.id);
+            });
+        }
+    };
 
     const handleDeleteModule = async () => {
         setNotification({ type: "loading", message: "Видаляємо модуль..." });
@@ -83,7 +93,7 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
     return (
         <li className={styles.moduleItem}>
             <div className={styles.header}>
-                <button className={styles.toggleButton} onClick={() => setExpanded(!expanded)} aria-label="Перемкнути">
+                <button className={styles.toggleButton} onClick={handleModuleClick} aria-label="Перемкнути">
                     {expanded ? "🔽" : "▶️"} {moduleName}
                 </button>
                 {isEditing && (
@@ -128,7 +138,12 @@ function ModuleItem({ module, userRole, onModuleDeleted }) {
 
                     <div className={styles.assignmentsContainer}>
                         <h4 className={styles.assignmentsHeader}>Завдання до теми</h4>
-                        <Assignment assignments={assignments} userRole={userRole} setAssignments={setAssignments} />
+                        <Assignment
+                            assignments={assignments}
+                            userRole={userRole}
+                            setAssignments={setAssignments}
+                            submissions={submissions}
+                        />
                         {["TEACHER", "SCHOOL_ADMIN"].includes(userRole) && (
                             <>
                                 <button
