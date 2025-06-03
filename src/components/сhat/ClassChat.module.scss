@@ -1,0 +1,303 @@
+$colors: (
+    gray-50: #f9fafb,
+    gray-100: #f3f4f6,
+    gray-200: #e5e7eb,
+    gray-300: #d1d5db,
+    gray-400: #9ca3af,
+    gray-500: #6b7280,
+    gray-600: #4b5563,
+    gray-700: #374151,
+    gray-800: #1f2937,
+    gray-900: #111827,
+    white: #ffffff,
+    blue-50: #eff6ff,
+    blue-100: #dbeafe,
+    blue-400: #60a5fa,
+    blue-500: #3b82f6,
+    blue-600: #2563eb,
+    blue-900: #1e3a8a,
+    red-100: #fee2e2,
+    red-400: #f87171,
+    red-500: #ef4444,
+    red-900: #7f1d1d,
+);
+
+$font-sizes: (
+    sm: 0.875rem,
+    xs: 0.75rem,
+    xl: 1.25rem,
+);
+
+$shadows: (
+    sm: 0 1px 3px rgba(0, 0, 0, 0.05),
+    md: 0 2px 8px rgba(0, 0, 0, 0.1),
+);
+
+$border-radius: (
+    sm: 4px,
+    md: 8px,
+);
+
+@mixin transition($property) {
+    transition: $property 0.2s ease-in-out;
+}
+
+@mixin button-base {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    font-size: map-get($font-sizes, sm);
+    @include transition(background-color);
+}
+
+.container {
+    max-width: 672px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: map-get($colors, gray-50);
+    border-radius: map-get($border-radius, md);
+    box-shadow: map-get($shadows, md);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    &[data-theme="dark"] {
+        background-color: map-get($colors, gray-800);
+        color: map-get($colors, gray-50);
+    }
+}
+
+.header {
+    font-size: map-get($font-sizes, xl);
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: map-get($colors, gray-800);
+
+    .container[data-theme="dark"] & {
+        color: map-get($colors, gray-50);
+    }
+}
+
+.onlineUsers {
+    margin-bottom: 16px;
+    padding: 8px;
+    background-color: map-get($colors, gray-200);
+    border-radius: map-get($border-radius, md);
+    font-size: map-get($font-sizes, sm);
+    color: map-get($colors, gray-700);
+
+    .container[data-theme="dark"] & {
+        background-color: map-get($colors, gray-600);
+        color: map-get($colors, gray-300);
+    }
+}
+
+.onlineUsersLabel {
+    font-weight: 600;
+    color: map-get($colors, gray-800);
+
+    .container[data-theme="dark"] & {
+        color: map-get($colors, gray-200);
+    }
+}
+
+.chatArea {
+    flex: 1;
+    border: 1px solid map-get($colors, gray-300);
+    padding: 12px;
+    border-radius: map-get($border-radius, md);
+    background-color: map-get($colors, gray-50);
+    overflow-y: auto;
+    margin-bottom: 16px;
+    scroll-behavior: smooth;
+
+    .container[data-theme="dark"] & {
+        background-color: map-get($colors, gray-700);
+        border-color: map-get($colors, gray-600);
+    }
+}
+
+.message {
+    position: relative;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: map-get($border-radius, md);
+    background-color: map-get($colors, white);
+    box-shadow: map-get($shadows, sm);
+    animation: slideIn 0.3s ease-in-out;
+
+    .container[data-theme="dark"] & {
+        background-color: map-get($colors, gray-600);
+        color: map-get($colors, gray-50);
+    }
+
+    &Sender {
+        font-weight: 600;
+        color: map-get($colors, gray-800);
+        margin-right: 8px;
+
+        .container[data-theme="dark"] & {
+            color: map-get($colors, gray-200);
+        }
+    }
+
+    &Text {
+        color: map-get($colors, gray-700);
+
+        .container[data-theme="dark"] & {
+            color: map-get($colors, gray-300);
+        }
+    }
+
+    &Timestamp {
+        color: map-get($colors, gray-500);
+        font-size: map-get($font-sizes, xs);
+        margin-left: 8px;
+
+        .container[data-theme="dark"] & {
+            color: map-get($colors, gray-400);
+        }
+    }
+
+    &Actions {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: flex;
+        gap: 4px;
+    }
+}
+
+.editButton {
+    background: none;
+    border: none;
+    color: map-get($colors, blue-500);
+    font-size: map-get($font-sizes, sm);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: map-get($border-radius, sm);
+    @include transition(background-color);
+
+    &:hover {
+        background-color: map-get($colors, blue-100);
+    }
+
+    .container[data-theme="dark"] & {
+        color: map-get($colors, blue-400);
+
+        &:hover {
+            background-color: map-get($colors, blue-900);
+        }
+    }
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    color: map-get($colors, red-500);
+    font-size: map-get($font-sizes, sm);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: map-get($border-radius, sm);
+    @include transition(background-color);
+
+    &:hover {
+        background-color: map-get($colors, red-100);
+    }
+
+    .container[data-theme="dark"] & {
+        color: map-get($colors, red-400);
+
+        &:hover {
+            background-color: map-get($colors, red-900);
+        }
+    }
+}
+
+.inputContainer {
+    display: flex;
+    gap: 8px;
+}
+
+.input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid map-get($colors, gray-300);
+    border-radius: map-get($border-radius, md) 0 0 map-get($border-radius, md);
+    outline: none;
+    font-size: map-get($font-sizes, sm);
+    @include transition(border-color);
+
+    &:focus {
+        border-color: map-get($colors, blue-500);
+    }
+
+    .container[data-theme="dark"] & {
+        background-color: map-get($colors, gray-600);
+        color: map-get($colors, gray-50);
+        border-color: map-get($colors, gray-500);
+
+        &:focus {
+            border-color: map-get($colors, blue-400);
+        }
+    }
+}
+
+.editingInput {
+    border-color: map-get($colors, blue-500);
+    background-color: map-get($colors, blue-50);
+
+    .container[data-theme="dark"] & {
+        border-color: map-get($colors, blue-400);
+        background-color: map-get($colors, blue-900);
+    }
+}
+
+.button {
+    @include button-base;
+    background-color: map-get($colors, blue-500);
+    color: map-get($colors, white);
+    border-radius: 0 map-get($border-radius, md) map-get($border-radius, md) 0;
+
+    &:hover {
+        background-color: map-get($colors, blue-600);
+    }
+
+    .container[data-theme="dark"] & {
+        background-color: map-get($colors, blue-400);
+
+        &:hover {
+            background-color: map-get($colors, blue-500);
+        }
+    }
+}
+
+.cancelButton {
+    @include button-base;
+    background-color: map-get($colors, gray-500);
+    color: map-get($colors, white);
+    border-radius: map-get($border-radius, md);
+
+    &:hover {
+        background-color: map-get($colors, gray-600);
+    }
+
+    .container[data-theme="dark"] & {
+        background-color: map-get($colors, gray-500);
+
+        &:hover {
+            background-color: map-get($colors, gray-600);
+        }
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

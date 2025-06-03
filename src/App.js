@@ -8,11 +8,12 @@ import ProfilePage from "./pages/ProfilePage";
 import SchedulePage from "./pages/SchedulePage";
 import DiaryPage from "./pages/DiaryPage";
 import LogoutPage from "./pages/LogoutPage";
-import ClassRegisterPage from "./pages/ClassRegisterPage"
+import ClassRegisterPage from "./pages/ClassRegisterPage";
 import PrivateRoute from "./context/PrivateRoute";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
-import { Loading, LoadingPage } from "./components/basic/LoadingAnimation";
+import { Loading } from "./components/basic/LoadingAnimation";
 import { SchAdminPanel, PlfAdminPanel } from "./pages/AdminPanel";
+import ClassGhatPage from "./pages/ChatPage";
 
 function App() {
     return (
@@ -37,6 +38,15 @@ function App() {
                     path="/courses/"
                     element={
                         <PrivateRoute allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN"]} element={<CoursePage />} />
+                    }
+                />
+                <Route
+                    path="/classchat/"
+                    element={
+                        <PrivateRoute
+                            allowedRoles={["TEACHER", "STUDENT", "SCHOOL_ADMIN"]}
+                            element={<ClassGhatPage />}
+                        />
                     }
                 />
                 <Route
@@ -89,15 +99,9 @@ function App() {
                 <Route
                     path="/journal/"
                     element={
-                        <PrivateRoute
-                            allowedRoles={["TEACHER", "SCHOOL_ADMIN"]}
-                            element={<ClassRegisterPage />}
-                        />
+                        <PrivateRoute allowedRoles={["TEACHER", "SCHOOL_ADMIN"]} element={<ClassRegisterPage />} />
                     }
                 />
-
-
-
 
                 <Route path="/reports/" element={<Loading />} />
 
